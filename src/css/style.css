@@ -99,6 +99,8 @@ a {
 	background-color: rgba(41,41,41,0.95);
 	color: #CCC;
 	font-family: Courier;
+	overflow: auto;
+	resize: vertical;
 }
 .settingsbutton {
 	position: absolute;

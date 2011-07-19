@@ -154,9 +154,9 @@
 			<span data-bind="style : {width : progress() + '%'}"></span>
 		</div>
 		
-		<textarea class="terminal" data-bind="value : console,
-		                                      style : {display : consoleenabled() ? 'block' : 'none'}">
-		</textarea>
+		<div class="terminal" data-bind="html : console,
+		                                 style : {display : consoleenabled() ? 'block' : 'none'}">
+		</div>
 	</li>
 	</script>
 </div>

@@ -52,6 +52,9 @@ function updateWorkunit(workunit) {
 		workunit.state(workunit.workunit.getState());
 	}
 	workunit.progress(workunit.workunit.progress ? workunit.workunit.progress * 100 : 0);
+	var log = workunit.workunit.console.exportAsHtml(100, web2grid.core.log.LogLevel.L4_Information);
+	log = log.replace(/<div class="source">[^<]*<\/div>/g, '');
+	workunit.console(log);
 }
 
 
