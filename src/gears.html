@@ -14,7 +14,7 @@
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 
 </head>
-<body onload="Main.onload()">
+<body onload="onLoad()">
 
 <pre id="haxe:trace" style="display:none"></pre>
 
@@ -119,7 +119,7 @@
 		</div>
 		<div class="submit">
 			<button data-bind="enable : worksourcetypes.boincdev.ok, click : worksourcetypes.boincdev.create">Create</button>
-			<p>Lorem ipsum error</p>
+			<p></p>
 		</div>
 	</div>
 
@@ -128,11 +128,12 @@
 <div id="worksource_list" style="display: none"></div>
 
 <div id="worksourcelist" data-bind='template: {name : "projectFrame",
-	                                        foreach : projects}'>
+	                                           foreach : projects}'>
 	<script type="text/html" id="projectFrame">
 	<div class="worksource">
 		<h3 data-bind="text: name"></h3>
-		<img class="settingsbutton" onclick="$(this).toggleClass('enabled')" src="img/gear2.svg" />
+		<img class="settingsbutton" data-bind="click : function(){boincdev_remove($data);}" src="img/close.png" />
+		<img class="settingsbutton" onclick="$(this).toggleClass('enabled')" style="right: 5em" src="img/gear2.svg" />
 		<div class="settings">
 			<p>Project name: <span data-bind="text : name"></span></p>
 			<p>Project url: <a data-bind="text : url, attr : {href : url}"></a></p>
@@ -160,222 +161,9 @@
 	</script>
 </div>
 </div>
-<script type="text/javascript">
-var select = function(set, select, unselect, defaultSelect)
-{
-	//console.log(select);
-	set = $(set);
-	var target = set.filter(select);
-	if (unselect === true && target.hasClass('active'))
-	{
-		target.removeClass('active');
-		if (typeof(defaultSelect) != 'undefined')
-		{
-			set.filter(defaultSelect).addClass('active');
-		}
-		return;
-	}
-	set.filter('.active').removeClass('active');
-	target.addClass('active');
-}
 
-var togglePanel = function(panelId)
-{
-	var selected = $('.panel').filter('.active')[0];
-	$('.panel').filter('.active').removeClass('active');
-	if (selected.getAttribute('id') === panelId)
-	{
-		$('#mainpanel').addClass('active');
-	} else {
-		$('#' + panelId).addClass('active');
-	}
-}
-
-var viewModel = {
-	running : ko.observable(true),
-	
-	threads : ko.observable(1),
-	
-	projects : ko.observableArray([]),
-	
-	newworksource : {
-		type : ko.observable(''),
-		url : ko.observable(''),
-		authkey : ko.observable(''),
-		username : ko.observable(''),
-		password : ko.observable('')
-	},
-	
-	worksourcetypes : {
-		boinc : {
-			icon : 'http://boinc.berkeley.edu/logo/www_logo.gif',
-			description : 'BOINC project',
-			parameters : {
-				url : ko.observable(''),
-				authkey : ko.observable(''),
-				username : ko.observable(''),
-				password : ko.observable('')
-			},
-			projecturl_ok : ko.observable(false),
-			ok : ko.observable(false),
-			create : function() {
-				alert('boinc worksource create');
-			},
-			checkprojecturl : function() {
-				viewModel.worksourcetypes.boinc.projecturl_ok(true);
-				console.log(1);
-			},
-			checklogin : function() {
-				viewModel.worksourcetypes.boinc.ok(true);
-			},
-			checkauthkey : function() {
-				viewModel.worksourcetypes.boinc.ok(true);
-			},
-		},
-		boincdev : {
-			icon : 'http://boinc.berkeley.edu/logo/www_logo.gif',
-			description : 'BOINC dev project',
-			parameters : {
-				scheduler : ko.observable('http://ui.hpc.iit.bme.hu/wcdemo_cgi/cgi'),
-				authkey : ko.observable('1d0f37563ceb7d1ed372a932dcdb5d85'),
-			},
-			ok : ko.observable(true),
-			create : function() {
-				var scheduler = viewModel.worksourcetypes.boincdev.parameters.scheduler();
-				var authkey = viewModel.worksourcetypes.boincdev.parameters.authkey();
-				var ws = new web2grid.worksource.boinc.BoincWorkSource(scheduler, authkey);
-				Main.client.addWorkSource(ws);
-				console.log('New worksource added: ', ws);
-			},
-		},
-		debug : {
-			icon : 'img/gear2.svg',
-			description : 'Debug worksource',
-		}
-	},
-	
-};
-
-viewModel.worksourcetypes.boinc.checkfunction = ko.dependentObservable(function(){
-	return this.url().length > 0 && (this.authkey().length > 0 || (this.username().length > 0 && this.password().length > 0));
-}, viewModel.worksourcetypes.boinc.parameters);
-
-
-ko.applyBindings(viewModel);
-
-</script>
-
-
-<script type="text/javascript">
-// BOINCdev bindings:
-viewModel.running.subscribe(function(newValue){
-	Main.toggle();
-});
-
-viewModel.threads.subscribe(function(newValue){
-	Main.client.setTargetActiveWorkNumber(newValue);
-	console.log('Number of threads: ', newValue);
-});
-
-function findWorkunit(wu) {
-	for (var i = 0; i < viewModel.projects().length; i++) {
-		var project = viewModel.projects()[i];
-		if (project.worksource === ws) return project;
-	}
-	return null;
-}
-
-function findWorksource(ws) {
-	for (var i = 0; i < viewModel.projects().length; i++) {
-		var project = viewModel.projects()[i];
-		if (project.worksource === ws) return project;
-	}
-	return null;
-}
-
-
-function updateWorkunit(workunit) {
-	//console.log('Updating workunit: ', workunit, workunit.workunit.name, workunit.workunit.getState(), workunit.workunit.progress);
-	if (Main.client.activeworks.indexOf(workunit.workunit) === -1) {
-		workunit.state('Passive');
-	} else {
-		workunit.state(workunit.workunit.getState());
-	}
-	workunit.progress(workunit.workunit.progress ? workunit.workunit.progress * 100 : 0);
-}
-
-
-function updateWorkunits(project) {
-	//console.log('Updating project: ', project);
-	var workunits = Main.client.activeworks.concat(Main.client.passiveworks);
-	// Removing workunits that no longer exist
-	for (var i = 0; i < project.workunits().length; i++) {
-		var workunit = project.workunits()[i].workunit;
-		if (workunits.indexOf(workunit) === -1) {
-			//console.log('Removing workunit: ', workunit);
-			project.workunits.remove(project.workunits()[i]);
-		}
-	}
-	
-	// Adding workunits not listed yet
-	projectworkunits = project.workunits().map(function(wu){return wu.workunit});
-	for (var i = 0; i < workunits.length; i++) {
-		var workunit = workunits[i];
-		if (workunit.source !== project.worksource) continue;
-		if (projectworkunits.indexOf(workunit) === -1) {
-			//console.log('New workunit found: ', workunit, workunit.name);
-			project.workunits.push({
-				workunit : workunit,
-	 			state : ko.observable('Computing...'),
-	 			progress : ko.observable(50),
-	 			console : ko.observable('console2'),
-	 			consoleenabled : ko.observable(false)				
-			});
-		}
-	}
-
-	for (var i = 0; i < project.workunits().length; i++) {
-		updateWorkunit(project.workunits()[i]);
-	}
-}
-
-function updateWorksources() {
-	//console.log('Updating Worksources: ', viewModel.projects());
-	var worksources = Main.client.getWorkSources();
-	// Removing projects that no longer exist
-	for (var i = 0; i < viewModel.projects().length; i++) {
-		var project = viewModel.projects()[i];
-		if (worksources.arr.indexOf(project.worksource) === -1) {
-			//console.log('Removing worksource: ', project.worksource);
-			viewModel.projects.remove(project);
-		}
-	}
-	
-	// Adding projects not listed yet
-	for (var i = 0; i < worksources.arr.length; i++) {
-		var worksource = worksources.arr[i];
-		var project = findWorksource(worksource);
-		if (project == null) {
-			//console.log('New worksource found: ', worksource);
-			viewModel.projects.push({
-				worksource : worksource,
-				name : worksource.getScreenName(),
-				url : worksource.scheduler_url,
-				authkey : worksource.authinfo.authenticator,
-				workunits : ko.observableArray([])
-			});
-		}
-	}
-	
-	// Refreshing existing worksources
-	for (var i = 0; i < viewModel.projects().length; i++) {
-		updateWorkunits(viewModel.projects()[i]);
-	}
-}
-
-setInterval(updateWorksources, 1000);
-
-</script>
+<script type="text/javascript" src="js/viewmodel.js"></script>
+<script type="text/javascript" src="js/boincdev.js"></script>
 
 </body>
 </html>

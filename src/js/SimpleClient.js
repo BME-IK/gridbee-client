@@ -3460,6 +3460,8 @@ web2grid.control.Scheduler.prototype.requestWorks = function() {
 		var elapsedtime = Date.now().getTime() - this.lastrequesttime.getTime();
 		if(elapsedtime >= this.requestinterval) {
 			this.lastrequestsource = (this.lastrequestsource + 1) % this.sources.length;
+			// UGLY TERRIBLE HACK. WHAT THE FUCK HAPPENED HERE
+			if (!(this.lastrequestsource < this.sources.length)) this.lastrequestsource = 0;
 			if(this.sources.length > 0) {
 				var source = this.sources[this.lastrequestsource];
 				web2grid.core.log.Console.main.logInformation("Requesting works from: " + source.getScreenName(),null,this,{ fileName : "Scheduler.hx", lineNumber : 248, className : "web2grid.control.Scheduler", methodName : "requestWorks"});

@@ -7,6 +7,17 @@ function boincdev_create() {
 	console.log('New worksource added: ', ws);
 };
 
+function boincdev_remove(project) {
+	for (var i = 0; i < project.workunits().length; i++) {
+		var workunit = project.workunits()[i];
+		workunit.workunit.terminate();
+		Main.client.activeworks.remove(workunit.workunit);
+		Main.client.passiveworks.remove(workunit.workunit);
+	}
+	Main.client.sources.remove(project.worksource);
+	viewModel.projects.remove(project);
+}
+
 viewModel.running.subscribe(function(newValue){
 	Main.toggle();
 });
