@@ -9,7 +9,7 @@
 <script type="text/javascript" src="lib/jquery.js"></script>
 <script type="text/javascript" src="lib/jquery.tmpl.js"></script>
 <script type="text/javascript" src="lib/knockout.js"></script>
-<script type="text/javascript" src="js/fogaskerek.js"></script>
+<script language="JavaScript" src="js/SimpleClient.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 
@@ -35,10 +35,10 @@
         </span>
 	</div>
 	<span id="threadnumber-description">simultaneously running workunit allowed</span>
-	<img id="terminalpanel-button" onclick="select('.panel', '#terminalpanel', true, '#mainpanel')" src="img/terminal.png" />
+	<img id="terminalpanel-button" onclick="select('.panel', '#log', true, '#mainpanel')" src="img/terminal.png" />
 </div>
 
-<div class="panel" id="terminalpanel">
+<div class="panel console" id="log">
 	Valami
 </div>
 <div class="panel active" id="mainpanel">
@@ -58,28 +58,18 @@
 		}
 	</script>
 
-	<ul class="worksourcetypes" data-bind="template: {name : 'worksourcetype'}">
+<!--	<ul class="worksourcetypes" data-bind="template: {name : 'worksourcetype'}" >
 		<script type="text/html" id="worksourcetype">
 			{{each(name, worksourcetype) viewModel.worksourcetypes}} 
 				<li class="active ${ name }" class="worksourcetype" onclick="selectworksource('${ name }')">
 					<img title="${ worksourcetype.description }" src="${ worksourcetype.icon }" />
 				</li>
 			{{/each}}
-		</script>
-		<!--
-		<li class="-active elso" class="worksourcetype" onclick="selectworksource('elso')">
-			<img src="http://css-tricks.com/wp-content/themes/CSS-Tricks-8/images/logo.png" />
+		</script>-->
+	<ul class="worksourcetypes">
+		<li class="active boincdev" class="worksourcetype">
+			<img src="http://boinc.berkeley.edu/logo/www_logo.gif" />
 		</li>
-		<li class="active boinc" onclick="selectworksource('boinc')">
-			<img title="BOINC project" src="http://boinc.berkeley.edu/logo/www_logo.gif" />
-		</li>
-		<li class="-active masodik" onclick="selectworksource('masodik')">
-			<img src="http://css-tricks.com/wp-content/themes/CSS-Tricks-8/images/logo.png" />
-		</li>
-		<li class="-active harmadik" onclick="selectworksource('harmadik')">
-			<img src="http://css-tricks.com/wp-content/themes/CSS-Tricks-8/images/logo.png" />
-		</li>
-		-->
 	</ul>
 	
 	<div class="createform boinc">
@@ -118,7 +108,7 @@
 		</div>
 	</div>
 
-	<div class="createform boincdev">
+	<div class="createform boincdev active">
 		<div class="fieldset">
 			<label>Scheduler url:</label>
 			<input data-bind="value : worksourcetypes.boincdev.parameters.scheduler" />
@@ -128,12 +118,14 @@
 			<input data-bind="value : worksourcetypes.boincdev.parameters.authkey" />
 		</div>
 		<div class="submit">
-			<button data-bind="enable : worksourcetypes.boincdev.ok">Create</button>
+			<button data-bind="enable : worksourcetypes.boincdev.ok, click : worksourcetypes.boincdev.create">Create</button>
 			<p>Lorem ipsum error</p>
 		</div>
 	</div>
 
 </div>
+
+<div id="worksource_list" style="display: none"></div>
 
 <div id="worksourcelist" data-bind='template: {name : "projectFrame",
 	                                        foreach : projects}'>
@@ -158,7 +150,7 @@
 		<span class="state" data-bind="text : state"></span>
 		
 		<div class="meter">
-			<span style="width : 50%"></span>
+			<span data-bind="style : {width : progress() + '%'}"></span>
 		</div>
 		
 		<textarea class="terminal" data-bind="value : console,
@@ -168,7 +160,6 @@
 	</script>
 </div>
 </div>
-
 <script type="text/javascript">
 var select = function(set, select, unselect, defaultSelect)
 {
@@ -201,53 +192,11 @@ var togglePanel = function(panelId)
 }
 
 var viewModel = {
-	running : ko.observable(false),
+	running : ko.observable(true),
 	
-	threads : ko.observable(2),
+	threads : ko.observable(1),
 	
-	projects : ko.observableArray([
-		{
-			id : 1,
-		 	name : 'Boinc project 1',
-		 	url : 'http://bvp6.hpc.iit.bme.hu',
-		 	authkey : 'dsadsdasd',
-		 	workunits : ko.observableArray([
-		 		{
-		 			state : ko.observable('Downloading...'),
-		 			progress : ko.observable(10),
-		 			console : ko.observable('console0'),
-		 			consoleenabled : ko.observable(false)
-		 		},
-		 		{
-		 			state : ko.observable('Uploading...'),
-		 			progress : ko.observable(90),
-		 			console : ko.observable('console1'),
-		 			consoleenabled : ko.observable(false)
-		 		}
-		 	])
-		},
-		{
-			id : 2,
-			name : 'Boinc project 2',
-			url : 'bvp6.hpc.iit.bme.hu',
-		 	authkey : 'dsadsdasd',
-		 	workunits : ko.observableArray([
-		 		{
-		 			state : ko.observable('Computing...'),
-		 			progress : ko.observable(50),
-		 			console : ko.observable('console2'),
-		 			consoleenabled : ko.observable(false)
-		 		}
-		 	])
-		},
-		{
-			id : 5,
-			name : 'Boinc project 3',
-			url : 'bvp6.hpc.iit.bme.hu',
-		 	authkey : 'dsadsdasd',
-		 	workunits : ko.observableArray([])
-		}
-	]),
+	projects : ko.observableArray([]),
 	
 	newworksource : {
 		type : ko.observable(''),
@@ -287,12 +236,16 @@ var viewModel = {
 			icon : 'http://boinc.berkeley.edu/logo/www_logo.gif',
 			description : 'BOINC dev project',
 			parameters : {
-				scheduler : ko.observable('http://ui.hpc.iit.bme.hu/wc_cgi/cgi'),
-				authkey : ko.observable('43e87bece67a9681f9e3da7e60ad96f5'),
+				scheduler : ko.observable('http://ui.hpc.iit.bme.hu/wcdemo_cgi/cgi'),
+				authkey : ko.observable('1d0f37563ceb7d1ed372a932dcdb5d85'),
 			},
 			ok : ko.observable(true),
 			create : function() {
-				alert('boinc worksource create');
+				var scheduler = viewModel.worksourcetypes.boincdev.parameters.scheduler();
+				var authkey = viewModel.worksourcetypes.boincdev.parameters.authkey();
+				var ws = new web2grid.worksource.boinc.BoincWorkSource(scheduler, authkey);
+				Main.client.addWorkSource(ws);
+				console.log('New worksource added: ', ws);
 			},
 		},
 		debug : {
@@ -308,14 +261,120 @@ viewModel.worksourcetypes.boinc.checkfunction = ko.dependentObservable(function(
 }, viewModel.worksourcetypes.boinc.parameters);
 
 
-//viewModel.projects = ko.observableArray([]);
-
-
-//var createworksource = function() {
-//	console.log(viewModel.newworksource);
-//};
-
 ko.applyBindings(viewModel);
+
+</script>
+
+
+<script type="text/javascript">
+// BOINCdev bindings:
+viewModel.running.subscribe(function(newValue){
+	Main.toggle();
+});
+
+viewModel.threads.subscribe(function(newValue){
+	Main.client.setTargetActiveWorkNumber(newValue);
+	console.log('Number of threads: ', newValue);
+});
+
+function findWorkunit(wu) {
+	for (var i = 0; i < viewModel.projects().length; i++) {
+		var project = viewModel.projects()[i];
+		if (project.worksource === ws) return project;
+	}
+	return null;
+}
+
+function findWorksource(ws) {
+	for (var i = 0; i < viewModel.projects().length; i++) {
+		var project = viewModel.projects()[i];
+		if (project.worksource === ws) return project;
+	}
+	return null;
+}
+
+
+function updateWorkunit(workunit) {
+	//console.log('Updating workunit: ', workunit, workunit.workunit.name, workunit.workunit.getState(), workunit.workunit.progress);
+	if (Main.client.activeworks.indexOf(workunit.workunit) === -1) {
+		workunit.state('Passive');
+	} else {
+		workunit.state(workunit.workunit.getState());
+	}
+	workunit.progress(workunit.workunit.progress ? workunit.workunit.progress * 100 : 0);
+}
+
+
+function updateWorkunits(project) {
+	//console.log('Updating project: ', project);
+	var workunits = Main.client.activeworks.concat(Main.client.passiveworks);
+	// Removing workunits that no longer exist
+	for (var i = 0; i < project.workunits().length; i++) {
+		var workunit = project.workunits()[i].workunit;
+		if (workunits.indexOf(workunit) === -1) {
+			//console.log('Removing workunit: ', workunit);
+			project.workunits.remove(project.workunits()[i]);
+		}
+	}
+	
+	// Adding workunits not listed yet
+	projectworkunits = project.workunits().map(function(wu){return wu.workunit});
+	for (var i = 0; i < workunits.length; i++) {
+		var workunit = workunits[i];
+		if (workunit.source !== project.worksource) continue;
+		if (projectworkunits.indexOf(workunit) === -1) {
+			//console.log('New workunit found: ', workunit, workunit.name);
+			project.workunits.push({
+				workunit : workunit,
+	 			state : ko.observable('Computing...'),
+	 			progress : ko.observable(50),
+	 			console : ko.observable('console2'),
+	 			consoleenabled : ko.observable(false)				
+			});
+		}
+	}
+
+	for (var i = 0; i < project.workunits().length; i++) {
+		updateWorkunit(project.workunits()[i]);
+	}
+}
+
+function updateWorksources() {
+	//console.log('Updating Worksources: ', viewModel.projects());
+	var worksources = Main.client.getWorkSources();
+	// Removing projects that no longer exist
+	for (var i = 0; i < viewModel.projects().length; i++) {
+		var project = viewModel.projects()[i];
+		if (worksources.arr.indexOf(project.worksource) === -1) {
+			//console.log('Removing worksource: ', project.worksource);
+			viewModel.projects.remove(project);
+		}
+	}
+	
+	// Adding projects not listed yet
+	for (var i = 0; i < worksources.arr.length; i++) {
+		var worksource = worksources.arr[i];
+		var project = findWorksource(worksource);
+		if (project == null) {
+			//console.log('New worksource found: ', worksource);
+			viewModel.projects.push({
+				worksource : worksource,
+				name : worksource.getScreenName(),
+				url : worksource.scheduler_url,
+				authkey : worksource.authinfo.authenticator,
+				workunits : ko.observableArray([])
+			});
+		}
+	}
+	
+	// Refreshing existing worksources
+	for (var i = 0; i < viewModel.projects().length; i++) {
+		updateWorkunits(viewModel.projects()[i]);
+	}
+}
+
+setInterval(updateWorksources, 1000);
+
 </script>
 
 </body>

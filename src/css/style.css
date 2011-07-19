@@ -411,3 +411,99 @@ ul.worksourcetypes li img:after {
 	display: block;
 }
 
+/* Console */
+
+div.console
+{
+	padding-top: 1em;
+	background: black;
+	color: white;
+	font-family: "Courier New";
+	overflow: auto;	
+}
+div.logentry
+{
+	font-size: 0.75em;
+}
+
+div.critical
+{
+	color: red;
+	text-decoration: underline;
+}
+
+div.error
+{
+	color: red;
+}
+
+div.warning
+{
+	color: yellow;
+}
+
+div.notice
+{
+	color: lime;
+}
+
+div.information
+{
+	color: white;
+}
+
+div.debug
+{
+	color: gray;
+}
+div.details
+{
+	margin-left: 20px;
+	padding-left: 10px;
+	border-left: 5px solid red;
+}
+
+div.data
+{
+}
+
+div.data pre
+{
+	margin: 0;
+	padding: 0;
+	padding-left: 30px;
+	display: inline-block;
+}
+div.time
+{
+	width: 55px;
+	font-style: italic;
+	display: inline-block;
+	padding-right: 5px;
+	background-color: #444;
+	border-right: 1px solid #888;
+	margin-right: 5px;
+}
+
+div.message
+{
+	text-decoration: inherit;
+	display: inline-block;
+	padding-left: 3px;
+}
+
+div.source
+{
+	padding: 0;
+	text-decoration: inherit;
+	display: inline-block;
+	padding-left: 3px;
+	padding-right: 3px;
+	font-size: 9px;
+	border: 1px solid #559;
+	background: #226;
+	color: white;
+	margin-right: 4px;
+}
+
+
