@@ -122,7 +122,6 @@
 			<p></p>
 		</div>
 	</div>
-
 </div>
 
 <div id="worksource_list" style="display: none"></div>
@@ -154,10 +153,27 @@
 			<span data-bind="style : {width : progress() + '%'}"></span>
 		</div>
 		
-		<div class="terminal" data-bind="html : console,
-		                                 style : {display : consoleenabled() ? 'block' : 'none'}">
+		<div class="terminal" id="${workunit.name}-terminal" data-bind="style : {display : consoleenabled() ? 'block' : 'none'}">
 		</div>
+		<span style="display: none" data-bind="html : updateConsole(console, workunit.name + '-terminal')"></span>
 	</li>
+	</script>
+	<script type="text/javascript">
+		function updateConsole(console, id) {
+			console.subscribe(function(newValue){
+				var logdiv = $('#' + id)[0];
+				if (logdiv.scrollTop >= logdiv.scrollHeight - logdiv.clientHeight - 10)
+				{
+					scrolling = true;
+				}
+				$(logdiv).html(newValue);
+				if (scrolling)
+				{
+					logdiv.scrollTop = logdiv.scrollHeight;
+				}
+			});
+			return '';
+		}
 	</script>
 </div>
 </div>
