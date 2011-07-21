@@ -153,13 +153,24 @@ a {
     -webkit-transform: rotate(360deg);
   }
 }
+@-moz-keyframes rotate {
+  from {
+    -moz-transform: rotate(0deg);
+  }
+  to { 
+    -moz-transform: rotate(360deg);
+  }
+}
 img.rotating
 {
     -webkit-animation-name:             rotate; 
     -webkit-animation-duration:         3s; 
     -webkit-animation-iteration-count:  infinite;
     -webkit-animation-timing-function:  linear;
-    --webkit-animation-fill-mode: forwards;
+    -moz-animation-name:             rotate; 
+    -moz-animation-duration:         3s; 
+    -moz-animation-iteration-count:  infinite;
+    -moz-animation-timing-function:  linear;
 }
 
 #appname {
@@ -242,7 +253,7 @@ img.rotating
 #threadnumber-description {
 	float: left;
 	display: block;
-	width: 10em;
+	width: 12em;
 	margin: 0.3em 0em;
 }
 
@@ -267,12 +278,14 @@ img.rotating
 ul.worksourcetypes {
 	display: -webkit-box;
 	-webkit-box-pack: start;
+	display: -moz-box;
+	-moz-box-pack: start;
+	
 	float: left;
 	list-style-type: none;
-	--width: 9em;
 	padding: 0em;
 	margin: 0em;
-	-webkit-transition: all 1s ease-in-out;
+	transition: all 1s ease-in-out;
 	width: 10em;
 	overflow: visible;
 }
@@ -282,29 +295,6 @@ ul.worksourcetypes li.active {
 	width: 9em;
 	margin-right: 1.5em;
 	z-index: 1;
-}
---ul.worksourcetypes li {
-	position: relative;
-	z-index: 0;
-	left: 0em;
-	opacity: 0;
-	width: 0em;
-	display: -webkit-box;
-	-webkit-box-align: center;
-	-webkit-box-pack: center;
-	--webkit-transition-property: margin, width, opacity;
-	--webkit-transition-duration: 0.2s;
-	--webkit-transition-timing-function: ease-in-out;
-	-webkit-transition: all 0.2s ease-in-out;
-	height: 9em;
-	margin: 0em;
-	padding: 0em;
-	background-color: white;
-	box-shadow:  0 3px 6px rgba(0,0,0,.5);
-	cursor: pointer;
-	border-radius: 0.3em;
-	border: 0px;
-	overflow: hidden;
 }
 ul.worksourcetypes li {
 	position: relative;
@@ -333,28 +323,30 @@ ul.worksourcetypes li:hover {
 	border-color: #999;
 }
 ul.worksourcetypes li img {
+	position: relative;
 	display: block;
 	max-width: 7em;
 	max-height: 7em;
 	margin: 0em;
 	padding: 1em;
 }
-ul.worksourcetypes li img:after {
-	content: attr(title);
-}
 
 .createform {
 	display: none;
 	padding: 0em 0.5em;
 	height: 9em;
+	min-width: 55em;
 }
 .createform.active {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
+	display: -moz-box;
+	-moz-box-orient: vertical;
 }
 .createform .or .fieldset:last-child:before{
 	content: 'or';
 	display: -webkit-box;
+	display: -moz-box;
 	font-size: 1.1em;
 	margin: 0.8em;
 	height: 0em;
@@ -363,11 +355,17 @@ ul.worksourcetypes li img:after {
 	display: -webkit-box;
 	-webkit-box-orient: horizontal;
 	-webkit-box-flex: 1;
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-flex: 1;
 }
 .createform .fieldset {
 	display: -webkit-box;
 	-webkit-box-orient: horizontal;
 	-webkit-box-flex: 1;
+	display: -moz-box;
+	-moz-box-orient: horizontal;
+	-moz-box-flex: 1;
 }
 .createform .fieldset.submit {
 	display: block;
@@ -384,7 +382,9 @@ ul.worksourcetypes li img:after {
 }
 .createform label {
 	display: -webkit-box;
+	display: -moz-box;
 	-webkit-box-align: center;
+	-moz-box-align: center;
 	border: 0px solid black;
 	border-bottom-left-radius: 0.5em;
 	border-top-left-radius: 0.5em;
@@ -399,7 +399,9 @@ ul.worksourcetypes li img:after {
 }
 .createform input {
 	display: -webkit-box;
+	display: -moz-box;
 	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
 	border: 0px solid black;
 	border-bottom-right-radius: 0.5em;
 	border-top-right-radius: 0.5em;
