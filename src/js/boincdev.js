@@ -93,6 +93,7 @@ function updateWorkunits(project) {
 }
 
 function updateWorksources() {
+	if (!Main.client) return;
 	//console.log('Updating Worksources: ', viewModel.projects());
 	var worksources = Main.client.getWorkSources();
 	// Removing projects that no longer exist
@@ -148,7 +149,6 @@ function onLoad() {
 		return;
 	}
 	
-	setInterval(Main.onIdle, 1000);
 	Main.ok = true;
 	
 	Main.client = web2grid.control.Scheduler.loadFromLocalStorage(window.location.pathname);
