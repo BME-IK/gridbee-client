@@ -9,14 +9,11 @@
 <script type="text/javascript" src="lib/jquery.js"></script>
 <script type="text/javascript" src="lib/jquery.tmpl.js"></script>
 <script type="text/javascript" src="lib/knockout.js"></script>
-<script type="text/javascript" src="js/fogaskerek.js"></script>
 
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 
 </head>
-<body onload="Main.onload()">
-
-<pre id="haxe:trace" style="display:none"></pre>
+<body>
 
 <div id="top">
 	<img data-bind="css : {rotating : running}" src="img/gear1-bw.svg" style="float: left; height: 2.3em; margin: 0.35em;" />
@@ -135,15 +132,15 @@
 
 </div>
 
-<div id="worksourcelist" data-bind='template: {name : "projectFrame",
-	                                        foreach : projects}'>
-	<script type="text/html" id="projectFrame">
+<div id="worksourcelist" data-bind='template: {name : "worksource",
+                                               foreach : worksources}'>
+	<script type="text/html" id="worksource">
 	<div class="worksource">
 		<h3 data-bind="text: name"></h3>
 		<img class="settingsbutton" onclick="$(this).toggleClass('enabled')" src="img/gear2.svg" />
 		<div class="settings">
 			<p>Project name: <span data-bind="text : name"></span></p>
-			<p>Project url: <a data-bind="text : url, attr : {href : url}"></a></p>
+			<p>Project scheduler url: <a data-bind="text : scheduler, attr : {href : scheduler}"></a></p>
 			<p>Authentication key: <span data-bind="text : authkey"></span></p>
 		</div>
 		<ul class="workunits" data-bind='template : {name : "workunit",
@@ -200,122 +197,14 @@ var togglePanel = function(panelId)
 	}
 }
 
-var viewModel = {
-	running : ko.observable(false),
-	
-	threads : ko.observable(2),
-	
-	projects : ko.observableArray([
-		{
-			id : 1,
-		 	name : 'Boinc project 1',
-		 	url : 'http://bvp6.hpc.iit.bme.hu',
-		 	authkey : 'dsadsdasd',
-		 	workunits : ko.observableArray([
-		 		{
-		 			state : ko.observable('Downloading...'),
-		 			progress : ko.observable(10),
-		 			console : ko.observable('console0'),
-		 			consoleenabled : ko.observable(false)
-		 		},
-		 		{
-		 			state : ko.observable('Uploading...'),
-		 			progress : ko.observable(90),
-		 			console : ko.observable('console1'),
-		 			consoleenabled : ko.observable(false)
-		 		}
-		 	])
-		},
-		{
-			id : 2,
-			name : 'Boinc project 2',
-			url : 'bvp6.hpc.iit.bme.hu',
-		 	authkey : 'dsadsdasd',
-		 	workunits : ko.observableArray([
-		 		{
-		 			state : ko.observable('Computing...'),
-		 			progress : ko.observable(50),
-		 			console : ko.observable('console2'),
-		 			consoleenabled : ko.observable(false)
-		 		}
-		 	])
-		},
-		{
-			id : 5,
-			name : 'Boinc project 3',
-			url : 'bvp6.hpc.iit.bme.hu',
-		 	authkey : 'dsadsdasd',
-		 	workunits : ko.observableArray([])
-		}
-	]),
-	
-	newworksource : {
-		type : ko.observable(''),
-		url : ko.observable(''),
-		authkey : ko.observable(''),
-		username : ko.observable(''),
-		password : ko.observable('')
-	},
-	
-	worksourcetypes : {
-		boinc : {
-			icon : 'http://boinc.berkeley.edu/logo/www_logo.gif',
-			description : 'BOINC project',
-			parameters : {
-				url : ko.observable(''),
-				authkey : ko.observable(''),
-				username : ko.observable(''),
-				password : ko.observable('')
-			},
-			projecturl_ok : ko.observable(false),
-			ok : ko.observable(false),
-			create : function() {
-				alert('boinc worksource create');
-			},
-			checkprojecturl : function() {
-				viewModel.worksourcetypes.boinc.projecturl_ok(true);
-				console.log(1);
-			},
-			checklogin : function() {
-				viewModel.worksourcetypes.boinc.ok(true);
-			},
-			checkauthkey : function() {
-				viewModel.worksourcetypes.boinc.ok(true);
-			},
-		},
-		boincdev : {
-			icon : 'http://boinc.berkeley.edu/logo/www_logo.gif',
-			description : 'BOINC dev project',
-			parameters : {
-				scheduler : ko.observable('http://ui.hpc.iit.bme.hu/wc_cgi/cgi'),
-				authkey : ko.observable('43e87bece67a9681f9e3da7e60ad96f5'),
-			},
-			ok : ko.observable(true),
-			create : function() {
-				alert('boinc worksource create');
-			},
-		},
-		debug : {
-			icon : 'img/gear2.svg',
-			description : 'Debug worksource',
-		}
-	},
-	
-};
+</script>
 
-viewModel.worksourcetypes.boinc.checkfunction = ko.dependentObservable(function(){
-	return this.url().length > 0 && (this.authkey().length > 0 || (this.username().length > 0 && this.password().length > 0));
-}, viewModel.worksourcetypes.boinc.parameters);
+<script type="text/javascript" src="js/viewmodel.js"></script>
+<script type="text/javascript" src="js/boincdev.js"></script>
+<script type="text/javascript" src="js/boinc.js"></script>
 
-
-//viewModel.projects = ko.observableArray([]);
-
-
-//var createworksource = function() {
-//	console.log(viewModel.newworksource);
-//};
-
-ko.applyBindings(viewModel);
+<script type="text/javascript">
+  ko.applyBindings(window.viewModel);
 </script>
 
 </body>
