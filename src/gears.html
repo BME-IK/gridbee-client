@@ -40,7 +40,7 @@
 </div>
 
 <div class="panel active" id="mainpanel">
-<div id="newworksource" class="worksource" data-bind="css : {active : worksources().length === 0}">
+<div id="newworksource" class="worksource active" data-bind="css : {active : worksources().length === 0}">
 	<h3>Add new worksource</h3>
 
 	<img class="settingsbutton" onclick="$(this).parent().toggleClass('active')" src="img/plus.png" />
@@ -71,47 +71,47 @@
 	
 	<div class="createform boinc">
 		<div class="fieldset">
-			<label>Project url:</label>
-			<input value="Project url"
-			       onkeydown="viewModel.worksourcetypes.boinc.projecturl_ok(false);viewModel.worksourcetypes.boinc.ok(false)"
-			       data-bind="value : worksourcetypes.boinc.parameters.url" />
-			<button onclick="viewModel.worksourcetypes.boinc.checkprojecturl()">Check</button>
+			<label class="enabled">Project url:</label>
+			<input data-bind="value : boinc.parameters.projecturl,
+							  valueUpdate: 'keyup'" />
 		</div>
 		<div class="or">
 			<div class="fieldset">
-				<label>Username: </label>
-				<input data-bind="enable : worksourcetypes.boinc.projecturl_ok,
-				                  value : worksourcetypes.boinc.parameters.username"
-				       onkeydown="viewModel.worksourcetypes.boinc.ok(false)" />
-				<label>Password:</label>
-				<input data-bind="enable : worksourcetypes.boinc.projecturl_ok,
-				                  value : worksourcetypes.boinc.parameters.password"
-				       onkeydown="viewModel.worksourcetypes.boinc.ok(false)" />
-				<button data-bind="enable : worksourcetypes.boinc.projecturl_ok"
-				        onclick="viewModel.worksourcetypes.boinc.checklogin()">Check</button>
+				<label data-bind="css : {enabled : boinc.userPassInputEnabled}">
+				  Username:
+				</label>
+				<input data-bind="enable : boinc.userPassInputEnabled,
+				                  value : boinc.parameters.username,
+								  valueUpdate: 'keyup'"/>
+				<label data-bind="css : {enabled : boinc.userPassInputEnabled()}">
+				  Password:
+				</label>
+				<input data-bind="enable : boinc.userPassInputEnabled,
+				                  value : boinc.parameters.password,
+								  valueUpdate: 'keyup'" />
 			</div>
 			<div class="fieldset">
-				<label>Authkey: </label>
-				<input data-bind="enable : worksourcetypes.boinc.projecturl_ok,
-				                  value : worksourcetypes.boinc.parameters.authkey"
-				       onkeydown="viewModel.worksourcetypes.boinc.ok(false)" />
-				<button data-bind="enable : worksourcetypes.boinc.projecturl_ok"
-				        onclick="viewModel.worksourcetypes.boinc.checkauthkey()">Check</button>
+				<label data-bind="css : {enabled : boinc.authkeyInputEnabled}">
+				  Authkey:
+				</label>
+				<input data-bind="enable : boinc.authkeyInputEnabled,
+				                  value : boinc.parameters.authkey,
+								  valueUpdate: 'keyup'" />
 			</div>
 		</div>
 		<div class="submit">
-			<button data-bind="enable : worksourcetypes.boinc.ok">Create</button>
-			<p>Lorem ipsum error</p>
+			<button data-bind="enable : boinc.ok, click : boinc.create">Create</button>
+			<p data-bind="html : boinc.error" class="error">Lorem ipsum error</p>
 		</div>
 	</div>
 
 	<div class="createform boincdev">
 		<div class="fieldset">
-			<label>Scheduler url:</label>
+			<label class="enabled">Scheduler url:</label>
 			<input data-bind="value : worksourcetypes.boincdev.parameters.scheduler" />
 		</div>
 		<div class="fieldset">
-			<label>Auth key:</label>
+			<label class="enabled">Auth key:</label>
 			<input data-bind="value : worksourcetypes.boincdev.parameters.authkey" />
 		</div>
 		<div class="submit">

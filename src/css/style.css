@@ -367,7 +367,7 @@ ul.worksourcetypes li img:after {
 	font-size: 1em;
 	line-height: 1em;
 	height: 2em;
-	background-color: white;
+	background-color: #BBB;
 }
 .createform input {
 	display: -webkit-box;
@@ -383,9 +383,18 @@ ul.worksourcetypes li img:after {
 	line-height: 1em;
 	height: 2em;
 }
+.createform .submit .error {
+	color: red;
+}
 .createform input:focus {
 	box-shadow:rgba(0, 72, 166, 0.359375) 0px 0px 5px 1px;
 	outline: none;
+}
+.createform input[disabled] {
+	background-color: #BBB;
+}
+.createform label.enabled {
+	background-color: white;
 }
 .active {
 	display: block;

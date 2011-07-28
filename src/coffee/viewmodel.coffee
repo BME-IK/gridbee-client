@@ -5,15 +5,15 @@ window.viewModel =
 
   worksources : ko.observableArray [
     # example
-    {
-      name : 'Boinc project 1'
-      type : 'boinc'
-      worksource : {}
-      workunits : ko.observableArray []
-      # worksource type specific details:
-      scheduler : 'www.x.com'
-      authkey : 'xxxx'
-    }
+    #{
+    #  name : 'Boinc project 1'
+    #  type : 'boinc'
+    #  worksource : {}
+    #  workunits : ko.observableArray []
+    #  # worksource type specific details:
+    #  scheduler : 'www.x.com'
+    #  authkey : 'xxxx'
+    #}
   ]
 
   worksourcetypes : {}
@@ -28,3 +28,10 @@ window.viewModel =
   #      password : ko.observable ''
   #    ok : ko.observable true
 
+window.notifyIfTypingEnds = (observable, callback) ->
+  t = null
+
+  observable.subscribe ->
+    if t
+      clearTimeout t
+    t = setTimeout (-> callback observable()), 1000
