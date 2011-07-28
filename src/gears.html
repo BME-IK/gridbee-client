@@ -38,9 +38,13 @@
 <div class="panel" id="terminalpanel">
 	Valami
 </div>
+
 <div class="panel active" id="mainpanel">
-<div id="newworksource" class="worksource">
+<div id="newworksource" class="worksource" data-bind="css : {active : worksources().length === 0}">
 	<h3>Add new worksource</h3>
+
+	<img class="settingsbutton" onclick="$(this).parent().toggleClass('active')" src="img/plus.png" />
+
 	<script type="text/javascript">
 		function selectworksource(name) {
 			if ($('ul.worksourcetypes li').not('.' + name).hasClass('active'))
@@ -57,26 +61,12 @@
 
 	<ul class="worksourcetypes" data-bind="template: {name : 'worksourcetype'}">
 		<script type="text/html" id="worksourcetype">
-			{{each(name, worksourcetype) viewModel.worksourcetypes}} 
+			{{each(name, worksourcetype) viewModel.worksourcetypes}}
 				<li class="active ${ name }" class="worksourcetype" onclick="selectworksource('${ name }')">
 					<img title="${ worksourcetype.description }" src="${ worksourcetype.icon }" />
 				</li>
 			{{/each}}
 		</script>
-		<!--
-		<li class="-active elso" class="worksourcetype" onclick="selectworksource('elso')">
-			<img src="http://css-tricks.com/wp-content/themes/CSS-Tricks-8/images/logo.png" />
-		</li>
-		<li class="active boinc" onclick="selectworksource('boinc')">
-			<img title="BOINC project" src="http://boinc.berkeley.edu/logo/www_logo.gif" />
-		</li>
-		<li class="-active masodik" onclick="selectworksource('masodik')">
-			<img src="http://css-tricks.com/wp-content/themes/CSS-Tricks-8/images/logo.png" />
-		</li>
-		<li class="-active harmadik" onclick="selectworksource('harmadik')">
-			<img src="http://css-tricks.com/wp-content/themes/CSS-Tricks-8/images/logo.png" />
-		</li>
-		-->
 	</ul>
 	
 	<div class="createform boinc">
