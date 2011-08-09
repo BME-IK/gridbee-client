@@ -32,10 +32,10 @@
         </span>
 	</div>
 	<span id="threadnumber-description">simultaneously running workunit allowed</span>
-	<img id="terminalpanel-button" onclick="select('.panel', '#terminalpanel', true, '#mainpanel')" src="img/terminal.png" />
+	<img id="terminalpanel-button" onclick="select('.panel', '#logpanel', true, '#mainpanel')" src="img/terminal.png" />
 </div>
 
-<div class="panel" id="terminalpanel">
+<div class="panel log log-main" id="logpanel">
 	Valami
 </div>
 
@@ -140,7 +140,8 @@
 	</script>
 	<script type="text/html" id="workunit">
 	<li class="workunit">
-		<img class="terminal-icon" data-bind="click : function(){consoleenabled(!consoleenabled());}" src="img/terminal.png"/>
+		<img class="terminal-icon" src="img/terminal.png"
+			 onclick="$(this).siblings('.log').toggle()"/>
 		
 		<span class="state" data-bind="text : state"></span>
 		
@@ -148,9 +149,7 @@
 			<span style="width : 50%"></span>
 		</div>
 		
-		<textarea class="terminal" data-bind="value : console,
-		                                      style : {display : consoleenabled() ? 'block' : 'none'}">
-		</textarea>
+		<div class="workunit-log log log-${ workunit.name }"></div>
 	</li>
 	</script>
 </div>
