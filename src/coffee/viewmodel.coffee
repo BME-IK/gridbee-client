@@ -33,7 +33,7 @@ window.viewModel =
 # Examples
 worksource =
   name : 'Boinc project 1'
-  type : 'boinc'
+  type : 'boincdev'
   worksource : {}
   workunits : ko.observableArray [{
     workunit : {name : 'x'}

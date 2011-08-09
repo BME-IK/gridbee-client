@@ -100,7 +100,6 @@ a {
 	max-width: 100%;
 	height: 15em;
 	margin: 1em -1em -1em;	
-	display: none;
 	border-radius: 0.9em;
 	border-top-left-radius: 0em;
 	border-top-right-radius: 0em;
@@ -114,14 +113,10 @@ a {
 	cursor: pointer;
 }
 .settings {
-	display: none;
 	margin: 1em 0em 0em;
 	padding: 1em;
 	border-radius: 13px;
 	background-color: rgb(143,175,186);
-}
-.enabled + .settings {
-	display: block;
 }
 .settings p {
 	margin: 0em;

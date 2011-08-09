@@ -122,34 +122,51 @@
 
 </div>
 
-<div id="worksourcelist" data-bind='template: {name : "worksource",
-                                               foreach : worksources}'>
+<div id="worksourcelist"
+	 data-bind="template: {name : 'worksource', foreach : worksources}">
 	<script type="text/html" id="worksource">
 	<div class="worksource">
 		<h3 data-bind="text: name"></h3>
-		<img class="settingsbutton" onclick="$(this).toggleClass('enabled')" src="img/gear2.svg" />
-		<div class="settings">
-			<p>Project name: <span data-bind="text : name"></span></p>
-			<p>Project scheduler url: <a data-bind="text : scheduler, attr : {href : scheduler}"></a></p>
-			<p>Authentication key: <span data-bind="text : authkey"></span></p>
+		<img class="settingsbutton" src="img/gear2.svg"
+			 onclick="$(this).siblings('.settings').toggle()" />
+		<div class="settings" style="display:none"
+			 data-bind="template: {name : type + '-settings'}">
 		</div>
-		<ul class="workunits" data-bind='template : {name : "workunit",
-		                                             foreach : workunits}'>
-	    </ul>
+		<ul class="workunits"
+			data-bind="template : {name : 'workunit', foreach : workunits}">
+		</ul>
 	</div>
 	</script>
+	<script type="text/html" id="boinc-settings">
+	</script>
+	<script type="text/html" id="boincdev-settings">
+		<p>
+		  Project name: <span data-bind="text : name"></span>
+		</p>
+		<p>
+		  Project scheduler url:
+		  <a data-bind="text : scheduler, attr : {href : scheduler}"></a>
+		</p>
+		<p>
+		  Authentication key: <span data-bind="text : authkey"></span>
+		</p>
+	</script>
+	
 	<script type="text/html" id="workunit">
 	<li class="workunit">
 		<img class="terminal-icon" src="img/terminal.png"
 			 onclick="$(this).siblings('.log').toggle()"/>
 		
-		<span class="state" data-bind="text : state"></span>
+		<span class="state"
+			  data-bind="text : state">
+		</span>
 		
 		<div class="meter">
 			<span style="width : 50%"></span>
 		</div>
 		
-		<div class="workunit-log log log-${ workunit.name }"></div>
+		<div class="workunit-log log log-${ workunit.name }" style="display:none">
+		</div>
 	</li>
 	</script>
 </div>
