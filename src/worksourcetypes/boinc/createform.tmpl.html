@@ -1,0 +1,33 @@
+<div class="fieldset">
+  <label class="enabled">Project url:</label>
+  <input data-bind="value : boinc.parameters.projecturl,
+                    valueUpdate: 'keyup'" />
+</div>
+<div class="or">
+  <div class="fieldset">
+    <label data-bind="css : {enabled : boinc.userPassInputEnabled}">
+      Username:
+    </label>
+    <input data-bind="enable : boinc.userPassInputEnabled,
+                      value : boinc.parameters.username,
+                      valueUpdate: 'keyup'"/>
+    <label data-bind="css : {enabled : boinc.userPassInputEnabled()}">
+      Password:
+    </label>
+    <input data-bind="enable : boinc.userPassInputEnabled,
+                      value : boinc.parameters.password,
+                      valueUpdate: 'keyup'" />
+  </div>
+  <div class="fieldset">
+    <label data-bind="css : {enabled : boinc.authkeyInputEnabled}">
+      Authkey:
+    </label>
+    <input data-bind="enable : boinc.authkeyInputEnabled,
+                      value : boinc.parameters.authkey,
+                      valueUpdate: 'keyup'" />
+  </div>
+</div>
+<div class="submit">
+  <button data-bind="enable : boinc.ok, click : boinc.create">Create</button>
+  <p data-bind="html : boinc.error" class="error">Lorem ipsum error</p>
+</div>

@@ -40,87 +40,31 @@
 </div>
 
 <div class="panel active" id="mainpanel">
-<div id="newworksource" class="worksource active" data-bind="css : {active : worksources().length === 0}">
-	<h3>Add new worksource</h3>
 
-	<img class="settingsbutton" onclick="$(this).parent().toggleClass('active')" src="img/plus.png" />
+  <div id="newworksource" class="worksource active"
+       data-bind="css : {active : worksources().length === 0},
+                  template : {name : 'newworksource-tmpl'}">
+    <script type="text/html" id="newworksource-tmpl">
+	  <h3>Add new worksource</h3>
 
-	<script type="text/javascript">
-		function selectworksource(name) {
-			if ($('ul.worksourcetypes li').not('.' + name).hasClass('active'))
-			{
-				$('ul.worksourcetypes li').not('.' + name).removeClass('active');
-			}
-			else
-			{
-				$('ul.worksourcetypes li').addClass('active');			
-			}
-			select('.createform','.' + name, true);
-		}
-	</script>
+	  <img class="settingsbutton" onclick="$(this).parent().toggleClass('active')" src="img/plus.png" />
 
-	<ul class="worksourcetypes" data-bind="template: {name : 'worksourcetype'}">
-		<script type="text/html" id="worksourcetype">
-			{{each(name, worksourcetype) viewModel.worksourcetypes}}
-				<li class="active ${ name }" class="worksourcetype" onclick="selectworksource('${ name }')">
-					<img title="${ worksourcetype.description }" src="${ worksourcetype.icon }" />
-				</li>
-			{{/each}}
-		</script>
-	</ul>
-	
-	<div class="createform boinc">
-		<div class="fieldset">
-			<label class="enabled">Project url:</label>
-			<input data-bind="value : boinc.parameters.projecturl,
-							  valueUpdate: 'keyup'" />
-		</div>
-		<div class="or">
-			<div class="fieldset">
-				<label data-bind="css : {enabled : boinc.userPassInputEnabled}">
-				  Username:
-				</label>
-				<input data-bind="enable : boinc.userPassInputEnabled,
-				                  value : boinc.parameters.username,
-								  valueUpdate: 'keyup'"/>
-				<label data-bind="css : {enabled : boinc.userPassInputEnabled()}">
-				  Password:
-				</label>
-				<input data-bind="enable : boinc.userPassInputEnabled,
-				                  value : boinc.parameters.password,
-								  valueUpdate: 'keyup'" />
-			</div>
-			<div class="fieldset">
-				<label data-bind="css : {enabled : boinc.authkeyInputEnabled}">
-				  Authkey:
-				</label>
-				<input data-bind="enable : boinc.authkeyInputEnabled,
-				                  value : boinc.parameters.authkey,
-								  valueUpdate: 'keyup'" />
-			</div>
-		</div>
-		<div class="submit">
-			<button data-bind="enable : boinc.ok, click : boinc.create">Create</button>
-			<p data-bind="html : boinc.error" class="error">Lorem ipsum error</p>
-		</div>
-	</div>
+	  <ul class="worksourcetypes">
+	    {{each(name, worksourcetype) viewModel.worksourcetypes}}
+	    <li class="active worksourcetype worksourcetype-${ name }"
+            onclick="$(this).siblings().toggleClass('active'); $('#createform-${ name }').toggle();">
+		  <img title="${ worksourcetype.description }" src="${ worksourcetype.icon }" />
+	    </li>
+	    {{/each}}
+	  </ul>
 
-	<div class="createform boincdev">
-		<div class="fieldset">
-			<label class="enabled">Scheduler url:</label>
-			<input data-bind="value : worksourcetypes.boincdev.parameters.scheduler" />
-		</div>
-		<div class="fieldset">
-			<label class="enabled">Auth key:</label>
-			<input data-bind="value : worksourcetypes.boincdev.parameters.authkey" />
-		</div>
-		<div class="submit">
-			<button data-bind="enable : worksourcetypes.boincdev.ok">Create</button>
-			<p>Lorem ipsum error</p>
-		</div>
-	</div>
-
-</div>
+	  {{each(name) viewModel.worksourcetypes}}
+	  <div id="createform-${ name }" class="createform" style="display: none">
+	    {{tmpl "#createform-" + name}}
+	  </div>
+	  {{/each}}
+    </script>
+  </div>
 
 <div id="worksourcelist"
 	 data-bind="template: {name : 'worksource', foreach : worksources}">
@@ -210,7 +154,11 @@ var togglePanel = function(panelId)
 <script type="text/javascript" src="js/boinc.js"></script>
 
 <script type="text/javascript">
-  ko.applyBindings(window.viewModel);
+  template('worksourcetypes/boincdev/createform.tmpl.html', 'createform-boincdev');
+  template('worksourcetypes/boinc/createform.tmpl.html', 'createform-boinc');
+  template(function(){
+    ko.applyBindings(window.viewModel);
+  });
 </script>
 
 </body>

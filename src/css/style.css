@@ -317,13 +317,10 @@ ul.worksourcetypes li img:after {
 }
 
 #newworksource .createform {
-	display: none;
-	padding: 0em 0.5em;
-	height: 9em;
-}
-#newworksource.active .createform.active {
 	display: -webkit-box;
 	-webkit-box-orient: vertical;
+	padding: 0em 0.5em;
+	height: 9em;
 }
 .createform .or .fieldset:last-child:before{
 	content: 'or';
