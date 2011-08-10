@@ -32,7 +32,8 @@
         </span>
 	</div>
 	<span id="threadnumber-description">simultaneously running workunit allowed</span>
-	<img id="terminalpanel-button" onclick="select('.panel', '#logpanel', true, '#mainpanel')" src="img/terminal.png" />
+	<img id="terminalpanel-button" src="img/terminal.png"
+         onclick="$('.panel').toggleClass('active');$(this).toggleClass('active')" />
 </div>
 
 <div class="panel log log-main" id="logpanel">
@@ -104,39 +105,6 @@
 	</script>
 </div>
 </div>
-
-<script type="text/javascript">
-var select = function(set, select, unselect, defaultSelect)
-{
-	//console.log(select);
-	set = $(set);
-	var target = set.filter(select);
-	if (unselect === true && target.hasClass('active'))
-	{
-		target.removeClass('active');
-		if (typeof(defaultSelect) != 'undefined')
-		{
-			set.filter(defaultSelect).addClass('active');
-		}
-		return;
-	}
-	set.filter('.active').removeClass('active');
-	target.addClass('active');
-}
-
-var togglePanel = function(panelId)
-{
-	var selected = $('.panel').filter('.active')[0];
-	$('.panel').filter('.active').removeClass('active');
-	if (selected.getAttribute('id') === panelId)
-	{
-		$('#mainpanel').addClass('active');
-	} else {
-		$('#' + panelId).addClass('active');
-	}
-}
-
-</script>
 
 <script type="text/javascript" src="js/viewmodel.js"></script>
 <script type="text/javascript" src="js/boincdev.js"></script>

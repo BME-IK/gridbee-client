@@ -249,7 +249,12 @@ img.rotating
 	float: right;
 	height: 2.6em;
 	margin: 0.2em 1.5em;
+	padding: 0.1em;
+	border-radius: 0.5em;
 	cursor:pointer;
+}
+#terminalpanel-button.active {
+	background-color: white;
 }
 
 #newworksource {
