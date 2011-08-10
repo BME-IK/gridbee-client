@@ -1,147 +1,147 @@
 body {
-	margin: 0em;
-	padding: 0em;
-	height: 100%;
-	font-family: Helvetica, tahoma, Arial, sans-serif;
-	background-color: white;
+  margin: 0em;
+  padding: 0em;
+  height: 100%;
+  font-family: Helvetica, tahoma, Arial, sans-serif;
+  background-color: white;
 }
 
 a {
-	text-decoration: underline;
-	color: #444;
+  text-decoration: underline;
+  color: #444;
 }
 
 #top {
-	position: fixed;
-	top: 0em;
-	width: 100%;
-	height: 3em;
-	z-index: 10;
-	background-color: #214478; /* rgba(103,110,120,1); /*rgba(78,163,67,0.85);*/
-	color: white;
+  position: fixed;
+  top: 0em;
+  width: 100%;
+  height: 3em;
+  z-index: 10;
+  background-color: #214478; /* rgba(103,110,120,1); /*rgba(78,163,67,0.85);*/
+  color: white;
 }
 
 .panel {
-	position: absolute;
-	top: 3em;
-	bottom: 0em;
-	left: 0em;
-	right: 0em;
-	display: none;
-	overflow-y: scroll;	
+  position: absolute;
+  top: 3em;
+  bottom: 0em;
+  left: 0em;
+  right: 0em;
+  display: none;
+  overflow-y: scroll;  
 }
 
 #mainpanel {
-	overflow-y: scroll;	
+  overflow-y: scroll;  
 }
 
 .worksource {
-	position: relative;
-	margin: 1em 4em;
-	padding: 1em;
-	#border: 1em solid #CCC;
-	border-radius: 1em;
-	background-color: rgba(0,0,0,0.1);
+  position: relative;
+  margin: 1em 4em;
+  padding: 1em;
+  #border: 1em solid #CCC;
+  border-radius: 1em;
+  background-color: rgba(0,0,0,0.1);
 }
 .worksource h3 {
-	margin: 0.5em 0em 0.5em;
+  margin: 0.5em 0em 0.5em;
 }
 .step {
-	margin: 2em 0em;
-	padding: 0em 1em;
-	border-left: 4px solid green;
-	display: none;
+  margin: 2em 0em;
+  padding: 0em 1em;
+  border-left: 4px solid green;
+  display: none;
 }
 .wizard {
-	display: none;
+  display: none;
 }
 .enabled + .wizard {
-	display: block;
+  display: block;
 }
 .workunits {
-	list-style-type: none;
-	margin: 0em;
-	padding: 0em;
-	width: 100%;
+  list-style-type: none;
+  margin: 0em;
+  padding: 0em;
+  width: 100%;
 }
 
 .workunit {
-	margin: 1em 0em;
-	padding: 1em;
-	display: block;
-	border-radius: 0.9em;
-	background-color: rgb(95,136,163); -rgb(103,163,95);
-	overflow : auto;
+  margin: 1em 0em;
+  padding: 1em;
+  display: block;
+  border-radius: 0.9em;
+  background-color: rgb(95,136,163); -rgb(103,163,95);
+  overflow : auto;
 }
 
 .workunit .state {
-	float: left;
-	padding: 0.85em 0em 0.6em;
+  float: left;
+  padding: 0.85em 0em 0.6em;
 }
 .workunit .terminal-icon {
-	float: right;
-	height: 2.6em;
-	margin: 0.05em;
-	cursor: pointer;
+  float: right;
+  height: 2.6em;
+  margin: 0.05em;
+  cursor: pointer;
 }
 .log {
-	font-size: 1em;
-	clear: both;
-	padding: 1em;
-	border: 0em;
-	background-color: rgba(41,41,41,0.95);
-	color: #CCC;
-	font-family: Courier;
-	overflow: auto;
+  font-size: 1em;
+  clear: both;
+  padding: 1em;
+  border: 0em;
+  background-color: rgba(41,41,41,0.95);
+  color: #CCC;
+  font-family: Courier;
+  overflow: auto;
 }
 .workunit-log {
-	width: 100%;
-	min-width: 100%;
-	max-width: 100%;
-	height: 15em;
-	margin: 1em -1em -1em;	
-	border-radius: 0.9em;
-	border-top-left-radius: 0em;
-	border-top-right-radius: 0em;
-	resize: vertical;
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: 15em;
+  margin: 1em -1em -1em;  
+  border-radius: 0.9em;
+  border-top-left-radius: 0em;
+  border-top-right-radius: 0em;
+  resize: vertical;
 }
 .settingsbutton {
-	position: absolute;
-	top: 1em;
-	right: 2em;
-	width: 2.6em;
-	cursor: pointer;
+  position: absolute;
+  top: 1em;
+  right: 2em;
+  width: 2.6em;
+  cursor: pointer;
 }
 .settings {
-	margin: 1em 0em 0em;
-	padding: 1em;
-	border-radius: 13px;
-	background-color: rgb(143,175,186);
+  margin: 1em 0em 0em;
+  padding: 1em;
+  border-radius: 13px;
+  background-color: rgb(143,175,186);
 }
 .settings p {
-	margin: 0em;
+  margin: 0em;
 }
 .settings p ~ p {
-	margin: 0.8em 0em 0em;
+  margin: 0.8em 0em 0em;
 }
 .meter {
-	height: 2em;
-	margin-left: 8em;
-	margin-right: 3em;
-	position: relative;
-	background: rgba(31,31,31,0.26);
-	border-radius: 1em;
-	padding: 0.35em;
-	transition: all 0.5s ease-in-out;
+  height: 2em;
+  margin-left: 8em;
+  margin-right: 3em;
+  position: relative;
+  background: rgba(31,31,31,0.26);
+  border-radius: 1em;
+  padding: 0.35em;
+  transition: all 0.5s ease-in-out;
 }
 
 .meter > span {
-	display: block;
-	height: 100%;
-	border-radius: 0.8em;
-	background-color: rgba(41,41,41,0.95);
-	position: relative;
-	overflow: hidden;
+  display: block;
+  height: 100%;
+  border-radius: 0.8em;
+  background-color: rgba(41,41,41,0.95);
+  position: relative;
+  overflow: hidden;
 }
 
 @-webkit-keyframes rotate {
@@ -162,56 +162,56 @@ img.rotating
 }
 
 #appname {
-	float: left;
-	display: block;
-	font-size: 2.65em;
-	margin: 0em 0.3em 0em 0em;
+  float: left;
+  display: block;
+  font-size: 2.65em;
+  margin: 0em 0.3em 0em 0em;
 }
 #appdescription {
-	float: left;
-	display: block;
-	width: 10em;
-	margin: 0.3em 0em;
+  float: left;
+  display: block;
+  width: 10em;
+  margin: 0.3em 0em;
 }
 
 #runcontrol {
-	display: block;
-	float: left;
-	height: 2.5em;
-	margin: 0.25em 0.5em 0.25em 7em;
-	width: 2.5em;
-	position: relative;
-	text-align: center;
-	background-color: rgba(0,0,0,0.2);
-	border-radius: 0.8em;
-	margin-right: 0.5em;
-	cursor: pointer;
+  display: block;
+  float: left;
+  height: 2.5em;
+  margin: 0.25em 0.5em 0.25em 7em;
+  width: 2.5em;
+  position: relative;
+  text-align: center;
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 0.8em;
+  margin-right: 0.5em;
+  cursor: pointer;
 }
 #runcontrol .play {
-	font-size: 1.95em;
-	margin-left: 0.15em;
-	display: none;
+  font-size: 1.95em;
+  margin-left: 0.15em;
+  display: none;
 }
 #runcontrol.stopped .play {
-	display: inline;
+  display: inline;
 }
 #runcontrol .stop {
-	font-size: 1.95em;
-	display: none
+  font-size: 1.95em;
+  display: none
 }
 #runcontrol.running .stop {
-	display: inline;
+  display: inline;
 }
 
 #threadnumber {
-	float: left;
-	text-align: center;
-	height: 2.5em;
-	margin: 0.25em 0.5em 0.25em 0em;
+  float: left;
+  text-align: center;
+  height: 2.5em;
+  margin: 0.25em 0.5em 0.25em 0em;
 }
 #threadnumber .plus {
-	display: inline-block;
-	width: 1em;
+  display: inline-block;
+  width: 1em;
    font-size: 2.05em;
    background-color: rgba(0,0,0,0.2);
    border-bottom-right-radius: 0.4em;
@@ -220,186 +220,186 @@ img.rotating
    cursor: pointer;
 }
 #threadnumber .minus {
-	display: inline-block;
-	margin: 0em;
-	width: 1em;
-	font-size: 2.05em;
-	background-color: rgba(0,0,0,0.2);
-	border-bottom-left-radius: 0.4em;
-	border-top-left-radius: 0.4em;
-	border-right: 0.1em solid rgba(0,0,0,0.22);
-	cursor: pointer;
+  display: inline-block;
+  margin: 0em;
+  width: 1em;
+  font-size: 2.05em;
+  background-color: rgba(0,0,0,0.2);
+  border-bottom-left-radius: 0.4em;
+  border-top-left-radius: 0.4em;
+  border-right: 0.1em solid rgba(0,0,0,0.22);
+  cursor: pointer;
 }
 #threadnumber .number {
-	display: inline-block;
-	font-size: 2.05em;
-	width: 1em;
-	background-color: rgba(0,0,0,0.2);
-	width: 1.5em;
-	cursor:default;
+  display: inline-block;
+  font-size: 2.05em;
+  width: 1em;
+  background-color: rgba(0,0,0,0.2);
+  width: 1.5em;
+  cursor:default;
 }
 #threadnumber-description {
-	float: left;
-	display: block;
-	width: 10em;
-	margin: 0.3em 0em;
+  float: left;
+  display: block;
+  width: 10em;
+  margin: 0.3em 0em;
 }
 
 #terminalpanel-button {
-	float: right;
-	height: 2.6em;
-	margin: 0.2em 1.5em;
-	padding: 0.1em;
-	border-radius: 0.5em;
-	cursor:pointer;
+  float: right;
+  height: 2.6em;
+  margin: 0.2em 1.5em;
+  padding: 0.1em;
+  border-radius: 0.5em;
+  cursor:pointer;
 }
 #terminalpanel-button.active {
-	background-color: white;
+  background-color: white;
 }
 
 #newworksource {
-	overflow: auto;
+  overflow: auto;
 } 
 
 #newworksource.active ul.worksourcetypes {
-	display: -webkit-box;
+  display: -webkit-box;
 }
 
 ul.worksourcetypes {
-	display: none;
-	-webkit-box-pack: start;
-	float: left;
-	list-style-type: none;
-	--width: 9em;
-	padding: 0em;
-	margin: 0em;
-	-webkit-transition: all 1s ease-in-out;
-	width: 10em;
-	overflow: visible;
+  display: none;
+  -webkit-box-pack: start;
+  float: left;
+  list-style-type: none;
+  --width: 9em;
+  padding: 0em;
+  margin: 0em;
+  -webkit-transition: all 1s ease-in-out;
+  width: 10em;
+  overflow: visible;
 }
 
 ul.worksourcetypes li.active {
-	opacity: 1;
-	width: 9em;
-	margin-right: 1.5em;
-	z-index: 1;
+  opacity: 1;
+  width: 9em;
+  margin-right: 1.5em;
+  z-index: 1;
 }
 ul.worksourcetypes li {
-	position: relative;
-	z-index: 0;
-	left: 0em;
-	opacity: 0;
-	width: 0em;
-	display: -webkit-box;
-	-webkit-box-align: center;
-	-webkit-box-pack: center;
-	-webkit-transition: all 0.1s ease-in-out;
-	height: 9em;
-	margin: 0em;
-	padding: 0em;
-	background-color: white;
-	cursor: pointer;
-	border-radius: 0.3em;
-	border: 0.1em solid #CCC;
-	overflow: hidden;
+  position: relative;
+  z-index: 0;
+  left: 0em;
+  opacity: 0;
+  width: 0em;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  -webkit-box-pack: center;
+  -webkit-transition: all 0.1s ease-in-out;
+  height: 9em;
+  margin: 0em;
+  padding: 0em;
+  background-color: white;
+  cursor: pointer;
+  border-radius: 0.3em;
+  border: 0.1em solid #CCC;
+  overflow: hidden;
 }
 ul.worksourcetypes li:first-child {
-	margin-left: 0em;
+  margin-left: 0em;
 }
 ul.worksourcetypes li:hover {
-	-box-shadow:  0 3px 5px rgba(0,0,0,.5);
-	border-color: #999;
+  -box-shadow:  0 3px 5px rgba(0,0,0,.5);
+  border-color: #999;
 }
 ul.worksourcetypes li img {
-	display: block;
-	max-width: 7em;
-	max-height: 7em;
-	margin: 0em;
-	padding: 1em;
+  display: block;
+  max-width: 7em;
+  max-height: 7em;
+  margin: 0em;
+  padding: 1em;
 }
 ul.worksourcetypes li img:after {
-	content: attr(title);
+  content: attr(title);
 }
 
 #newworksource .createform {
-	display: -webkit-box;
-	-webkit-box-orient: vertical;
-	padding: 0em 0.5em;
-	height: 9em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  padding: 0em 0.5em;
+  height: 9em;
 }
 .createform .or .fieldset:last-child:before{
-	content: 'or';
-	display: -webkit-box;
-	font-size: 1.1em;
-	margin: 0.8em;
-	height: 0em;
+  content: 'or';
+  display: -webkit-box;
+  font-size: 1.1em;
+  margin: 0.8em;
+  height: 0em;
 }
 .createform .or  {
-	display: -webkit-box;
-	-webkit-box-orient: horizontal;
-	-webkit-box-flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-flex: 1;
 }
 .createform .fieldset {
-	display: -webkit-box;
-	-webkit-box-orient: horizontal;
-	-webkit-box-flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-flex: 1;
 }
 .createform .fieldset.submit {
-	display: block;
+  display: block;
 }
 .createform .fieldset button {
-	font-size: 1em;
-	height: 2.6em;
-	margin: 0.3em;
+  font-size: 1em;
+  height: 2.6em;
+  margin: 0.3em;
 }
 .createform .submit p {
-	margin: 0em;
-	padding: 0em;
-	float: right;
+  margin: 0em;
+  padding: 0em;
+  float: right;
 }
 .createform label {
-	display: -webkit-box;
-	-webkit-box-align: center;
-	border: 0px solid black;
-	border-bottom-left-radius: 0.5em;
-	border-top-left-radius: 0.5em;
-	margin: 0.3em;
-	margin-right: 0em;
-	padding: 0.3em 0.8em;
-	z-index: 0;
-	font-size: 1em;
-	line-height: 1em;
-	height: 2em;
-	background-color: #BBB;
+  display: -webkit-box;
+  -webkit-box-align: center;
+  border: 0px solid black;
+  border-bottom-left-radius: 0.5em;
+  border-top-left-radius: 0.5em;
+  margin: 0.3em;
+  margin-right: 0em;
+  padding: 0.3em 0.8em;
+  z-index: 0;
+  font-size: 1em;
+  line-height: 1em;
+  height: 2em;
+  background-color: #BBB;
 }
 .createform input {
-	display: -webkit-box;
-	-webkit-box-flex: 1;
-	border: 0px solid black;
-	border-bottom-right-radius: 0.5em;
-	border-top-right-radius: 0.5em;
-	margin: 0.3em;
-	margin-left: 0em;
-	padding: 0.3em 0.8em;
-	z-index: 0;
-	font-size: 1em;
-	line-height: 1em;
-	height: 2em;
+  display: -webkit-box;
+  -webkit-box-flex: 1;
+  border: 0px solid black;
+  border-bottom-right-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+  margin: 0.3em;
+  margin-left: 0em;
+  padding: 0.3em 0.8em;
+  z-index: 0;
+  font-size: 1em;
+  line-height: 1em;
+  height: 2em;
 }
 .createform .submit .error {
-	color: red;
+  color: red;
 }
 .createform input:focus {
-	box-shadow:rgba(0, 72, 166, 0.359375) 0px 0px 5px 1px;
-	outline: none;
+  box-shadow:rgba(0, 72, 166, 0.359375) 0px 0px 5px 1px;
+  outline: none;
 }
 .createform input[disabled] {
-	background-color: #BBB;
+  background-color: #BBB;
 }
 .createform label.enabled {
-	background-color: white;
+  background-color: white;
 }
 .active {
-	display: block;
+  display: block;
 }
 
