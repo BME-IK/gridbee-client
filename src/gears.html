@@ -67,34 +67,23 @@
   </div>
 
 <div id="worksourcelist"
-	 data-bind="template: {name : 'worksource', foreach : worksources}">
-	<script type="text/html" id="worksource">
-	<div class="worksource">
-		<h3 data-bind="text: name"></h3>
-		<img class="settingsbutton" src="img/gear2.svg"
-			 onclick="$(this).siblings('.settings').toggle()" />
-		<div class="settings" style="display:none"
-			 data-bind="template: {name : type + '-settings'}">
-		</div>
-		<ul class="workunits"
-			data-bind="template : {name : 'workunit', foreach : workunits}">
-		</ul>
-	</div>
-	</script>
-	<script type="text/html" id="boinc-settings">
-	</script>
-	<script type="text/html" id="boincdev-settings">
-		<p>
-		  Project name: <span data-bind="text : name"></span>
-		</p>
-		<p>
-		  Project scheduler url:
-		  <a data-bind="text : scheduler, attr : {href : scheduler}"></a>
-		</p>
-		<p>
-		  Authentication key: <span data-bind="text : authkey"></span>
-		</p>
-	</script>
+     data-bind="template: {name : 'worksource', foreach : worksources}">
+  <script type="text/html" id="worksource">
+    <div class="worksource">
+      <h3 data-bind="text: name"></h3>
+
+      <img class="settingsbutton" src="img/gear2.svg"
+           onclick="$(this).siblings('.settings').toggle()" />
+
+      <div class="settings" style="display:none">
+        {{tmpl "#settings-" + type}}
+      </div>
+
+      <ul class="workunits"
+          data-bind="template : {name : 'workunit', foreach : workunits}">
+      </ul>
+    </div>
+  </script>
 	
 	<script type="text/html" id="workunit">
 	<li class="workunit">
@@ -156,6 +145,8 @@ var togglePanel = function(panelId)
 <script type="text/javascript">
   template('worksourcetypes/boincdev/createform.tmpl.html', 'createform-boincdev');
   template('worksourcetypes/boinc/createform.tmpl.html', 'createform-boinc');
+  template('worksourcetypes/boincdev/settings.tmpl.html', 'settings-boincdev');
+  template('worksourcetypes/boinc/settings.tmpl.html', 'settings-boinc');
   template(function(){
     ko.applyBindings(window.viewModel);
   });
