@@ -56,27 +56,3 @@ worksourcetype =
 
 viewModel.worksources.push worksource
 #viewModel.worksourcetypes.boincdev = worksourcetype
-
-( ->
-  readycallback = null
-  toload = 0
-
-  window.template = (param, name) ->
-    if typeof param == 'function'
-      # Register callback function
-      readycallback = param
-
-    else if typeof param == 'string'
-      # Load new template
-      toload += 1
-      $.ajax
-        url : param
-        success : (html) ->
-          $('body').append \
-            "<script type=\"text/html\" id=\"#{name}\"> #{html} </script>"
-
-          toload -= 1
-          if toload == 0 and readycallback != null
-            readycallback()
-            readycallback = null
-)()

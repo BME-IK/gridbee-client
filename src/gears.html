@@ -24,8 +24,8 @@
   <div id="runcontrol" onselectstart="return false;"
        data-bind="click : function() {running(!running());},
                   css : {running : running(), stopped : !running()}">
-       <span class="stop">&#x25FC</span>
-       <span class="play">&#x25B6</span>
+    <span class="stop">&#x25FC</span>
+    <span class="play">&#x25B6</span>
   </div>
 
   <div id="threadnumber" onselectstart="return false;">
@@ -117,11 +117,7 @@
 <script type="text/javascript" src="js/boinc.js"></script>
 
 <script type="text/javascript">
-  template('worksourcetypes/boincdev/createform.tmpl.html', 'createform-boincdev');
-  template('worksourcetypes/boinc/createform.tmpl.html', 'createform-boinc');
-  template('worksourcetypes/boincdev/settings.tmpl.html', 'settings-boincdev');
-  template('worksourcetypes/boinc/settings.tmpl.html', 'settings-boinc');
-  template(function(){
+  $(function(){
     ko.applyBindings(window.viewModel);
   });
 </script>
