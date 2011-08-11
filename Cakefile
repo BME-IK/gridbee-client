@@ -81,3 +81,5 @@ task 'watch', 'Recompile CoffeeScript source files when modified', ->
 
   for name, templatefile of templates
     fs.watchFile templatefile, -> add_templates()
+
+  fs.watchFile 'src/gears.html', -> add_templates()
