@@ -1,6 +1,7 @@
 fs            = require 'fs'
 {print}       = require 'sys'
 {spawn, exec} = require 'child_process'
+less          = require 'less'
 
 # Defined worksources
 worksources = ['boincdev', 'boinc']
@@ -38,6 +39,17 @@ compile_scripts = (callback) ->
   coffee.stderr.on 'data', (data) -> print data.toString()
   coffee.on 'exit', (status) -> callback?() if status is 0
 
+compile_styles = (callback) ->
+  print 'Compiling LESS stylesheets...\n'
+
+  style = (fs.readFileSync 'src/gears.less').toString()
+  less.render style, (error, css) ->
+    if error then return console.error(error)
+    file = fs.openSync 'bin/gears.css', 'w'
+    fs.writeSync file, css, 0
+    fs.closeSync file
+    callback?()
+
 add_templates = () ->
   print 'Adding templates to gears.html...\n'
 
@@ -54,15 +66,18 @@ add_templates = () ->
 
 task 'build', 'Compile CoffeeScript source files', ->
   compile_scripts()
+  compile_styles()
   add_templates()
 
 task 'watch', 'Recompile CoffeeScript source files when modified', ->
   compile_scripts()
+  compile_styles()
   add_templates()
 
   for sourcefile in sourcefiles
     fs.watchFile sourcefile, -> compile_scripts()
 
+  fs.watchFile 'src/gears.less', -> compile_styles()()
+
   for name, templatefile of templates
     fs.watchFile templatefile, -> add_templates()
-
