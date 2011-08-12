@@ -1,13 +1,16 @@
 <div class="fieldset">
 	<label class="enabled">Scheduler url:</label>
-	<input data-bind="value : worksourcetypes.boincdev.parameters.scheduler" />
+	<input data-bind="value : scheduler" />
 </div>
 <div class="fieldset">
 	<label class="enabled">Auth key:</label>
-	<input data-bind="value : worksourcetypes.boincdev.parameters.authkey" />
+	<input data-bind="value : authkey" />
 </div>
 <div class="submit">
-	<button data-bind="enable : worksourcetypes.boincdev.ok">Create</button>
+	<button data-bind="enable : ok,
+                       click : create">
+        Create
+    </button>
 	<p>Lorem ipsum error</p>
 </div>
 

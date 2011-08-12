@@ -83,8 +83,8 @@
         <img class="settingsbutton" src="img/gear2.svg"
              onclick="$(this).siblings('.settings').toggle()" />
 
-        <div class="settings" style="display:none">
-          {{tmpl "#settings-" + type}}
+        <div class="settings" style="display:none"
+             data-bind="template: {name : 'settings-' + type}">
         </div>
 
         <ul class="workunits"
