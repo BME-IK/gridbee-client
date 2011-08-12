@@ -50,27 +50,27 @@
 <div class="panel active" id="mainpanel">
 
   <div id="newworksource" class="worksource active"
-       data-bind="css : {active : worksources().length === 0},
-                  template : {name : 'newworksource-tmpl'}">
-    <script type="text/html" id="newworksource-tmpl">
-      <h3>Add new worksource</h3>
+       data-bind="css : {active : worksources().length === 0}">
+    <h3>Add new worksource</h3>
 
-      <img class="settingsbutton" onclick="$(this).parent().toggleClass('active')" src="img/plus.png" />
+    <img class="settingsbutton" src="img/plus.png"
+         onclick="$('#skeletons').toggle()" />
 
-      <ul class="worksourcetypes">
-        {{each(name, worksourcetype) viewModel.worksourcetypes}}
-        <li class="active worksourcetype worksourcetype-${ name }"
-            onclick="$(this).siblings().toggleClass('active'); $('#createform-${ name }').toggle();">
-          <img title="${ worksourcetype.description }" src="${ worksourcetype.icon }" />
-        </li>
-        {{/each}}
-      </ul>
+    <ul id="skeletons"
+        data-bind="style : {display : worksources().length ? 'none' : undefined}">
+    </ul>
 
-      {{each(name) viewModel.worksourcetypes}}
-      <div id="createform-${ name }" class="createform" style="display: none">
-        {{tmpl "#createform-" + name}}
-      </div>
-      {{/each}}
+    <script type="text/html" id="skeleton">
+      <li id="skeleton-${ type }" class="active skeleton">
+        <img title="${ description }" src="img/${ type }/logo.png"
+             onclick="$(this).parent().toggleClass('selected').siblings().toggleClass('active');
+                      //$(this).siblings('.createform').toggle();"
+             onload="i = $(this); p = (i.innerWidth() - i.height())/2;
+                     i.css('padding-top', p); i.css('padding-bottom', p);"/>
+        <div class="createform" -style="display: none"
+             data-bind="template : {name : 'createform-${ type }', data : skeletons.${ type } }">
+        </div>
+      </li>
     </script>
   </div>
 
