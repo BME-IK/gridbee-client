@@ -80,8 +80,11 @@
       <div class="worksource">
         <h3 data-bind="text: name"></h3>
 
-        <img class="settingsbutton" src="img/gear2.svg"
+        <img class="settingsbutton" src="img/gear2.svg" style="right: 5em"
              onclick="$(this).siblings('.settings').toggle()" />
+
+        <img class="settingsbutton" src="img/close.png"
+             data-bind="click : function(){ living(false); }" />
 
         <div class="settings" style="display:none"
              data-bind="template: {name : 'settings-' + type}">

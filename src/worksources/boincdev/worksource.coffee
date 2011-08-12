@@ -15,8 +15,8 @@ class BoincDev extends Worksource
         @destroy()
 
   create : =>
-    @living true
     @name = ko.observable 'Test'
+    @living true
 
   destroy : =>
     # Destructor
