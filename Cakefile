@@ -77,7 +77,7 @@ task 'watch', 'Recompile CoffeeScript source files when modified', ->
   for sourcefile in sourcefiles
     fs.watchFile sourcefile, -> compile_scripts()
 
-  fs.watchFile 'src/gears.less', -> compile_styles()()
+  fs.watchFile 'src/gears.less', -> compile_styles()
 
   for name, templatefile of templates
     fs.watchFile templatefile, -> add_templates()
