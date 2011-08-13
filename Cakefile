@@ -64,15 +64,27 @@ add_templates = () ->
   fs.writeSync file, html, 0
   fs.closeSync file
 
+copy_images = () ->
+  print 'Copying image files\n'
+
+  copy = (ws) ->
+    (spawn 'mkdir', ['-p', "bin/img/${ws}"]).on 'exit', ->
+      spawn 'sh', ['-c', "cp src/worksources/#{ws}/*.png bin/img/#{ws}/"]
+
+  for worksource in worksources
+    copy worksource
+
 task 'build', 'Compile CoffeeScript source files', ->
   compile_scripts()
   compile_styles()
   add_templates()
+  copy_images()
 
 task 'watch', 'Recompile CoffeeScript source files when modified', ->
   compile_scripts()
   compile_styles()
   add_templates()
+  copy_images()
 
   for sourcefile in sourcefiles
     fs.watchFile sourcefile, -> compile_scripts()
