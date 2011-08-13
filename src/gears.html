@@ -61,14 +61,15 @@
     </ul>
 
     <script type="text/html" id="skeleton">
-      <li id="skeleton-${ type }" class="active skeleton">
+      <li id="skeleton-${ type }" class="{{if type == 'boinc' }}active selected{{/if}} skeleton">
         <img title="${ description }" src="img/${ type }/logo.png"
-             onclick="$(this).parent().toggleClass('selected').siblings().toggleClass('active');
-                      //$(this).siblings('.createform').toggle();"
+             onclick="$(this).parent().toggleClass('selected')
+                             .siblings().toggleClass('active');"
              onload="i = $(this); p = (i.innerWidth() - i.height())/2;
                      i.css('padding-top', p); i.css('padding-bottom', p);"/>
-        <div class="createform" -style="display: none"
-             data-bind="template : {name : 'createform-${ type }', data : skeletons.${ type } }">
+        <div class="createform"
+             data-bind="template : {name : 'createform-${ type }',
+                                    data : skeletons.${ type } }">
         </div>
       </li>
     </script>
