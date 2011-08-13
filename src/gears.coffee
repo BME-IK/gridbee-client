@@ -20,9 +20,13 @@ class Gears
       skeleton = new constructor()
       @skeletons[type] skeleton
       skeleton.living.subscribe (living) =>
-        if living
+        if living is true
+          # The worksource is ready to work
           @worksources.push skeleton
           newinstance()
+        else
+          # The worksource has died
+          @worksources.remove skeleton
 
     newinstance()
 
