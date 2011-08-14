@@ -26,17 +26,19 @@ delayedObservable = (initialValue) ->
 
   observable
 
-temporarilySet = (observable, value, watched) ->
+temporarilySet = (observable, value, towatch) ->
   observable(value)
 
   callback = ->
-    watch.dispose()
+    for w in watches
+      w.dispose()
     observable(null)
 
-  watch = if watched.immediate
-    watched.immediateSubscribe callback
-  else
-    watched.subscribe callback
+  watches = for o in towatch
+    if o.immediate
+      o.immediateSubscribe callback
+    else
+      o.subscribe callback
 
 class Boinc extends BoincDev
   type : 'boinc'
@@ -62,7 +64,7 @@ class Boinc extends BoincDev
         @scheduler schedulers[0]
 
       error : =>
-        temporarilySet @error, 'Invalid project url', @projecturl
+        temporarilySet @error, 'Invalid project url', [@projecturl]
 
   # Get the authkey using WebRPC call 'lookup_account'
   # see http://boinc.berkeley.edu/trac/wiki/WebRpc#lookup_account
@@ -70,7 +72,11 @@ class Boinc extends BoincDev
     if @username().length == 0 or @password().length == 0
       return
 
-    setTimeout ( => @authkey.immediate 'x'), 1000
+    request = @webrpc.lookupAccount(@username(), @password())
+    request.onComplete.subscribe (userInfo) =>
+      @authkey.immediate userInfo.Auth
+    request.onError.subscribe (error) =>
+      temporarilySet @error, 'Invalid username and/or password', [@username, @password] unless @ok()
 
   # Check if the authkey is OK using WebRPC call 'am_get_info'
   # see http://boinc.berkeley.edu/trac/wiki/WebRpc#am_get_info
@@ -79,10 +85,12 @@ class Boinc extends BoincDev
       @ok false
       return
 
-    setTimeout ( =>
-      @ok (@authkey() == 'x')
-      temporarilySet @error, 'Bad authkey', @authkey unless @ok()
-    ), 1000
+    request = @webrpc.getAccountInfo(@authkey())
+    request.onComplete.subscribe (accInfo) =>
+      @ok true
+    request.onError.subscribe (error) =>
+      @ok false
+      temporarilySet @error, 'Invalid authkey', [@authkey] unless @ok()
 
   constructor : ->
     super()
@@ -112,6 +120,10 @@ class Boinc extends BoincDev
     @username.subscribe @getAuthkey
     @password.subscribe @getAuthkey
     @authkey.subscribe @checkAuthkey
+
+    @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
+    @projecturl.subscribe =>
+      @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
 
 
 Worksource.prototype.register(Boinc)
