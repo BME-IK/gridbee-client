@@ -125,5 +125,7 @@ class Boinc extends BoincDev
     @projecturl.subscribe =>
       @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
 
+    # Check the default values
+    @checkAuthkey()
 
 Worksource.prototype.register(Boinc)
