@@ -1,3 +1,53 @@
+// Mixins for properties needing vendor specific prefixes
+.display-box {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+}
+
+.box-flex (@value) {
+  -webkit-box-flex: @value;
+  -moz-box-flex: @value;
+  -ms-box-flex: @value;
+  -o-box-flex: @value;
+  box-flex: @value;  
+}
+
+.box-orient (@value) {
+  -webkit-box-orient: @value;
+  -moz-box-orient: @value;
+  -ms-box-orient: @value;
+  -o-box-orient: @value;
+  box-orient: @value;  
+}
+
+.box-align (@value) {
+  -webkit-box-align: @value;
+  -moz-box-align: @value;
+  -ms-box-align: @value;
+  -o-box-align: @value;
+  box-align: @value;  
+}
+
+.box-pack (@value) {
+  -webkit-box-pack: @value;
+  -moz-box-pack: @value;
+  -ms-box-pack: @value;
+  -o-box-pack: @value;
+  box-pack: @value;  
+}
+
+.box-sizing (@value) {
+  -webkit-box-sizing: @value;
+  -moz-box-sizing: @value;
+  -ms-box-sizing: @value;
+  -o-box-sizing: @value;
+  box-sizing: @value;  
+}
+
+// Rules
 body {
   margin: 0em;
   padding: 0em;
@@ -240,7 +290,7 @@ img.rotating
 #threadnumber-description {
   float: left;
   display: block;
-  width: 10em;
+  width: 12em;
   margin: 0.3em 0em;
 }
 
@@ -261,77 +311,74 @@ img.rotating
 } 
 
 #skeletons {
-  display: block;
-  overflow-y: auto;
-  overflow-x: hidden;
+  .display-box;
+  .box-orient(horizontal);
+  width: 100%;
+  height: 9em;
+  overflow: hidden;
   list-style-type: none;
   padding: 0em;
   margin: 0em;
   li {
-    display: block;
-    float: left;
-    --webkit-transition: all 1s ease-in-out;
-    margin-left: -2px;
-    -width: 10em;
+    .box-flex(0.001);
+    .display-box;
+    .box-orient(horizontal);
     &.active {
+      .box-flex(0);
       margin-left: 0px;
-      img {
-        opacity: 1;
-        visibility: visible;
-        margin-right: 1.5em;
+      .logo {
+        display: table-cell;
       }
     }
     &.selected {
-      width: 100%;
+      .box-flex(1);
       .createform {
-        visibility: visible;
-        opacity: 1;
-        margin-right: 0em;
+        .display-box;
       }
     }
     .createform {
-      width: auto;
+      display: none;
+      .box-orient(vertical);
+      .box-flex(1);
       height: 9em;
       margin: 0em;
       padding: 0em 0.5em;
-
-      opacity: 0;
-      visibility: hidden;
-      margin-right: -70em;
-      --webkit-transition: all 1s ease-in-out;
+      font-family: Arial;
     }
-    img {
-      float : left;
-      width : 7em;
-      padding : 1em;
+    .logo {
+      display: none;
+      vertical-align: middle;
+      text-align: center;
+      width : 8.9em;
+      height: 8.9em;
+      padding : 0em;
       border-radius: 0.3em;
       border: 0.1em solid #CCC;
       background-color: white;
-
-      margin-right: -9em;
-      opacity: 0;
-      visibility: hidden;
-      --webkit-transition: all 1s ease-in-out;
+      img {
+        max-width: 7em;
+      }
     }
   }
 }
 
 .createform .or .fieldset:last-child:before{
+  .display-box;
   content: 'or';
-  display: -webkit-box;
   font-size: 1.1em;
   margin: 0.8em;
   height: 0em;
 }
 .createform .or  {
-  display: -webkit-box;
-  -webkit-box-orient: horizontal;
-  -webkit-box-flex: 1;
+  .display-box;
+  .box-orient(horizontal);
+  .box-flex(1);
 }
 .createform .fieldset {
-  display: -webkit-box;
-  -webkit-box-orient: horizontal;
-  -webkit-box-flex: 1;
+  .display-box;
+  .box-orient(horizontal);
+  .box-flex(1);
+  padding-bottom: 0.5em;
 }
 .createform .fieldset.submit {
   display: block;
@@ -347,8 +394,9 @@ img.rotating
   float: right;
 }
 .createform label {
-  display: -webkit-box;
-  -webkit-box-align: center;
+  .display-box;
+  .box-orient(horizontal);
+  .box-align(center);
   border: 0px solid black;
   border-bottom-left-radius: 0.5em;
   border-top-left-radius: 0.5em;
@@ -357,13 +405,14 @@ img.rotating
   padding: 0.3em 0.8em;
   z-index: 0;
   font-size: 1em;
-  line-height: 1em;
-  height: 2em;
+  line-height: 2em;
+  -height: 2em;
   background-color: #BBB;
 }
 .createform input {
-  display: -webkit-box;
-  -webkit-box-flex: 1;
+  .display-box;
+  .box-orient(horizontal);
+  .box-flex(1);
   border: 0px solid black;
   border-bottom-right-radius: 0.5em;
   border-top-right-radius: 0.5em;
@@ -372,8 +421,12 @@ img.rotating
   padding: 0.3em 0.8em;
   z-index: 0;
   font-size: 1em;
-  line-height: 1em;
-  height: 2em;
+  line-height: 2em;
+  -height: 2em;
+}
+.createform button {
+  font-size: 1em;
+  font-family: Arial;
 }
 .createform .submit .error {
   color: red;

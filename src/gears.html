@@ -62,11 +62,11 @@
 
     <script type="text/html" id="skeleton">
       <li id="skeleton-${ type }" class="{{if type == 'boinc' }}active selected{{/if}} skeleton">
-        <img title="${ description }" src="img/${ type }/logo.png"
+        <div class="logo"
              onclick="$(this).parent().toggleClass('selected')
-                             .siblings().toggleClass('active');"
-             onload="i = $(this); p = (i.innerWidth() - i.height())/2;
-                     i.css('padding-top', p); i.css('padding-bottom', p);"/>
+                                      .siblings().toggleClass('active');">
+          <img title="${ description }" src="img/${ type }/logo.png">
+        </div>
         <div class="createform"
              data-bind="template : {name : 'createform-${ type }',
                                     data : skeletons.${ type } }">
