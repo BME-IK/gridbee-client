@@ -92,22 +92,42 @@ class Boinc extends BoincDev
       @ok false
       temporarilySet @error, 'Invalid authkey', [@authkey] unless @ok()
 
+  # Get the name of the project
+  getProjectname : =>
+    if @projecturl().length == 0
+      @projectname ''
+
+    request = @webrpc.projectConfiguration()
+    request.onComplete.subscribe (projectInfo) =>
+      @projectname projectInfo.name
+
   constructor : ->
+    # BoincDev's constructor
     super()
 
-    # New user-facing input fields
-    @projecturl = delayedObservable 'http://ui.hpc.iit.bme.hu/wcdemo/'
-    @scheduler = ko.observable 'http://ui.hpc.iit.bme.hu/wcdemo_cgi/cgi'
-    @authkey = delayedObservable '1d0f37563ceb7d1ed372a932dcdb5d85'
+    # User-facing input fields
+    @projecturl = delayedObservable ''
     @username = delayedObservable ''
     @password = delayedObservable ''
+    @authkey = delayedObservable ''
 
-    # Error string
+    # Derived input fields
+    @projectname = ko.observable ''
+    @scheduler = ko.observable ''
+
+    # Default values for the demo project
+    @projecturl 'http://ui.hpc.iit.bme.hu/wcdemo/'
+    @projectname 'Web Computing (demo)'
+    @scheduler 'http://ui.hpc.iit.bme.hu/wcdemo_cgi/cgi'
+    @authkey '1d0f37563ceb7d1ed372a932dcdb5d85'
+
+    # Error field observable, and 'Create button enabled' observable
     @error = ko.observable ''
+    @ok true
 
-    # Create button disabled
-    @ok false
-
+    # UI behavior:
+    # Reset every field if the user changes the project url
+    # Reset authkey if the user changes the password or the username
     @projecturl.immediateSubscribe =>
       @scheduler ''
       @username.immediate ''
@@ -116,16 +136,14 @@ class Boinc extends BoincDev
     @username.immediateSubscribe => @authkey.immediate ''
     @password.immediateSubscribe => @authkey.immediate ''
 
-    @projecturl.subscribe @getSchedulerUrl
+    # WebRPC binding
+    @projecturl.subscribe =>
+      @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
+      @getSchedulerUrl()
+      @getProjectname()
     @username.subscribe @getAuthkey
     @password.subscribe @getAuthkey
     @authkey.subscribe @checkAuthkey
 
-    @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
-    @projecturl.subscribe =>
-      @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
-
-    # Check the default values
-    @checkAuthkey()
 
 Worksource.prototype.register(Boinc)
