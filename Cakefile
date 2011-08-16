@@ -4,7 +4,7 @@ fs            = require 'fs'
 less          = require 'less'
 
 # Defined worksources
-worksources = ['boincdev', 'boinc']
+worksources = ['boinc']
 
 # CoffeeScript source files
 sourcefiles = []

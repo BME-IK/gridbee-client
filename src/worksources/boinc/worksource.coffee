@@ -40,10 +40,60 @@ temporarilySet = (observable, value, towatch) ->
     else
       o.subscribe callback
 
-class Boinc extends BoincDev
+class Boinc extends Worksource
   type : 'boinc'
 
   description : 'BOINC project'
+
+  constructor : ->
+    # Parent constructor
+    super()
+
+    # User-facing input fields
+    @projecturl = delayedObservable ''
+    @username = delayedObservable ''
+    @password = delayedObservable ''
+    @authkey = delayedObservable ''
+
+    # Derived input fields
+    @projectname = ko.observable ''
+    @scheduler = ko.observable ''
+
+    # Default values for the demo project
+    @projecturl 'http://ui.hpc.iit.bme.hu/wcdemo/'
+    @projectname 'Web Computing (demo)'
+    @scheduler 'http://ui.hpc.iit.bme.hu/wcdemo_cgi/cgi'
+    @authkey '1d0f37563ceb7d1ed372a932dcdb5d85'
+
+    # Error field observable, and 'Create button enabled' observable
+    @error = ko.observable ''
+    @ok true
+
+    # UI behavior:
+    # Reset every field if the user changes the project url
+    # Reset authkey if the user changes the password or the username
+    @projecturl.immediateSubscribe =>
+      @scheduler ''
+      @username.immediate ''
+      @password.immediate ''
+      @authkey.immediate ''
+    @username.immediateSubscribe => @authkey.immediate ''
+    @password.immediateSubscribe => @authkey.immediate ''
+
+    # WebRPC binding
+    @projecturl.subscribe =>
+      @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
+      @getSchedulerUrl()
+      @getProjectname()
+    @username.subscribe @getAuthkey
+    @password.subscribe @getAuthkey
+    @authkey.subscribe @checkAuthkey
+
+  create : =>
+    @living true
+    @living.subscribe @destroy
+
+  destroy : =>
 
   # Extract scheduler url from the project's master url
   getSchedulerUrl : =>
@@ -100,50 +150,6 @@ class Boinc extends BoincDev
     request = @webrpc.projectConfiguration()
     request.onComplete.subscribe (projectInfo) =>
       @projectname projectInfo.name
-
-  constructor : ->
-    # BoincDev's constructor
-    super()
-
-    # User-facing input fields
-    @projecturl = delayedObservable ''
-    @username = delayedObservable ''
-    @password = delayedObservable ''
-    @authkey = delayedObservable ''
-
-    # Derived input fields
-    @projectname = ko.observable ''
-    @scheduler = ko.observable ''
-
-    # Default values for the demo project
-    @projecturl 'http://ui.hpc.iit.bme.hu/wcdemo/'
-    @projectname 'Web Computing (demo)'
-    @scheduler 'http://ui.hpc.iit.bme.hu/wcdemo_cgi/cgi'
-    @authkey '1d0f37563ceb7d1ed372a932dcdb5d85'
-
-    # Error field observable, and 'Create button enabled' observable
-    @error = ko.observable ''
-    @ok true
-
-    # UI behavior:
-    # Reset every field if the user changes the project url
-    # Reset authkey if the user changes the password or the username
-    @projecturl.immediateSubscribe =>
-      @scheduler ''
-      @username.immediate ''
-      @password.immediate ''
-      @authkey.immediate ''
-    @username.immediateSubscribe => @authkey.immediate ''
-    @password.immediateSubscribe => @authkey.immediate ''
-
-    # WebRPC binding
-    @projecturl.subscribe =>
-      @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
-      @getSchedulerUrl()
-      @getProjectname()
-    @username.subscribe @getAuthkey
-    @password.subscribe @getAuthkey
-    @authkey.subscribe @checkAuthkey
 
 
 Worksource.prototype.register(Boinc)
