@@ -103,14 +103,14 @@
              onclick="$(this).siblings('.log').toggle()"/>
 
         <span class="state"
-              data-bind="text : state">
+              data-bind="text : status">
         </span>
 
         <div class="meter">
-          <span style="width : 50%"></span>
+          <span data-bind="style : {width : progress()*100 + '%'}">
         </div>
 
-        <div class="workunit-log log log-${ workunit.name }" style="display:none">
+        <div class="workunit-log log log-workunit-${ workunit.id }" style="display:none">
         </div>
       </li>
     </script>
