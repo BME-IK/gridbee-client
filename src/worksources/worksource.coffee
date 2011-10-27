@@ -17,12 +17,17 @@ class Worksource
   # It will be set back to false when the user deletes the worksource
   living : ko.observable false
 
-  constructor : ->
+  # The framework worksource object
+  worksource : undefined
+
+  constructor : (@worksource) ->
     # Hiding @types, and @register from the derived class
     @types = undefined
     @register = undefined
 
     # Initializing a new instance of observable variables
+    @ok = ko.observable false
+    @error = ko.observable null
     @name = ko.observable null
     @workunits = ko.observableArray []
     @living = ko.observable false

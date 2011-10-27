@@ -45,9 +45,9 @@ class Boinc extends Worksource
 
   description : 'BOINC project'
 
-  constructor : ->
+  constructor : (@client, @worksource) ->
     # Parent constructor
-    super()
+    super(@worksource)
 
     # User-facing input fields
     @projecturl = delayedObservable ''
@@ -59,14 +59,38 @@ class Boinc extends Worksource
     @projectname = ko.observable ''
     @scheduler = ko.observable ''
 
-    # Default values for the demo project
-    @projecturl 'http://ui.hpc.iit.bme.hu/wcdemo/'
-    @projectname 'Web Computing (demo)'
-    @scheduler 'http://ui.hpc.iit.bme.hu/wcdemo_cgi/cgi'
-    @authkey '1d0f37563ceb7d1ed372a932dcdb5d85'
+    # If there is a worksource, then it is living, else it is a skeleton
+    @living(@worksource?)
 
-    # Error field observable, and 'Create button enabled' observable
-    @error = ko.observable ''
+    # Call destroy or create if the 'living' observable changes
+    @living.subscribe (living) =>
+      if living then @create() else @destroy()
+
+    if @worksource?
+      # Load properties from the passed worksource
+      @name (@worksource.projectname ? @worksource.getSchedulerUrl())
+      @projectname @name()
+      @projecturl @worksource.projecturl
+      @scheduler @worksource.getSchedulerUrl()
+      @authkey @worksource.getAuthkey()
+
+      # Load the workunits of the passed worksource
+      for workunit in @worksource.getWorkUnits()
+        @workunits.push new BoincWorkunit(workunit)
+
+      # And watch for the changes
+      @watchWorkunits()
+
+      return
+
+    # Set the default values for the skeleton
+    @name 'Bvp6 demo'
+    @projectname @name()
+    @projecturl 'http://bvp6.hpc.iit.bme.hu/w2g'
+    @scheduler 'http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi'
+    @authkey '2962b0b8970c4ca693d953da648724cd'
+
+    # Enable 'Create button' for the default values
     @ok true
 
     # UI behavior:
@@ -89,11 +113,27 @@ class Boinc extends Worksource
     @password.subscribe @getAuthkey
     @authkey.subscribe @checkAuthkey
 
+  # Create a workunit instance in the model
   create : =>
-    @living true
-    @living.subscribe @destroy
+    BoincWorkSource = web2grid.worksource.boinc.BoincWorkSource
+    @worksource = new BoincWorkSource(@scheduler(), @authkey())
+    @client.addWorksource @worksource
 
+    @watchWorkunits()
+
+  # Distroy the workunit instance in the model
   destroy : =>
+    @client.removeWorksource @worksource
+
+  # Watch new workunits, and workunit removals
+  watchWorkunits : =>
+    @worksource.onAddWorkunit.subscribe (addedWorkunit) =>
+      @workunits.push new BoincWorkunit(addedWorkunit)
+
+    @worksource.onRemoveWorkunit.subscribe (removedWorkunit) =>
+      for candidate in @workunits()
+        if candidate.workunit == removedWorkunit
+          @workunits.remove candidate
 
   # Extract scheduler url from the project's master url
   getSchedulerUrl : =>
