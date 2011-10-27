@@ -62,10 +62,6 @@ class Boinc extends Worksource
     # If there is a worksource, then it is living, else it is a skeleton
     @living(@worksource?)
 
-    # Call destroy or create if the 'living' observable changes
-    @living.subscribe (living) =>
-      if living then @create() else @destroy()
-
     if @worksource?
       # Load properties from the passed worksource
       @name (@worksource.projectname ? @worksource.getSchedulerUrl())
@@ -117,13 +113,9 @@ class Boinc extends Worksource
   create : =>
     BoincWorkSource = web2grid.worksource.boinc.BoincWorkSource
     @worksource = new BoincWorkSource(@scheduler(), @authkey())
-    @client.addWorksource @worksource
-
     @watchWorkunits()
 
-  # Distroy the workunit instance in the model
-  destroy : =>
-    @client.removeWorksource @worksource
+    @living true
 
   # Watch new workunits, and workunit removals
   watchWorkunits : =>
