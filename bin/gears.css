@@ -1,0 +1,480 @@
+.display-box {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+}
+body {
+  margin: 0em;
+  padding: 0em;
+  height: 100%;
+  font-family: Helvetica, tahoma, Arial, sans-serif;
+  background-color: white;
+}
+a {
+  text-decoration: underline;
+  color: #444;
+}
+#top {
+  position: fixed;
+  top: 0em;
+  width: 100%;
+  height: 3em;
+  z-index: 10;
+  background-color: #214478;
+  /* rgba(103,110,120,1); /*rgba(78,163,67,0.85);*/
+
+  color: white;
+}
+.panel {
+  position: absolute;
+  top: 3em;
+  bottom: 0em;
+  left: 0em;
+  right: 0em;
+  display: none;
+  overflow-y: scroll;
+}
+#mainpanel {
+  overflow-y: scroll;
+}
+.worksource {
+  position: relative;
+  margin: 1em 4em;
+  padding: 1em;
+  border-radius: 1em;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.worksource h3 {
+  margin: 0.5em 0em 0.5em;
+}
+.step {
+  margin: 2em 0em;
+  padding: 0em 1em;
+  border-left: 4px solid green;
+  display: none;
+}
+.wizard {
+  display: none;
+}
+.enabled + .wizard {
+  display: block;
+}
+.workunits {
+  list-style-type: none;
+  margin: 0em;
+  padding: 0em;
+  width: 100%;
+}
+.workunit {
+  margin: 1em 0em;
+  padding: 1em;
+  display: block;
+  border-radius: 0.9em;
+  background-color: #5f88a3;
+  overflow: auto;
+}
+.workunit .state {
+  float: left;
+  padding: 0.85em 0em 0.6em;
+}
+.workunit .terminal-icon {
+  float: right;
+  height: 2.6em;
+  margin: 0.05em;
+  cursor: pointer;
+}
+.log {
+  font-size: 1em;
+  clear: both;
+  padding: 1em;
+  border: 0em;
+  background-color: rgba(41, 41, 41, 0.95);
+  color: #CCC;
+  font-family: Courier;
+  overflow: auto;
+}
+.workunit-log {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: 15em;
+  margin: 1em -1em -1em;
+  border-radius: 0.9em;
+  border-top-left-radius: 0em;
+  border-top-right-radius: 0em;
+  resize: vertical;
+}
+.settingsbutton {
+  position: absolute;
+  top: 1em;
+  right: 2em;
+  width: 2.6em;
+  cursor: pointer;
+}
+.settings {
+  margin: 1em 0em 0em;
+  padding: 1em;
+  border-radius: 13px;
+  background-color: #8fafba;
+}
+.settings p {
+  margin: 0em;
+}
+.settings p ~ p {
+  margin: 0.8em 0em 0em;
+}
+.meter {
+  height: 2em;
+  margin-left: 8em;
+  margin-right: 3em;
+  position: relative;
+  background: rgba(31, 31, 31, 0.26);
+  border-radius: 1em;
+  padding: 0.35em;
+  transition: all 0.5s ease-in-out;
+}
+.meter > span {
+  display: block;
+  height: 100%;
+  border-radius: 0.8em;
+  background-color: rgba(41, 41, 41, 0.95);
+  position: relative;
+  overflow: hidden;
+}
+@-webkit-keyframes rotate {
+  from {
+    -webkit-transform: rotate(0deg);
+  }
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+img.rotating {
+  -webkit-animation-name: rotate;
+  -webkit-animation-duration: 3s;
+  -webkit-animation-iteration-count: infinite;
+  -webkit-animation-timing-function: linear;
+  --webkit-animation-fill-mode: forwards;
+}
+#appname {
+  float: left;
+  display: block;
+  font-size: 2.65em;
+  margin: 0em 0.3em 0em 0em;
+}
+#appdescription {
+  float: left;
+  display: block;
+  width: 10em;
+  margin: 0.3em 0em;
+}
+#runcontrol {
+  display: block;
+  float: left;
+  height: 2.5em;
+  margin: 0.25em 0.5em 0.25em 7em;
+  width: 2.5em;
+  position: relative;
+  text-align: center;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 0.8em;
+  margin-right: 0.5em;
+  cursor: pointer;
+}
+#runcontrol .play {
+  font-size: 1.95em;
+  margin-left: 0.15em;
+  display: none;
+}
+#runcontrol.stopped .play {
+  display: inline;
+}
+#runcontrol .stop {
+  font-size: 1.95em;
+  display: none;
+}
+#runcontrol.running .stop {
+  display: inline;
+}
+#threadnumber {
+  float: left;
+  text-align: center;
+  height: 2.5em;
+  margin: 0.25em 0.5em 0.25em 0em;
+}
+#threadnumber .plus {
+  display: inline-block;
+  width: 1em;
+  font-size: 2.05em;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom-right-radius: 0.4em;
+  border-top-right-radius: 0.4em;
+  border-left: 0.1em solid rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+#threadnumber .minus {
+  display: inline-block;
+  margin: 0em;
+  width: 1em;
+  font-size: 2.05em;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-bottom-left-radius: 0.4em;
+  border-top-left-radius: 0.4em;
+  border-right: 0.1em solid rgba(0, 0, 0, 0.22);
+  cursor: pointer;
+}
+#threadnumber .number {
+  display: inline-block;
+  font-size: 2.05em;
+  width: 1em;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 1.5em;
+  cursor: default;
+}
+#threadnumber-description {
+  float: left;
+  display: block;
+  width: 12em;
+  margin: 0.3em 0em;
+}
+#terminalpanel-button {
+  float: right;
+  height: 2.6em;
+  margin: 0.2em 1.5em;
+  padding: 0.1em;
+  border-radius: 0.5em;
+  cursor: pointer;
+}
+#terminalpanel-button.active {
+  background-color: white;
+}
+#newworksource {
+  overflow: auto;
+}
+#skeletons {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  box-orient: horizontal;
+  width: 100%;
+  height: 9em;
+  overflow: hidden;
+  list-style-type: none;
+  padding: 0em;
+  margin: 0em;
+}
+#skeletons li {
+  -webkit-box-flex: 0.001;
+  -moz-box-flex: 0.001;
+  -ms-box-flex: 0.001;
+  -o-box-flex: 0.001;
+  box-flex: 0.001;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  box-orient: horizontal;
+}
+#skeletons li.active {
+  -webkit-box-flex: 0;
+  -moz-box-flex: 0;
+  -ms-box-flex: 0;
+  -o-box-flex: 0;
+  box-flex: 0;
+  margin-left: 0px;
+}
+#skeletons li.active .logo {
+  display: table-cell;
+}
+#skeletons li.selected {
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+}
+#skeletons li.selected .createform {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+}
+#skeletons li .createform {
+  display: none;
+  -webkit-box-orient: vertical;
+  -moz-box-orient: vertical;
+  -ms-box-orient: vertical;
+  -o-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  height: 9em;
+  margin: 0em;
+  padding: 0em 0.5em;
+  font-family: Arial;
+}
+#skeletons li .logo {
+  display: none;
+  vertical-align: middle;
+  text-align: center;
+  width: 8.9em;
+  height: 8.9em;
+  padding: 0em;
+  border-radius: 0.3em;
+  border: 0.1em solid #CCC;
+  background-color: white;
+}
+#skeletons li .logo img {
+  max-width: 7em;
+}
+.createform .or .fieldset:last-child:before {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  content: 'or';
+  font-size: 1.1em;
+  margin: 0.8em;
+  height: 0em;
+}
+.createform .or {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+}
+.createform .fieldset {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  padding-bottom: 0.5em;
+}
+.createform .fieldset.submit {
+  display: block;
+}
+.createform .fieldset button {
+  font-size: 1em;
+  height: 2.6em;
+  margin: 0.3em;
+}
+.createform .submit p {
+  margin: 0em;
+  padding: 0em;
+  float: right;
+}
+.createform label {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-align: center;
+  -moz-box-align: center;
+  -ms-box-align: center;
+  -o-box-align: center;
+  box-align: center;
+  border: 0px solid black;
+  border-bottom-left-radius: 0.5em;
+  border-top-left-radius: 0.5em;
+  margin: 0.3em;
+  margin-right: 0em;
+  padding: 0.3em 0.8em;
+  z-index: 0;
+  font-size: 1em;
+  line-height: 2em;
+  -height: 2em;
+  background-color: #BBB;
+}
+.createform input {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  border: 0px solid black;
+  border-bottom-right-radius: 0.5em;
+  border-top-right-radius: 0.5em;
+  margin: 0.3em;
+  margin-left: 0em;
+  padding: 0.3em 0.8em;
+  z-index: 0;
+  font-size: 1em;
+  line-height: 2em;
+  -height: 2em;
+}
+.createform button {
+  font-size: 1em;
+  font-family: Arial;
+}
+.createform .submit .error {
+  color: red;
+}
+.createform input:focus {
+  box-shadow: rgba(0, 72, 166, 0.359375) 0px 0px 5px 1px;
+  outline: none;
+}
+.createform input[disabled] {
+  background-color: #BBB;
+}
+.createform label.enabled {
+  background-color: white;
+}
+.active {
+  display: block;
+}

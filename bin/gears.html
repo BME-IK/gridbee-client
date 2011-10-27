@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="utf-8">
+
+<title>Web Computing</title>
+
+<script type="text/javascript" src="lib/jquery.js"></script>
+<script type="text/javascript" src="lib/jquery.tmpl.js"></script>
+<script type="text/javascript" src="lib/knockout.js"></script>
+<script type="text/javascript" src="lib/framework.js"></script>
+<script type="text/javascript" src="gears.js"></script>
+
+<link rel="stylesheet" type="text/css" href="gears.css" />
+
+</head>
+<body>
+
+<div id="top">
+  <img src="img/gear1-bw.svg" style="float: left; height: 2.3em; margin: 0.35em;"
+       data-bind="css : {rotating : running}"/>
+  <span id="appname">GEARS</span>
+  <span id="appdescription">the WebComputing grid client</span>
+
+  <div id="runcontrol" onselectstart="return false;"
+       data-bind="click : function() {running(!running());},
+                  css : {running : running(), stopped : !running()}">
+    <span class="stop">&#x25FC</span>
+    <span class="play">&#x25B6</span>
+  </div>
+
+  <div id="threadnumber" onselectstart="return false;">
+    <span class="minus" data-bind="click : function() {if (threads() > 1) threads(threads() - 1)}">
+      -
+    </span><span class="number" data-bind="text : threads">
+    </span><span class="plus" data-bind="click : function() {threads(threads() + 1)}">
+      +
+    </span>
+  </div>
+  <span id="threadnumber-description">simultaneously running workunit allowed</span>
+
+  <img id="terminalpanel-button" src="img/terminal.png"
+       onclick="$('.panel').toggleClass('active');$(this).toggleClass('active')" />
+</div>
+
+<div class="panel log log-main" id="logpanel">
+</div>
+
+<div class="panel active" id="mainpanel">
+
+  <div id="newworksource" class="worksource active"
+       data-bind="css : {active : worksources().length === 0}">
+    <h3>Add new worksource</h3>
+
+    <img class="settingsbutton" src="img/plus.png"
+         onclick="$('#skeletons').toggle()" />
+
+    <ul id="skeletons"
+        data-bind="style : {display : worksources().length ? 'none' : undefined}">
+    </ul>
+
+    <script type="text/html" id="skeleton">
+      <li id="skeleton-${ type }" class="{{if type == 'boinc' }}active selected{{/if}} skeleton">
+        <div class="logo"
+             onclick="$(this).parent().toggleClass('selected')
+                                      .siblings().toggleClass('active');">
+          <img title="${ description }" src="img/${ type }/logo.png">
+        </div>
+        <div class="createform"
+             data-bind="template : {name : 'createform-${ type }',
+                                    data : skeletons.${ type } }">
+        </div>
+      </li>
+    </script>
+  </div>
+
+  <div id="worksourcelist"
+       data-bind="template: {name : 'worksource', foreach : worksources}">
+    <script type="text/html" id="worksource">
+      <div class="worksource">
+        <h3 data-bind="text: name"></h3>
+
+        <img class="settingsbutton" src="img/gear2.svg" style="right: 5em"
+             onclick="$(this).siblings('.settings').toggle()" />
+
+        <img class="settingsbutton" src="img/close.png"
+             data-bind="click : function(){ living(false); }" />
+
+        <div class="settings" style="display:none"
+             data-bind="template: {name : 'settings-' + type}">
+        </div>
+
+        <ul class="workunits"
+            data-bind="template : {name : 'workunit', foreach : workunits}">
+        </ul>
+      </div>
+    </script>
+
+    <script type="text/html" id="workunit">
+      <li class="workunit">
+        <img class="terminal-icon" src="img/terminal.png"
+             onclick="$(this).siblings('.log').toggle()"/>
+
+        <span class="state"
+              data-bind="text : status">
+        </span>
+
+        <div class="meter">
+          <span data-bind="style : {width : progress()*100 + '%'}">
+        </div>
+
+        <div class="workunit-log log log-workunit-${ workunit.id }" style="display:none">
+        </div>
+      </li>
+    </script>
+  </div>
+</div>
+
+<script type="text/html" id="settings-boinc">
+<p>
+  Project name: <span data-bind="text : projectname"></span>
+</p>
+<p>
+  Project url:
+  <a data-bind="text : projecturl, attr : {href : projecturl}"></a>
+</p>
+<p>
+  Authentication key: <span data-bind="text : authkey"></span>
+</p>
+</script>
+
+<script type="text/html" id="createform-boinc">
+<div class="fieldset">
+  <label class="enabled">Project url:</label>
+  <input data-bind="value : projecturl,
+                    valueUpdate: 'keyup'" />
+</div>
+<div class="or">
+  <div class="fieldset">
+    <label data-bind="css : {enabled : scheduler().length != 0}">
+      Login name:
+    </label>
+    <input data-bind="enable : scheduler().length != 0,
+                      value : username,
+                      valueUpdate: 'keyup'"/>
+    <label data-bind="css : {enabled : scheduler().length != 0}">
+      Password:
+    </label>
+    <input data-bind="enable : scheduler().length != 0,
+                      value : password,
+                      valueUpdate: 'keyup'" />
+  </div>
+  <div class="fieldset">
+    <label data-bind="css : {enabled : scheduler().length != 0 &&
+                                       username().length == 0 &&
+                                       password().length == 0}">
+      Authkey:
+    </label>
+    <input data-bind="enable : scheduler().length != 0 &&
+                               username().length == 0 &&
+                               password().length == 0,
+                      value : authkey,
+                      valueUpdate: 'keyup'" />
+  </div>
+</div>
+<div class="submit">
+  <button data-bind="enable : ok,
+                     click : create">
+    Create
+  </button>
+  <p data-bind="html : error" class="error"></p>
+</div>
+</script>
+
+</body>
+</html>
