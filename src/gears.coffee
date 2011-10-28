@@ -11,33 +11,37 @@ class Gears
 
   skeletons : {}
 
-  watch_worksource : (worksource) =>
+  watch_worksource : (worksource, livingCallback, deadCallback) =>
     watch = worksource.living.subscribe (living) =>
       if living is true
         # The worksource was a skeleton and now it is living
         @client.addWorksource worksource.worksource
         @worksources.push worksource
-        newinstance()
+        livingCallback?()
       else
         # The worksource has died
         @client.removeWorksource worksource.worksource
         @worksources.remove worksource
+        deadCallback?()
+
         watch.dispose()
 
 
-  register_skeleton : (constructor) =>
-    type = constructor.prototype.type
-    @skeletons[type] = ko.observable(null)
-
-    # Create a new skeleton instance, and when it becomes
-    # alive push it to the worksource array
-    newinstance = () =>
-      console.log 'Creating new instance for', type
+  register_skeletons : () =>
+    # Create a new skeleton instance. When it becomes alive
+    # push it to the worksource array, and create another skeleton.
+    newskeleton = (type, constructor) =>
       skeleton = new constructor()
       @skeletons[type] skeleton
-      watch_worksource skeleton
 
-    newinstance()
+      @watch_worksource skeleton, (-> newskeleton type, constructor)
+
+    # Iterate through worksource types, and create skeleton for each
+    for constructor in Worksource.prototype.types
+      type = constructor.prototype.type
+      @skeletons[type] = ko.observable(null)
+
+      newskeleton(type, constructor)
 
   start : =>
     for worksource in @client.getWorksources()
@@ -48,7 +52,7 @@ class Gears
 
       @worksources.push worksource
 
-      watch_worksource worksource
+      @watch_worksource worksource
 
     if @running()
       @client.start()
@@ -65,8 +69,7 @@ class Gears
   constructor : (@client) ->
     @client.onLog.subscribe log('main')
 
-    for constructor in Worksource.prototype.types
-      @register_skeleton(constructor)
+    @register_skeletons()
 
 # TODO: Adopt the exportAsHtml style logging
 log = (logname) -> (entry) ->
