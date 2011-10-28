@@ -109,6 +109,7 @@ web2grid.core.work.WorkUnitPool.prototype.startOne = function() {
 web2grid.core.work.WorkUnitPool.prototype.terminateOne = function() {
 	$s.push("web2grid.core.work.WorkUnitPool::terminateOne");
 	var $spos = $s.length;
+	henkolib.log.Console.main.logInformation("terminate one called on workunitpool",null,null,{ fileName : "WorkUnitPool.hx", lineNumber : 54, className : "web2grid.core.work.WorkUnitPool", methodName : "terminateOne"});
 	var i = this.workunits.length - 1;
 	while(i >= 0) {
 		var work = this.workunits[i];
@@ -121,6 +122,7 @@ web2grid.core.work.WorkUnitPool.prototype.terminateOne = function() {
 				return;
 			}
 		}
+		i--;
 	}
 	$s.pop();
 }
@@ -758,7 +760,6 @@ web2grid.core.work.WorkSourcePool.prototype.stepToPrev = function() {
 web2grid.core.work.WorkSourcePool.prototype.operate = function() {
 	$s.push("web2grid.core.work.WorkSourcePool::operate");
 	var $spos = $s.length;
-	henkolib.log.Console.main.logInformation("Active threads: " + this.getNumActive(),null,null,{ fileName : "WorkSourcePool.hx", lineNumber : 78, className : "web2grid.core.work.WorkSourcePool", methodName : "operate"});
 	{
 		var _g = 0, _g1 = this.worksources;
 		while(_g < _g1.length) {
@@ -772,7 +773,7 @@ web2grid.core.work.WorkSourcePool.prototype.operate = function() {
 		this.worksources[this.currentwsindex].startOne();
 	}
 	if(this.getNumActive() > this.targetactive) {
-		henkolib.log.Console.main.logInformation("terminate is needed",null,null,{ fileName : "WorkSourcePool.hx", lineNumber : 95, className : "web2grid.core.work.WorkSourcePool", methodName : "operate"});
+		henkolib.log.Console.main.logInformation("terminate is needed",null,null,{ fileName : "WorkSourcePool.hx", lineNumber : 94, className : "web2grid.core.work.WorkSourcePool", methodName : "operate"});
 		this.worksources[this.currentwsindex].terminateOne();
 		this.stepToPrev();
 	}
@@ -1353,6 +1354,8 @@ web2grid.core.work.BasicWorkUnit.prototype.onComplete = null;
 web2grid.core.work.BasicWorkUnit.prototype.onError = null;
 web2grid.core.work.BasicWorkUnit.prototype.onProgress = null;
 web2grid.core.work.BasicWorkUnit.prototype.onProgressChange = null;
+web2grid.core.work.BasicWorkUnit.prototype.onlog = null;
+web2grid.core.work.BasicWorkUnit.prototype.onLog = null;
 web2grid.core.work.BasicWorkUnit.prototype.onstatuschange = null;
 web2grid.core.work.BasicWorkUnit.prototype.onStatusChange = null;
 web2grid.core.work.BasicWorkUnit.prototype.init = function() {
@@ -1364,6 +1367,7 @@ web2grid.core.work.BasicWorkUnit.prototype.init = function() {
 	this.onProgress = this.operation.onProgress;
 	this.onProgressChange = this.operation.onProgress;
 	this.onStatusChange = this.onstatuschange = new henkolib.events.SimpleEvent();
+	this.onLog = this.onlog = new henkolib.events.Event();
 	$s.pop();
 }
 web2grid.core.work.BasicWorkUnit.prototype.operate = function() {
@@ -1380,21 +1384,21 @@ web2grid.core.work.BasicWorkUnit.prototype.start = function() {
 		this.ares = this.exe.run();
 		var self = this;
 		this.ares.onComplete.subscribe(function(wc) {
-			$s.push("web2grid.core.work.BasicWorkUnit::start@66");
+			$s.push("web2grid.core.work.BasicWorkUnit::start@72");
 			var $spos = $s.length;
 			self.SwitchState(web2grid.core.iface.WorkUnitState.Completed);
 			self.operation.setResult(wc);
 			$s.pop();
 		});
 		this.ares.onError.subscribe(function(mes) {
-			$s.push("web2grid.core.work.BasicWorkUnit::start@72");
+			$s.push("web2grid.core.work.BasicWorkUnit::start@78");
 			var $spos = $s.length;
 			self.SwitchState(web2grid.core.iface.WorkUnitState.Completed);
 			self.operation.setError(mes);
 			$s.pop();
 		});
 		this.ares.onProgress.subscribe(function(prog) {
-			$s.push("web2grid.core.work.BasicWorkUnit::start@78");
+			$s.push("web2grid.core.work.BasicWorkUnit::start@84");
 			var $spos = $s.length;
 			self.operation.setProgress(prog);
 			$s.pop();
@@ -1434,6 +1438,8 @@ web2grid.core.work.BasicWorkUnit.prototype.SwitchState = function(s) {
 	var $spos = $s.length;
 	this.state = s;
 	this.onstatuschange.invoke();
+	henkolib.log.Console.main.logDebug("Changed state to " + this.getStatusString(),null,null,{ fileName : "BasicWorkUnit.hx", lineNumber : 123, className : "web2grid.core.work.BasicWorkUnit", methodName : "SwitchState"});
+	this.onlog.invoke(new henkolib.log.LogEntry(null,henkolib.log.LogLevel.L5_Debug,"Changed state to " + this.getStatusString(),null,null));
 	$s.pop();
 }
 web2grid.core.work.BasicWorkUnit.prototype.getState = function() {
