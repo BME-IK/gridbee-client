@@ -1,3 +1,21 @@
+log = (logname) -> (entry) ->
+  severityLevels = {}
+  severityLevels[henkolib.log.LogLevel.L0_Critical]    = 'critical'
+  severityLevels[henkolib.log.LogLevel.L1_Error]       = 'error'
+  severityLevels[henkolib.log.LogLevel.L2_Warning]     = 'warning'
+  severityLevels[henkolib.log.LogLevel.L3_Notice]      = 'notice'
+  severityLevels[henkolib.log.LogLevel.L4_Information] = 'information'
+  severityLevels[henkolib.log.LogLevel.L5_Debug]       = 'debug'
+
+  line  =    "<div class=\"logentry #{severityLevels[entry.level]}\">"
+  line +=      "<span class=\"time\"> #{entry.time.toString().substr(11)} </span>"
+  line +=      "<span class=\"source\"> #{entry.source.getScreenName()} </span>" if entry.source?
+  line +=      entry.message
+  line +=      "<span class=\"data\"><pre> #{entry.data} </pre></span>" if entry.data?
+  line +=    "</div>"
+
+  $('.log-' + logname).append line
+
 class Gears
   log : null
 
@@ -70,14 +88,6 @@ class Gears
     @client.onLog.subscribe log('main')
 
     @register_skeletons()
-
-# TODO: Adopt the exportAsHtml style logging
-log = (logname) -> (entry) ->
-  $('.log-' + logname).append \
-    '<div class="logentry">' + \
-      '<span class="time">' + entry.time.toString().substr(11) + '</span>' + \
-      entry.message + \
-    '</div>'
 
 client = new web2grid.core.control.Client("GridBee")
 

@@ -121,7 +121,6 @@
       this.projectname = ko.observable('');
       this.scheduler = ko.observable('');
       this.living(this.worksource != null);
-      console.log(this.living());
       if (this.worksource != null) {
         this.name((_ref = this.worksource.projectname) != null ? _ref : this.worksource.getSchedulerUrl());
         this.projectname(this.name());
@@ -264,9 +263,33 @@
       this.workunit.onStatusChange.subscribe(__bind(function() {
         return this.status(this.workunit.getStatusString());
       }, this));
+      this.workunit.onLog.subscribe(log('workunit-' + this.id));
     }
     return BoincWorkunit;
   })();
+  log = function(logname) {
+    return function(entry) {
+      var line, severityLevels;
+      severityLevels = {};
+      severityLevels[henkolib.log.LogLevel.L0_Critical] = 'critical';
+      severityLevels[henkolib.log.LogLevel.L1_Error] = 'error';
+      severityLevels[henkolib.log.LogLevel.L2_Warning] = 'warning';
+      severityLevels[henkolib.log.LogLevel.L3_Notice] = 'notice';
+      severityLevels[henkolib.log.LogLevel.L4_Information] = 'information';
+      severityLevels[henkolib.log.LogLevel.L5_Debug] = 'debug';
+      line = "<div class=\"logentry " + severityLevels[entry.level] + "\">";
+      line += "<span class=\"time\"> " + (entry.time.toString().substr(11)) + " </span>";
+      if (entry.source != null) {
+        line += "<span class=\"source\"> " + (entry.source.getScreenName()) + " </span>";
+      }
+      line += entry.message;
+      if (entry.data != null) {
+        line += "<span class=\"data\"><pre> " + entry.data + " </pre></span>";
+      }
+      line += "</div>";
+      return $('.log-' + logname).append(line);
+    };
+  };
   Gears = (function() {
     Gears.prototype.log = null;
     Gears.prototype.running = ko.observable(false);
@@ -274,32 +297,42 @@
     Gears.prototype.worksources = ko.observableArray([]);
     Gears.prototype.client = void 0;
     Gears.prototype.skeletons = {};
-    Gears.prototype.watch_worksource = function(worksource) {
+    Gears.prototype.watch_worksource = function(worksource, livingCallback, deadCallback) {
       var watch;
       return watch = worksource.living.subscribe(__bind(function(living) {
         if (living === true) {
           this.client.addWorksource(worksource.worksource);
           this.worksources.push(worksource);
-          return newinstance();
+          return typeof livingCallback === "function" ? livingCallback() : void 0;
         } else {
           this.client.removeWorksource(worksource.worksource);
           this.worksources.remove(worksource);
+          if (typeof deadCallback === "function") {
+            deadCallback();
+          }
           return watch.dispose();
         }
       }, this));
     };
-    Gears.prototype.register_skeleton = function(constructor) {
-      var newinstance, type;
-      type = constructor.prototype.type;
-      this.skeletons[type] = ko.observable(null);
-      newinstance = __bind(function() {
+    Gears.prototype.register_skeletons = function() {
+      var constructor, newskeleton, type, _i, _len, _ref, _results;
+      newskeleton = __bind(function(type, constructor) {
         var skeleton;
-        console.log('Creating new instance for', type);
         skeleton = new constructor();
         this.skeletons[type](skeleton);
-        return this.watch_worksource(skeleton);
+        return this.watch_worksource(skeleton, (function() {
+          return newskeleton(type, constructor);
+        }));
       }, this);
-      return newinstance();
+      _ref = Worksource.prototype.types;
+      _results = [];
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        constructor = _ref[_i];
+        type = constructor.prototype.type;
+        this.skeletons[type] = ko.observable(null);
+        _results.push(newskeleton(type, constructor));
+      }
+      return _results;
     };
     Gears.prototype.start = function() {
       var worksource, _i, _len, _ref;
@@ -311,7 +344,6 @@
         } else {
           continue;
         }
-        console.log('Loading worksource from LocalStorage: ', worksource);
         this.worksources.push(worksource);
         this.watch_worksource(worksource);
       }
@@ -331,31 +363,17 @@
       }, this));
     };
     function Gears(client) {
-      var constructor, _i, _len, _ref;
       this.client = client;
       this.start = __bind(this.start, this);
-      this.register_skeleton = __bind(this.register_skeleton, this);
+      this.register_skeletons = __bind(this.register_skeletons, this);
       this.watch_worksource = __bind(this.watch_worksource, this);
       this.client.onLog.subscribe(log('main'));
-      _ref = Worksource.prototype.types;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        constructor = _ref[_i];
-        this.register_skeleton(constructor);
-      }
+      this.register_skeletons();
     }
     return Gears;
   })();
-  log = function(logname) {
-    return function(entry) {
-      return $('.log-' + logname).append('<div class="logentry">' + '<span class="time">' + entry.time.toString().substr(11) + '</span>' + entry.message + '</div>');
-    };
-  };
   client = new web2grid.core.control.Client("GridBee");
   window.gears = new Gears(client);
-  if (client.worksourcepool.worksources.length === 0) {
-    client.addBoincWorkSource("http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi", "2962b0b8970c4ca693d953da648724cd");
-    client.worksourcepool.worksources[0].projectname = "Bvp6 Demo Project";
-  }
   $(function() {
     var constructor, _i, _len, _ref;
     _ref = Worksource.prototype.types;

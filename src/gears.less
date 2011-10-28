@@ -133,27 +133,6 @@ a {
   margin: 0.05em;
   cursor: pointer;
 }
-.log {
-  font-size: 1em;
-  clear: both;
-  padding: 1em;
-  border: 0em;
-  background-color: rgba(41,41,41,0.95);
-  color: #CCC;
-  font-family: Courier;
-  overflow: auto;
-}
-.workunit-log {
-  width: 100%;
-  min-width: 100%;
-  max-width: 100%;
-  height: 15em;
-  margin: 1em -1em -1em;  
-  border-radius: 0.9em;
-  border-top-left-radius: 0em;
-  border-top-right-radius: 0em;
-  resize: vertical;
-}
 .settingsbutton {
   position: absolute;
   top: 1em;
@@ -445,3 +424,69 @@ img.rotating
   display: block;
 }
 
+.log {
+  font-size: 1em;
+  clear: both;
+  padding: 1em;
+  border: 0em;
+  background-color: rgba(41,41,41,0.95);
+  color: #CCC;
+  overflow: auto;
+  font-family: Courier;
+  font-size: 0.8em;
+
+  .critical    { color: red; text-decoration: underline; }
+  .error       { color: red; }
+  .warning     { color: yellow; }
+  .notice      { color: lime; }
+  .information { color: white; }
+  .debug       { color: gray; }
+
+  .time {
+    display: inline-block;
+    width: 5em;
+    font-style: italic;
+    padding-right: 0.3em;
+    background-color: #444;
+    border-right: 1px solid #888;
+    margin-right: 0.5em;
+  }
+
+  .message {
+    text-decoration: inherit;
+    display: inline-block;
+  }
+
+  .source {
+    padding: 0;
+    text-decoration: inherit;
+    display: inline-block;
+    padding-left: 0.1em;
+    padding-right: 0.1em;
+    font-size: 0.7em;
+    border: 1px solid #559;
+    background: #226;
+    color: white;
+    margin-right: 0.5em;
+  }
+
+  .data pre {
+    margin: 0;
+    padding: 0;
+    padding-left: 30px;
+    display: inline-block;
+  }
+}
+
+.workunit-log {
+  width: 100%;
+  min-width: 100%;
+  max-width: 100%;
+  height: 15em;
+  margin: 1em -1.25em -1.25em;
+  padding: 1.25em;
+  border-radius: 1.125em;
+  border-top-left-radius: 0em;
+  border-top-right-radius: 0em;
+  resize: vertical;
+}
