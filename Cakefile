@@ -17,7 +17,7 @@ for ws in worksources
   sourcefiles.push wsdir + ws + '/worksource.coffee'
   sourcefiles.push wsdir + ws + '/workunit.coffee'
 
-sourcefiles.push 'src/gears.coffee'
+sourcefiles.push 'src/gridbee.coffee'
 
 # JQuery templates
 templates = {}
@@ -32,7 +32,7 @@ compile_scripts = (callback) ->
 
   options = ['--compile'
              '--output', 'bin'
-             '--join', 'gears.js']
+             '--join', 'gridbee.js']
 
   coffee = spawn 'coffee', options.concat sourcefiles
   coffee.stdout.on 'data', (data) -> print data.toString()
@@ -42,25 +42,25 @@ compile_scripts = (callback) ->
 compile_styles = (callback) ->
   print 'Compiling LESS stylesheets...\n'
 
-  style = (fs.readFileSync 'src/gears.less').toString()
+  style = (fs.readFileSync 'src/gridbee.less').toString()
   less.render style, (error, css) ->
     if error then return console.error(error)
-    file = fs.openSync 'bin/gears.css', 'w'
+    file = fs.openSync 'bin/gridbee.css', 'w'
     fs.writeSync file, css, 0
     fs.closeSync file
     callback?()
 
 add_templates = () ->
-  print 'Adding templates to gears.html...\n'
+  print 'Adding templates to gridbee.html...\n'
 
-  html = (fs.readFileSync 'src/gears.html').toString()
+  html = (fs.readFileSync 'src/gridbee.html').toString()
 
   for name, templatefile of templates
     templatehtml = fs.readFileSync templatefile
     scripttag = "<script type=\"text/html\" id=\"#{name}\">\n#{templatehtml}</script>\n\n"
     html = html.replace '</body>', scripttag + '</body>'
 
-  file = fs.openSync 'bin/gears.html', 'w'
+  file = fs.openSync 'bin/gridbee.html', 'w'
   fs.writeSync file, html, 0
   fs.closeSync file
 
@@ -89,9 +89,9 @@ task 'watch', 'Recompile CoffeeScript source files when modified', ->
   for sourcefile in sourcefiles
     fs.watchFile sourcefile, -> compile_scripts()
 
-  fs.watchFile 'src/gears.less', -> compile_styles()
+  fs.watchFile 'src/gridbee.less', -> compile_styles()
 
   for name, templatefile of templates
     fs.watchFile templatefile, -> add_templates()
 
-  fs.watchFile 'src/gears.html', -> add_templates()
+  fs.watchFile 'src/gridbee.html', -> add_templates()
