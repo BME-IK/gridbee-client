@@ -45,7 +45,7 @@ class Boinc extends Worksource
 
   description : 'BOINC project'
 
-  constructor : (@client, @worksource) ->
+  constructor : (@worksource) ->
     # Parent constructor
     super(@worksource)
 
