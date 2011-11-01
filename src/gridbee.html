@@ -4,7 +4,7 @@
 
 <meta charset="utf-8">
 
-<title>Web Computing</title>
+<title>Gridbee Grid Client</title>
 
 <script type="text/javascript" src="lib/jquery.js"></script>
 <script type="text/javascript" src="lib/jquery.tmpl.js"></script>
@@ -17,7 +17,84 @@
 </head>
 <body>
 
-<div id="top">
+<div class="worksource header">
+  <div class="workunits">
+    <div id="app-name"> GRIDBEE </div>
+    <div id="app-description"> the grid computing web app </div>
+
+    <div id="runcontrol" onselectstart="return false;"
+         data-bind="click : function() {running(!running());},
+                    css : {running : running(), stopped : !running()}">
+      <span class="stop">&#x25FC</span>
+      <span class="play">&#x25B6</span>
+    </div>
+
+    <div id="threadnumber" onselectstart="return false;">
+      <span class="minus" data-bind="click : function() {if (threads() > 1) threads(threads() - 1)}">
+        -
+      </span><span class="number" data-bind="text : threads">
+      </span><span class="plus" data-bind="click : function() {threads(threads() + 1)}">
+        +
+      </span>
+    </div>
+
+    <div id="state-describtion">
+      <b>Running</b> on <b>3</b> threads
+    </div>
+  </div>
+
+  <div class="information">
+    <h1 class="selected">Overview</h1>
+    <h1>Add new worksource</h1>
+  </div>
+</div>
+
+<div id="tabs">
+  <div id="newworksource" style="text-align: center;">
+    <h1>Add new worksource</h1>
+  </div>
+</div>
+
+<div id="worksourcelist"
+     data-bind="template: {name : 'worksource', foreach : worksources}">
+
+  <script type="text/html" id="worksource">
+    <div class="worksource">
+
+      <ul class="workunits"
+          data-bind="template : {name : 'workunit', foreach : workunits}">
+      </ul>
+
+      <div class="information">
+        <h1 data-bind="text: name"></h1>
+      </div>
+
+    </div>
+  </script>
+
+  <script type="text/html" id="workunit">
+    <li class="workunit">
+      <span class="status"
+            data-bind="text : status">
+      </span>
+
+      <div class="meter">
+        <span data-bind="style : {width : progress()*100 + '%'}">
+      </div>
+    </li>
+  </script>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div style="display: none" id="top">
   <span id="appname">GRIDBEE</span>
   <span id="appdescription">the WebComputing grid client</span>
 
@@ -42,10 +119,10 @@
        onclick="$('.panel').toggleClass('active');$(this).toggleClass('active')" />
 </div>
 
-<div class="panel log log-main" id="logpanel">
+<div style="display: none" class="panel log log-main" id="logpanel">
 </div>
 
-<div class="panel active" id="mainpanel">
+<div style="display: none" class="panel active" id="mainpanel">
 
   <div id="newworksource" class="worksource active"
        data-bind="css : {active : worksources().length === 0}">
@@ -73,46 +150,7 @@
     </script>
   </div>
 
-  <div id="worksourcelist"
-       data-bind="template: {name : 'worksource', foreach : worksources}">
-    <script type="text/html" id="worksource">
-      <div class="worksource">
-        <h3 data-bind="text: name"></h3>
 
-        <img class="settingsbutton" src="img/gear2.svg" style="right: 5em"
-             onclick="$(this).siblings('.settings').toggle()" />
-
-        <img class="settingsbutton" src="img/close.png"
-             data-bind="click : function(){ living(false); }" />
-
-        <div class="settings" style="display:none"
-             data-bind="template: {name : 'settings-' + type}">
-        </div>
-
-        <ul class="workunits"
-            data-bind="template : {name : 'workunit', foreach : workunits}">
-        </ul>
-      </div>
-    </script>
-
-    <script type="text/html" id="workunit">
-      <li class="workunit">
-        <img class="terminal-icon" src="img/terminal.png"
-             onclick="$(this).siblings('.log').toggle()"/>
-
-        <span class="state"
-              data-bind="text : status">
-        </span>
-
-        <div class="meter">
-          <span data-bind="style : {width : progress()*100 + '%'}">
-        </div>
-
-        <div class="workunit-log log log-workunit-${ workunit.id }" style="display:none">
-        </div>
-      </li>
-    </script>
-  </div>
 </div>
 
 </body>

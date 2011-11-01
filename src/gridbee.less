@@ -47,28 +47,272 @@
   box-sizing: @value;  
 }
 
+// Base colors
+//@background: #292929;
+@background: #000000;
+@foreground: #FFFFFF;
+
 // Rules
-body {
-  margin: 0em;
-  padding: 0em;
-  height: 100%;
-  font-family: Helvetica, tahoma, Arial, sans-serif;
-  background-color: white;
+* {
+  margin: 0;
+  padding: 0;
 }
+
+body {
+  font-size: 10px;
+  font-family: Arial;
+  color: fadeout(@foreground, 20%); // rgba(255,255,255,0.8);
+  background-color: @background; //rgba(41,41,41,1);
+}
+
+.worksource.header {
+  .workunits {
+    font-size: 1.1em;
+  }
+
+  #app-name {
+    position: absolute;
+    top: 0em;
+    left: 0em;
+
+    color: white;
+    text-shadow: 0 2px 3px #666666;
+    font-size: 3em;
+    font-weight: bold;
+    font-family: Arial;
+  }
+
+  #app-description {
+    position: absolute;
+    top: 3.3em;
+    margin-left: 0.35em;
+
+    color: white;
+    text-shadow: 0 2px 3px #666666;
+    font-size: 1em;
+    font-weight: bold;
+    font-family: Arial;
+  }
+
+  #runcontrol {
+    font-size: 1em;
+    color: white;
+    display: block;
+    position: absolute;
+    right: 1em;
+    margin-right: 8.5em;
+    top: 0;
+    margin-top: 2em;
+    height: 2.5em;
+    width: 2.5em;
+    text-align: center;
+    background-color: rgba(255,255,255,0.05);
+    border-radius: 0.6em;
+    cursor: pointer;
+
+    .play {
+      font-size: 1.95em;
+      margin-left: 0.15em;
+      display: none;
+    }
+    &.stopped .play {
+      display: inline;
+    }
+    .stop {
+      font-size: 1.95em;
+      display: none;
+    }
+    &.running .stop {
+      display: inline;
+    }
+  }
+
+  #threadnumber {
+    font-size: 1em;
+    color: white;
+    position: absolute;
+    right: 1em;
+    top: 0;
+    margin-top: 2em;
+    text-align: center;
+    height: 2.5em;
+
+    span {
+      background-color: rgba(255,255,255,0.05);
+    }
+
+    .plus {
+      display: inline-block;
+      width: 1em;
+      font-size: 2.05em;
+      border-bottom-right-radius: 0.3em;
+      border-top-right-radius: 0.3em;
+      border-left: 0.1em solid rgba(0,0,0,0.22);
+      cursor: pointer;
+    }
+
+    .minus {
+      display: inline-block;
+      margin: 0em;
+      width: 1em;
+      font-size: 2.05em;
+      border-bottom-left-radius: 0.3em;
+      border-top-left-radius: 0.3em;
+      border-right: 0.1em solid rgba(0,0,0,0.22);
+      cursor: pointer;
+    }
+
+    .number {
+      display: inline-block;
+      font-size: 2.05em;
+      width: 1.3em;
+      cursor:default;
+    }
+  }
+
+  #state-describtion {
+    font-size: 1.1em;
+    position: absolute;
+    -text-align: right;
+    top: 0em;
+    right: 1em;
+    color: #CCC;
+    font-family: Arial;
+    -text-shadow: 0 1px 2px #666666;
+  }
+
+}
+
+#tabs {
+  position: absolute;
+  display: none;
+
+  font-size: 1.5em;
+  padding: 0em 3em 2em 2em;
+  margin-right: 36%;
+
+  &.active {
+    display: block;
+  }
+
+  &.active + #worksourcelist .workunit {
+    opacity: 0.05;
+  }
+}
+
+.worksource {
+  position: relative;
+  .display-box;
+  .box-orient(horizontal);
+  .box-pack(start);
+  .box-align(start);
+
+  font-size: 1.5em;
+
+  width: 100%;
+  .box-sizing(border-box);
+  padding: 0em 2em;
+  margin: 1em 0em 2.5em;
+
+  .information {
+    width: 36%;
+    padding-left: 1em;
+    margin-left: -0.5em;
+    border-left: 0.5em solid #DDD;
+
+    //color: #BBB;
+
+     div {
+      margin-bottom: 0.5em;
+    }
+
+     h1 {
+      font-size: 2em;
+      padding: 0.2em 0.5em;
+      margin: 0em -1em 0.5em -0.5em;
+
+      cursor: pointer;
+      font-weight: bold;
+
+       &:hover {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+        -font-weight:bold;
+        text-shadow:white 0px 0px 1px;
+      }
+       &.selected {
+        color: white;
+        background-color: rgba(255, 255, 255, 0.1);
+        -font-weight:bold;
+        text-shadow:white 0px 0px 1px;
+      }
+    }
+  }
+
+  .workunits {
+    position: relative;
+    display: block;
+    .box-flex(1);
+
+    border-right: 0.5em solid #DDD;
+    padding-right: 1em;
+
+    .workunit {
+      .display-box;
+      .box-orient(horizontal);
+      .box-pack(start);
+      .box-align(center);
+
+      font-size: 1.1em;
+      padding: 0.5em;
+      margin: 1em 0em;
+
+      background-color: fadeout(@foreground, 90%);//rgba(255,255,255,0.1);
+      border-radius: 0.5em;
+
+      .status {
+        display: block;
+        width: 9em;
+        padding: 0.2em 0.4em 0.1em;
+      }
+
+      .meter {
+        position: relative;
+        .box-flex(1);
+        height: 1.6em;
+
+        background: fadeout(@foreground, 87%);// rgba(255,255,255,0.13);
+        border-radius: 0.4em;
+        transition: all 0.5s ease-in-out;
+        
+         .span {
+          position: relative;
+          display: block;
+          height: 100%;
+          overflow: hidden;
+
+          border-radius: 0.4em;
+          background-color: fadeout(@foreground, 70%);// rgba(255,255,255,0.3);
+        }
+      }
+    }  
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
 
 a {
   text-decoration: underline;
   color: #444;
-}
-
-#top {
-  position: fixed;
-  top: 0em;
-  width: 100%;
-  height: 3em;
-  z-index: 10;
-  background-color: #214478; /* rgba(103,110,120,1); /*rgba(78,163,67,0.85);*/
-  color: white;
 }
 
 .panel {
@@ -81,20 +325,6 @@ a {
   overflow-y: scroll;  
 }
 
-#mainpanel {
-  overflow-y: scroll;  
-}
-
-.worksource {
-  position: relative;
-  margin: 1em 4em;
-  padding: 1em;
-  border-radius: 1em;
-  background-color: rgba(0,0,0,0.1);
-}
-.worksource h3 {
-  margin: 0.5em 0em 0.5em;
-}
 .step {
   margin: 2em 0em;
   padding: 0em 1em;
@@ -106,32 +336,6 @@ a {
 }
 .enabled + .wizard {
   display: block;
-}
-.workunits {
-  list-style-type: none;
-  margin: 0em;
-  padding: 0em;
-  width: 100%;
-}
-
-.workunit {
-  margin: 1em 0em;
-  padding: 1em;
-  display: block;
-  border-radius: 0.9em;
-  background-color: rgb(95,136,163);
-  overflow : auto;
-}
-
-.workunit .state {
-  float: left;
-  padding: 0.85em 0em 0.6em;
-}
-.workunit .terminal-icon {
-  float: right;
-  height: 2.6em;
-  margin: 0.05em;
-  cursor: pointer;
 }
 .settingsbutton {
   position: absolute;
@@ -152,127 +356,6 @@ a {
 .settings p ~ p {
   margin: 0.8em 0em 0em;
 }
-.meter {
-  height: 2em;
-  margin-left: 8em;
-  margin-right: 3em;
-  position: relative;
-  background: rgba(31,31,31,0.26);
-  border-radius: 1em;
-  padding: 0.35em;
-  transition: all 0.5s ease-in-out;
-}
-
-.meter > span {
-  display: block;
-  height: 100%;
-  border-radius: 0.8em;
-  background-color: rgba(41,41,41,0.95);
-  position: relative;
-  overflow: hidden;
-}
-
-@-webkit-keyframes rotate {
-  from {
-    -webkit-transform: rotate(0deg);
-  }
-  to { 
-    -webkit-transform: rotate(360deg);
-  }
-}
-img.rotating
-{
-    -webkit-animation-name:             rotate; 
-    -webkit-animation-duration:         3s; 
-    -webkit-animation-iteration-count:  infinite;
-    -webkit-animation-timing-function:  linear;
-    --webkit-animation-fill-mode: forwards;
-}
-
-#appname {
-  float: left;
-  display: block;
-  font-size: 2.65em;
-  margin: 0em 0.3em 0em 0.2em;
-}
-#appdescription {
-  float: left;
-  display: block;
-  width: 10em;
-  margin: 0.3em 0em;
-}
-
-#runcontrol {
-  display: block;
-  float: left;
-  height: 2.5em;
-  margin: 0.25em 0.5em 0.25em 7em;
-  width: 2.5em;
-  position: relative;
-  text-align: center;
-  background-color: rgba(0,0,0,0.2);
-  border-radius: 0.8em;
-  margin-right: 0.5em;
-  cursor: pointer;
-}
-#runcontrol .play {
-  font-size: 1.95em;
-  margin-left: 0.15em;
-  display: none;
-}
-#runcontrol.stopped .play {
-  display: inline;
-}
-#runcontrol .stop {
-  font-size: 1.95em;
-  display: none
-}
-#runcontrol.running .stop {
-  display: inline;
-}
-
-#threadnumber {
-  float: left;
-  text-align: center;
-  height: 2.5em;
-  margin: 0.25em 0.5em 0.25em 0em;
-}
-#threadnumber .plus {
-  display: inline-block;
-  width: 1em;
-   font-size: 2.05em;
-   background-color: rgba(0,0,0,0.2);
-   border-bottom-right-radius: 0.4em;
-   border-top-right-radius: 0.4em;
-   border-left: 0.1em solid rgba(0,0,0,0.22);
-   cursor: pointer;
-}
-#threadnumber .minus {
-  display: inline-block;
-  margin: 0em;
-  width: 1em;
-  font-size: 2.05em;
-  background-color: rgba(0,0,0,0.2);
-  border-bottom-left-radius: 0.4em;
-  border-top-left-radius: 0.4em;
-  border-right: 0.1em solid rgba(0,0,0,0.22);
-  cursor: pointer;
-}
-#threadnumber .number {
-  display: inline-block;
-  font-size: 2.05em;
-  width: 1em;
-  background-color: rgba(0,0,0,0.2);
-  width: 1.5em;
-  cursor:default;
-}
-#threadnumber-description {
-  float: left;
-  display: block;
-  width: 12em;
-  margin: 0.3em 0em;
-}
-
 #terminalpanel-button {
   float: right;
   height: 2.6em;
