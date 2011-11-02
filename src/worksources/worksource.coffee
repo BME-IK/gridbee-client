@@ -1,4 +1,9 @@
+max_id = 0
+
 class Worksource
+  # Unique identifier. Simplifies the GUI.
+  id : null
+
   # Worksource type: this should be the same as the directory name
   type : null
 
@@ -21,6 +26,9 @@ class Worksource
   worksource : undefined
 
   constructor : (@worksource) ->
+    # Generating unique id.
+    @id = max_id++
+
     # Hiding @types, and @register from the derived class
     @types = undefined
     @register = undefined

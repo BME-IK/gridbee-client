@@ -120,16 +120,18 @@ body {
 }
 #tabs {
   position: absolute;
-  display: none;
   font-size: 1.5em;
   padding: 0em 3em 2em 2em;
   margin-right: 36%;
 }
-#tabs.active {
-  display: block;
-}
-#tabs.active + #worksourcelist .workunit {
+#tabs.active ~ #worksourcelist .workunit {
   opacity: 0.05;
+}
+#tabs div {
+  display: none;
+}
+#tabs.active div.selected {
+  display: block;
 }
 .worksource {
   position: relative;

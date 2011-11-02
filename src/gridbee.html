@@ -44,16 +44,44 @@
   </div>
 
   <div class="information">
-    <h1 class="selected">Overview</h1>
-    <h1>Add new worksource</h1>
+    <h1 tab="none" onclick="selectTab(this.getAttribute('tab'))" class="selected">
+      Overview
+    </h1>
+    <h1 tab="newworksource" onclick="selectTab(this.getAttribute('tab'))">
+      Add new worksource
+    </h1>
   </div>
 </div>
 
-<div id="tabs">
-  <div id="newworksource" style="text-align: center;">
+<div id="tabs"
+     data-bind="template: {name : 'worksource-tab', foreach : worksources}">
+
+  <script type="text/html" id="worksource-tab">
+  <div data-bind="attr : {id : 'worksource-' + id}">
+    <h1 data-bind="text: name"></h1>
+  </div>
+  </script>
+
+  <div id="newworksource">
     <h1>Add new worksource</h1>
   </div>
+
 </div>
+
+<script>
+  function selectTab(tab) {
+    if (tab === 'none') {
+      $('#tabs').removeClass('active');
+    } else {
+      $('#tabs').addClass('active');
+      $('#tabs #' + tab).addClass('selected')
+                        .siblings().removeClass('selected')
+    }
+
+    $('[tab]').removeClass('selected');
+    $('[tab="' + tab + '"]').addClass('selected');
+  }
+</script>
 
 <div id="worksourcelist"
      data-bind="template: {name : 'worksource', foreach : worksources}">
@@ -66,7 +94,9 @@
       </ul>
 
       <div class="information">
-        <h1 data-bind="text: name"></h1>
+        <h1 data-bind="text : name, attr : {tab : 'worksource-' + id}"
+            onclick="selectTab(this.getAttribute('tab'))">
+        </h1>
       </div>
 
     </div>

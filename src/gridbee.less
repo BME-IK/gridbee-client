@@ -186,18 +186,21 @@ body {
 
 #tabs {
   position: absolute;
-  display: none;
 
   font-size: 1.5em;
   padding: 0em 3em 2em 2em;
   margin-right: 36%;
 
-  &.active {
-    display: block;
+  &.active ~ #worksourcelist .workunit {
+    opacity: 0.05;
   }
 
-  &.active + #worksourcelist .workunit {
-    opacity: 0.05;
+  div {
+    display: none;
+  }
+  
+  &.active div.selected {
+    display: block;
   }
 }
 

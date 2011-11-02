@@ -8,7 +8,9 @@
     child.__super__ = parent.prototype;
     return child;
   };
+  max_id = 0;
   Worksource = (function() {
+    Worksource.prototype.id = null;
     Worksource.prototype.type = null;
     Worksource.prototype.description = null;
     Worksource.prototype.name = ko.observable(null);
@@ -17,6 +19,7 @@
     Worksource.prototype.worksource = void 0;
     function Worksource(worksource) {
       this.worksource = worksource;
+      this.id = max_id++;
       this.types = void 0;
       this.register = void 0;
       this.ok = ko.observable(false);
@@ -373,6 +376,9 @@
     return Gears;
   })();
   client = new web2grid.core.control.Client("GridBee");
+  if (client.getWorksources().length === 0) {
+    client.addBoincWorkSource("http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi", "2962b0b8970c4ca693d953da648724cd");
+  }
   window.gears = new Gears(client);
   $(function() {
     var constructor, _i, _len, _ref;

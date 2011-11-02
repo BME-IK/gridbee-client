@@ -91,6 +91,10 @@ class Gears
 
 client = new web2grid.core.control.Client("GridBee")
 
+if (client.getWorksources().length == 0)
+  client.addBoincWorkSource "http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi", \
+                            "2962b0b8970c4ca693d953da648724cd"
+
 window.gears = new Gears(client)
 
 $ ->
