@@ -30,10 +30,13 @@
     </div>
 
     <div id="threadnumber" onselectstart="return false;">
-      <span class="minus" data-bind="click : function() {if (threads() > 1) threads(threads() - 1)}">
+      <span class="minus"
+            data-bind="click : function() {threads(Math.min(1,threads()-1))}">
         -
-      </span><span class="number" data-bind="text : threads">
-      </span><span class="plus" data-bind="click : function() {threads(threads() + 1)}">
+      </span>
+      <span class="number" data-bind="text : threads"></span>
+      <span class="plus"
+            data-bind="click : function() {threads(threads() + 1)}">
         +
       </span>
     </div>
