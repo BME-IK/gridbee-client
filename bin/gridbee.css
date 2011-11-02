@@ -123,15 +123,29 @@ body {
   font-size: 1.5em;
   padding: 0em 3em 2em 2em;
   margin-right: 36%;
+  right: 0em;
+  left: 0em;
 }
 #tabs.active ~ #worksourcelist .workunit {
   opacity: 0.05;
 }
-#tabs div {
+#tabs > div {
   display: none;
+  width: 100%;
 }
-#tabs.active div.selected {
+#tabs.active > div.selected {
   display: block;
+}
+.worksource-tab h2 {
+  margin: 1em 0em 0.5em;
+}
+.worksource-tab ul.details {
+  display: block;
+  list-style-type: none;
+  padding-left: 0.5em;
+}
+.worksource-tab ul.details li {
+  margin-bottom: 0.3em;
 }
 .worksource {
   position: relative;
@@ -206,7 +220,7 @@ body {
   border-right: 0.5em solid #DDD;
   padding-right: 1em;
 }
-.worksource .workunits .workunit {
+.workunit {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
@@ -233,12 +247,12 @@ body {
   background-color: rgba(255, 255, 255, 0.09999999999999998);
   border-radius: 0.5em;
 }
-.worksource .workunits .workunit .status {
+.workunit .status {
   display: block;
   width: 9em;
   padding: 0.2em 0.4em 0.1em;
 }
-.worksource .workunits .workunit .meter {
+.workunit .meter {
   position: relative;
   -webkit-box-flex: 1;
   -moz-box-flex: 1;
@@ -250,7 +264,7 @@ body {
   border-radius: 0.4em;
   transition: all 0.5s ease-in-out;
 }
-.worksource .workunits .workunit .meter .span {
+.workunit .meter .span {
   position: relative;
   display: block;
   height: 100%;

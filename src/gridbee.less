@@ -190,17 +190,35 @@ body {
   font-size: 1.5em;
   padding: 0em 3em 2em 2em;
   margin-right: 36%;
+  right: 0em;
+  left: 0em;
 
   &.active ~ #worksourcelist .workunit {
     opacity: 0.05;
   }
 
-  div {
+  &> div {
     display: none;
+    width: 100%;
   }
   
-  &.active div.selected {
+  &.active> div.selected {
     display: block;
+  }
+}
+
+.worksource-tab {
+  h2 {
+    margin: 1em 0em 0.5em;
+  }
+
+  ul.details {
+    display: block;
+    list-style-type: none;
+    padding-left: 0.5em;
+    li {
+      margin-bottom: 0.3em;
+    }
   }
 }
 
@@ -263,48 +281,48 @@ body {
 
     border-right: 0.5em solid #DDD;
     padding-right: 1em;
-
-    .workunit {
-      .display-box;
-      .box-orient(horizontal);
-      .box-pack(start);
-      .box-align(center);
-
-      font-size: 1.1em;
-      padding: 0.5em;
-      margin: 1em 0em;
-
-      background-color: fadeout(@foreground, 90%);//rgba(255,255,255,0.1);
-      border-radius: 0.5em;
-
-      .status {
-        display: block;
-        width: 9em;
-        padding: 0.2em 0.4em 0.1em;
-      }
-
-      .meter {
-        position: relative;
-        .box-flex(1);
-        height: 1.6em;
-
-        background: fadeout(@foreground, 87%);// rgba(255,255,255,0.13);
-        border-radius: 0.4em;
-        transition: all 0.5s ease-in-out;
-        
-         .span {
-          position: relative;
-          display: block;
-          height: 100%;
-          overflow: hidden;
-
-          border-radius: 0.4em;
-          background-color: fadeout(@foreground, 70%);// rgba(255,255,255,0.3);
-        }
-      }
-    }  
   }
 }
+
+.workunit {
+  .display-box;
+  .box-orient(horizontal);
+  .box-pack(start);
+  .box-align(center);
+
+  font-size: 1.1em;
+  padding: 0.5em;
+  margin: 1em 0em;
+
+  background-color: fadeout(@foreground, 90%);//rgba(255,255,255,0.1);
+  border-radius: 0.5em;
+
+  .status {
+    display: block;
+    width: 9em;
+    padding: 0.2em 0.4em 0.1em;
+  }
+
+  .meter {
+    position: relative;
+    .box-flex(1);
+    height: 1.6em;
+
+    background: fadeout(@foreground, 87%);// rgba(255,255,255,0.13);
+    border-radius: 0.4em;
+    transition: all 0.5s ease-in-out;
+        
+    .span {
+      position: relative;
+      display: block;
+      height: 100%;
+      overflow: hidden;
+
+      border-radius: 0.4em;
+      background-color: fadeout(@foreground, 70%);// rgba(255,255,255,0.3);
+    }
+  }
+}  
 
 .log {
   font-size: 1em;
