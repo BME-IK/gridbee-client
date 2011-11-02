@@ -97,9 +97,19 @@
         <h1 data-bind="text : name, attr : {tab : 'worksource-' + id}"
             onclick="selectTab(this.getAttribute('tab'))">
         </h1>
+        <div class="overview"
+             data-bind="template: { name: 'overview-item', foreach: overview }">
+        </div>
       </div>
 
     </div>
+  </script>
+
+  <script type="text/html" id="overview-item">
+    <p>
+      <span data-bind="text : name"></span> :
+      <span data-bind="text : observable"></span>
+    </p>
   </script>
 
   <script type="text/html" id="workunit">

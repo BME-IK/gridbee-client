@@ -59,6 +59,11 @@ class Boinc extends Worksource
     @projectname = ko.observable ''
     @scheduler = ko.observable ''
 
+    @overview = [
+      {name : 'Scheduler', observable : @scheduler},
+      {name : 'Authkey', observable : @authkey}
+    ]
+
     # If there is a worksource, then it is living, else it is a skeleton
     @living(@worksource?)
 

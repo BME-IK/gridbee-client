@@ -171,7 +171,7 @@ body {
   margin-left: -0.5em;
   border-left: 0.5em solid #DDD;
 }
-.worksource .information div {
+.worksource .information .overview p {
   margin-bottom: 0.5em;
 }
 .worksource .information h1 {
