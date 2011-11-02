@@ -75,7 +75,7 @@ body {
     top: 0em;
     left: 0em;
 
-    color: white;
+    color: @foreground;
     text-shadow: 0 2px 3px #666666;
     font-size: 3em;
     font-weight: bold;
@@ -87,7 +87,7 @@ body {
     top: 3.3em;
     margin-left: 0.35em;
 
-    color: white;
+    color: @foreground;
     text-shadow: 0 2px 3px #666666;
     font-size: 1em;
     font-weight: bold;
@@ -96,7 +96,7 @@ body {
 
   #runcontrol {
     font-size: 1em;
-    color: white;
+    color: @foreground;
     display: block;
     position: absolute;
     right: 1em;
@@ -106,7 +106,7 @@ body {
     height: 2.5em;
     width: 2.5em;
     text-align: center;
-    background-color: rgba(255,255,255,0.05);
+    background-color: fadeout(@foreground, 95%);//rgba(255,255,255,0.05);
     border-radius: 0.6em;
     cursor: pointer;
 
@@ -129,7 +129,7 @@ body {
 
   #threadnumber {
     font-size: 1em;
-    color: white;
+    color: @foreground;
     position: absolute;
     right: 1em;
     top: 0;
@@ -138,7 +138,9 @@ body {
     height: 2.5em;
 
     span {
-      background-color: rgba(255,255,255,0.05);
+      background-color: fadeout(@foreground, 95%);//rgba(255,255,255,0.05);
+      border-color: fadeout(@background, 78%);//rgba(0,0,0,0.22);
+      border-style: solid;
     }
 
     .plus {
@@ -147,7 +149,7 @@ body {
       font-size: 2.05em;
       border-bottom-right-radius: 0.3em;
       border-top-right-radius: 0.3em;
-      border-left: 0.1em solid rgba(0,0,0,0.22);
+      border-left: 0.1em;
       cursor: pointer;
     }
 
@@ -158,7 +160,7 @@ body {
       font-size: 2.05em;
       border-bottom-left-radius: 0.3em;
       border-top-left-radius: 0.3em;
-      border-right: 0.1em solid rgba(0,0,0,0.22);
+      border-right: 0.1em;
       cursor: pointer;
     }
 
@@ -240,9 +242,7 @@ body {
     width: 36%;
     padding-left: 1em;
     margin-left: -0.5em;
-    border-left: 0.5em solid #DDD;
-
-    //color: #BBB;
+    border-left: 0.5em solid lighten(@background, 20%);
 
      .overview p {
       margin-bottom: 0.5em;
@@ -260,16 +260,14 @@ body {
       text-overflow: ellipsis;
 
        &:hover {
-        color: white;
+        color: @foreground;
         background-color: rgba(255, 255, 255, 0.1);
-        -font-weight:bold;
-        text-shadow:white 0px 0px 1px;
+        text-shadow: @foreground 0px 0px 1px;
       }
        &.selected {
-        color: white;
+        color: @foreground;
         background-color: rgba(255, 255, 255, 0.1);
-        -font-weight:bold;
-        text-shadow:white 0px 0px 1px;
+        text-shadow: @foreground 0px 0px 1px;
       }
     }
   }
@@ -279,7 +277,7 @@ body {
     display: block;
     .box-flex(1);
 
-    border-right: 0.5em solid #DDD;
+    border-right: 0.5em solid lighten(@background, 20%);
     padding-right: 1em;
   }
 }
