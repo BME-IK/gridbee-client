@@ -102,7 +102,7 @@ body {
     right: 1em;
     margin-right: 8.5em;
     top: 0;
-    margin-top: 2em;
+    margin-top: 0em;
     height: 2.5em;
     width: 2.5em;
     text-align: center;
@@ -133,7 +133,7 @@ body {
     position: absolute;
     right: 1em;
     top: 0;
-    margin-top: 2em;
+    margin-top: 0em;
     text-align: center;
     height: 2.5em;
 
@@ -171,6 +171,7 @@ body {
   }
 
   #state-describtion {
+    display: none;
     font-size: 1.1em;
     position: absolute;
     -text-align: right;
@@ -233,6 +234,9 @@ body {
 
       cursor: pointer;
       font-weight: bold;
+
+      overflow: hidden;
+      text-overflow: ellipsis;
 
        &:hover {
         color: white;
