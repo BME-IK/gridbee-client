@@ -207,11 +207,10 @@
       var BoincWorkSource, modelWorksource;
       BoincWorkSource = web2grid.worksource.boinc.BoincWorkSource;
       modelWorksource = new BoincWorkSource(this.scheduler(), this.authkey());
-      modelWorksource.projecturl = this.projecturl;
-      modelWorksource.projectname = this.projectname;
-      modelWorksource.username = this.username;
+      modelWorksource.projecturl = this.projecturl();
+      modelWorksource.projectname = this.projectname();
+      modelWorksource.username = this.username();
       this.worksource(new Boinc(modelWorksource));
-      console.log(this.worksource());
       return this.reset();
     };
     BoincNewWorksourceForm.prototype.reset = function() {

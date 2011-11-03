@@ -31,11 +31,11 @@ class BoincNewWorksourceForm extends NewWorksourceForm
   create : =>
     BoincWorkSource = web2grid.worksource.boinc.BoincWorkSource
     modelWorksource = new BoincWorkSource(@scheduler(), @authkey())
-    modelWorksource.projecturl = @projecturl
-    modelWorksource.projectname = @projectname
-    modelWorksource.username = @username
+    modelWorksource.projecturl = @projecturl()
+    modelWorksource.projectname = @projectname()
+    modelWorksource.username = @username()
     @worksource new Boinc(modelWorksource)
-    console.log @worksource()
+
     @reset()
 
   # Reset all input fields
