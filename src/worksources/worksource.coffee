@@ -33,21 +33,7 @@ class Worksource
     # Generating unique id.
     @id = max_id++
 
-    # Hiding @types, and @register from the derived class
-    @types = undefined
-    @register = undefined
-
     # Initializing a new instance of observable variables
-    @ok = ko.observable false
-    @error = ko.observable null
     @name = ko.observable null
     @workunits = ko.observableArray []
-    @living = ko.observable false
-
-  # List of registered worksource types. This is handled by
-  # the Worksource class, don't touch it
-  types : []
-
-  register : (cls) ->
-    # Store the constructor in the types object
-    Worksource.prototype.types.push cls
+    @living = ko.observable true

@@ -12,10 +12,12 @@ sourcefiles = []
 wsdir = 'src/worksources/'
 sourcefiles.push wsdir + 'worksource.coffee'
 sourcefiles.push wsdir + 'workunit.coffee'
+sourcefiles.push wsdir + 'newworksourceform.coffee'
 
 for ws in worksources
   sourcefiles.push wsdir + ws + '/worksource.coffee'
   sourcefiles.push wsdir + ws + '/workunit.coffee'
+  sourcefiles.push wsdir + ws + '/newworksourceform.coffee'
 
 sourcefiles.push 'src/gridbee.coffee'
 
@@ -24,7 +26,7 @@ templates = {}
 
 for ws in worksources
   templates['settings-' + ws] = wsdir + ws + '/settings.tmpl'
-  templates['createform-' + ws] = wsdir + ws + '/createform.tmpl'
+  templates['newworksourceform-' + ws] = wsdir + ws + '/newworksourceform.tmpl'
 
 
 compile_scripts = (callback) ->

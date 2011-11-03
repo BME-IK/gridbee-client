@@ -153,30 +153,30 @@ body {
 #tabs.active > div.selected {
   display: block;
 }
-#tabs #newworksource .template {
+#tabs #newworksourceforms > div > div {
   margin: 1em;
   margin-bottom: 2em;
 }
-#tabs #newworksource .template h2 ~ * {
+#tabs #newworksourceforms > div > div h2 ~ * {
   display: none;
 }
-#tabs #newworksource .template h2.selected ~ * {
+#tabs #newworksourceforms > div > div h2.selected ~ * {
   display: block;
 }
-#tabs #newworksource .template h2 {
+#tabs #newworksourceforms > div > div h2 {
   font-size: 1.5em;
   padding: 0.3em 0.6666em;
   margin: 0.3em -0.6666em;
   cursor: pointer;
   display: block;
 }
-#tabs #newworksource .template h2.selected {
+#tabs #newworksourceforms > div > div h2.selected {
   background-color: rgba(117, 174, 255, 0.1);
 }
-#tabs #newworksource .template h2:hover {
+#tabs #newworksourceforms > div > div h2:hover {
   background-color: rgba(117, 174, 255, 0.1);
 }
-#tabs #newworksource .template p {
+#tabs #newworksourceforms > div > div p {
   font-size: 1.1em;
   margin: 1.3em 0em;
 }
@@ -205,6 +205,9 @@ form div {
   -o-box-align: start;
   box-align: start;
   margin-bottom: 1em;
+}
+form div.hidden {
+  display: none;
 }
 form label {
   position: absolute;

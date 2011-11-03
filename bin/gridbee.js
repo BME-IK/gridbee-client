@@ -1,13 +1,13 @@
 (function() {
-  var Boinc, BoincWorkunit, Gears, Worksource, Workunit, client, delayedObservable, log, max_id, temporarilySet;
-  var __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; }, __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
+  var Boinc, BoincNewWorksourceForm, BoincWorkunit, Gears, NewWorksourceForm, Worksource, Workunit, bvp6, client, delayedObservable, empty, empty_dev, log, max_id, temporarilySet;
+  var __hasProp = Object.prototype.hasOwnProperty, __extends = function(child, parent) {
     for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; }
     function ctor() { this.constructor = child; }
     ctor.prototype = parent.prototype;
     child.prototype = new ctor;
     child.__super__ = parent.prototype;
     return child;
-  };
+  }, __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; };
   max_id = 0;
   Worksource = (function() {
     Worksource.prototype.id = null;
@@ -17,21 +17,14 @@
     Worksource.prototype.workunits = ko.observableArray([]);
     Worksource.prototype.living = ko.observable(false);
     Worksource.prototype.worksource = void 0;
+    Worksource.prototype.overview = ko.observableArray([]);
     function Worksource(worksource) {
       this.worksource = worksource;
       this.id = max_id++;
-      this.types = void 0;
-      this.register = void 0;
-      this.ok = ko.observable(false);
-      this.error = ko.observable(null);
       this.name = ko.observable(null);
       this.workunits = ko.observableArray([]);
-      this.living = ko.observable(false);
+      this.living = ko.observable(true);
     }
-    Worksource.prototype.types = [];
-    Worksource.prototype.register = function(cls) {
-      return Worksource.prototype.types.push(cls);
-    };
     return Worksource;
   })();
   max_id = 0;
@@ -103,48 +96,93 @@
       return _results;
     })();
   };
+  NewWorksourceForm = (function() {
+    NewWorksourceForm.prototype.newworksourceforms = ko.observableArray([]);
+    function NewWorksourceForm(type, formtitle, description) {
+      this.type = type;
+      this.formtitle = ko.observable(formtitle);
+      this.description = ko.observable(description);
+      this.worksource = ko.observable(void 0);
+      this.newworksourceforms.push(this);
+    }
+    return NewWorksourceForm;
+  })();
   Boinc = (function() {
     __extends(Boinc, Worksource);
     Boinc.prototype.type = 'boinc';
     Boinc.prototype.description = 'BOINC project';
     function Boinc(worksource) {
-      var workunit, _i, _len, _ref, _ref2;
+      var workunit, _i, _len, _ref, _ref2, _ref3;
       this.worksource = worksource;
+      Boinc.__super__.constructor.call(this, this.worksource);
+      this.projecturl = ko.observable(this.worksource.projecturl);
+      this.projectname = ko.observable(this.worksource.projectname);
+      this.scheduler = ko.observable(this.worksource.getSchedulerUrl());
+      this.username = ko.observable(this.worksource.username);
+      this.authkey = ko.observable(this.worksource.getAuthkey());
+      this.name = (_ref = (_ref2 = this.projectname()) != null ? _ref2 : this.projecturl()) != null ? _ref : this.scheduler;
+      this.overview = [
+        {
+          name: 'Scheduler',
+          observable: this.scheduler
+        }, {
+          name: 'Authkey',
+          observable: this.authkey
+        }
+      ];
+      _ref3 = this.worksource.getWorkUnits();
+      for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
+        workunit = _ref3[_i];
+        this.workunits.push(new BoincWorkunit(workunit));
+      }
+      this.worksource.onAddWorkunit.subscribe(__bind(function(addedWorkunit) {
+        return this.workunits.push(new BoincWorkunit(addedWorkunit));
+      }, this));
+      this.worksource.onRemoveWorkunit.subscribe(__bind(function(removedWorkunit) {
+        var candidate, _j, _len2, _ref4, _results;
+        _ref4 = this.workunits();
+        _results = [];
+        for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
+          candidate = _ref4[_j];
+          _results.push(candidate.workunit === removedWorkunit ? this.workunits.remove(candidate) : void 0);
+        }
+        return _results;
+      }, this));
+      return;
+    }
+    return Boinc;
+  })();
+  BoincWorkunit = (function() {
+    __extends(BoincWorkunit, Workunit);
+    function BoincWorkunit(workunit) {
+      this.workunit = workunit;
+      BoincWorkunit.__super__.constructor.call(this, this.workunit);
+      this.progress(this.workunit.getProgress());
+      this.workunit.onProgressChange.subscribe(__bind(function() {
+        return this.progress(this.workunit.getProgress());
+      }, this));
+      this.status(this.workunit.getStatusString());
+      this.workunit.onStatusChange.subscribe(__bind(function() {
+        return this.status(this.workunit.getStatusString());
+      }, this));
+      this.workunit.onLog.subscribe(log('workunit-' + this.id));
+    }
+    return BoincWorkunit;
+  })();
+  BoincNewWorksourceForm = (function() {
+    __extends(BoincNewWorksourceForm, NewWorksourceForm);
+    function BoincNewWorksourceForm(parameters) {
+      this.parameters = parameters;
       this.getProjectname = __bind(this.getProjectname, this);
       this.checkAuthkey = __bind(this.checkAuthkey, this);
       this.getAuthkey = __bind(this.getAuthkey, this);
       this.getSchedulerUrl = __bind(this.getSchedulerUrl, this);
-      this.watchWorkunits = __bind(this.watchWorkunits, this);
+      this.reset = __bind(this.reset, this);
       this.create = __bind(this.create, this);
-      Boinc.__super__.constructor.call(this, this.worksource);
-      this.projecturl = delayedObservable('');
-      this.username = delayedObservable('');
-      this.password = delayedObservable('');
-      this.authkey = delayedObservable('');
-      this.projectname = ko.observable('');
-      this.scheduler = ko.observable('');
-      this.living(this.worksource != null);
-      if (this.worksource != null) {
-        this.name((_ref = this.worksource.projectname) != null ? _ref : this.worksource.getSchedulerUrl());
-        this.projectname(this.name());
-        this.projecturl(this.worksource.projecturl);
-        this.scheduler(this.worksource.getSchedulerUrl());
-        this.authkey(this.worksource.getAuthkey());
-        _ref2 = this.worksource.getWorkUnits();
-        for (_i = 0, _len = _ref2.length; _i < _len; _i++) {
-          workunit = _ref2[_i];
-          this.workunits.push(new BoincWorkunit(workunit));
-        }
-        this.watchWorkunits();
-        return;
-      }
-      this.name('Bvp6 demo');
-      this.projectname(this.name());
-      this.projecturl('http://bvp6.hpc.iit.bme.hu/w2g');
-      this.scheduler('http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi');
-      this.authkey('2962b0b8970c4ca693d953da648724cd');
-      this.ok(true);
+      BoincNewWorksourceForm.__super__.constructor.call(this, 'boinc', parameters.formtitle, parameters.description);
+      this.reset();
       this.projecturl.immediateSubscribe(__bind(function() {
+        this.projectname('');
         this.scheduler('');
         this.username.immediate('');
         this.password.immediate('');
@@ -165,29 +203,29 @@
       this.password.subscribe(this.getAuthkey);
       this.authkey.subscribe(this.checkAuthkey);
     }
-    Boinc.prototype.create = function() {
-      var BoincWorkSource;
+    BoincNewWorksourceForm.prototype.create = function() {
+      var BoincWorkSource, modelWorksource;
       BoincWorkSource = web2grid.worksource.boinc.BoincWorkSource;
-      this.worksource = new BoincWorkSource(this.scheduler(), this.authkey());
-      this.watchWorkunits();
-      return this.living(true);
+      modelWorksource = new BoincWorkSource(this.scheduler(), this.authkey());
+      modelWorksource.projecturl = this.projecturl;
+      modelWorksource.projectname = this.projectname;
+      modelWorksource.username = this.username;
+      this.worksource(new Boinc(modelWorksource));
+      console.log(this.worksource());
+      return this.reset();
     };
-    Boinc.prototype.watchWorkunits = function() {
-      this.worksource.onAddWorkunit.subscribe(__bind(function(addedWorkunit) {
-        return this.workunits.push(new BoincWorkunit(addedWorkunit));
-      }, this));
-      return this.worksource.onRemoveWorkunit.subscribe(__bind(function(removedWorkunit) {
-        var candidate, _i, _len, _ref, _results;
-        _ref = this.workunits();
-        _results = [];
-        for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-          candidate = _ref[_i];
-          _results.push(candidate.workunit === removedWorkunit ? this.workunits.remove(candidate) : void 0);
-        }
-        return _results;
-      }, this));
+    BoincNewWorksourceForm.prototype.reset = function() {
+      var _ref, _ref2, _ref3, _ref4, _ref5, _ref6, _ref7, _ref8;
+      this.projecturl = delayedObservable((_ref = this.parameters.projecturl) != null ? _ref : '');
+      this.projectname = ko.observable((_ref2 = this.parameters.projectname) != null ? _ref2 : '');
+      this.scheduler = ko.observable((_ref3 = this.parameters.scheduler) != null ? _ref3 : '');
+      this.username = delayedObservable((_ref4 = this.parameters.username) != null ? _ref4 : '');
+      this.password = delayedObservable((_ref5 = this.parameters.password) != null ? _ref5 : '');
+      this.authkey = delayedObservable((_ref6 = this.parameters.authkey) != null ? _ref6 : '');
+      this.ok = ko.observable((_ref7 = this.parameters.ok) != null ? _ref7 : false);
+      return this.hide = (_ref8 = this.parameters.hide) != null ? _ref8 : [];
     };
-    Boinc.prototype.getSchedulerUrl = function() {
+    BoincNewWorksourceForm.prototype.getSchedulerUrl = function() {
       if (this.projecturl().length === 0) {
         return;
       }
@@ -208,7 +246,7 @@
         }, this)
       });
     };
-    Boinc.prototype.getAuthkey = function() {
+    BoincNewWorksourceForm.prototype.getAuthkey = function() {
       var request;
       if (this.username().length === 0 || this.password().length === 0) {
         return;
@@ -223,7 +261,7 @@
         }
       }, this));
     };
-    Boinc.prototype.checkAuthkey = function() {
+    BoincNewWorksourceForm.prototype.checkAuthkey = function() {
       var request;
       if (this.authkey().length === 0 || this.scheduler().length === 0) {
         this.ok(false);
@@ -240,7 +278,7 @@
         }
       }, this));
     };
-    Boinc.prototype.getProjectname = function() {
+    BoincNewWorksourceForm.prototype.getProjectname = function() {
       var request;
       if (this.projecturl().length === 0) {
         this.projectname('');
@@ -250,25 +288,7 @@
         return this.projectname(projectInfo.name);
       }, this));
     };
-    return Boinc;
-  })();
-  Worksource.prototype.register(Boinc);
-  BoincWorkunit = (function() {
-    __extends(BoincWorkunit, Workunit);
-    function BoincWorkunit(workunit) {
-      this.workunit = workunit;
-      BoincWorkunit.__super__.constructor.call(this, this.workunit);
-      this.progress(this.workunit.getProgress());
-      this.workunit.onProgressChange.subscribe(__bind(function() {
-        return this.progress(this.workunit.getProgress());
-      }, this));
-      this.status(this.workunit.getStatusString());
-      this.workunit.onStatusChange.subscribe(__bind(function() {
-        return this.status(this.workunit.getStatusString());
-      }, this));
-      this.workunit.onLog.subscribe(log('workunit-' + this.id));
-    }
-    return BoincWorkunit;
+    return BoincNewWorksourceForm;
   })();
   log = function(logname) {
     return function(entry) {
@@ -298,45 +318,8 @@
     Gears.prototype.running = ko.observable(false);
     Gears.prototype.threads = ko.observable(2);
     Gears.prototype.worksources = ko.observableArray([]);
+    Gears.prototype.newworksourceforms = void 0;
     Gears.prototype.client = void 0;
-    Gears.prototype.skeletons = {};
-    Gears.prototype.watch_worksource = function(worksource, livingCallback, deadCallback) {
-      var watch;
-      return watch = worksource.living.subscribe(__bind(function(living) {
-        if (living === true) {
-          this.client.addWorksource(worksource.worksource);
-          this.worksources.push(worksource);
-          return typeof livingCallback === "function" ? livingCallback() : void 0;
-        } else {
-          this.client.removeWorksource(worksource.worksource);
-          this.worksources.remove(worksource);
-          if (typeof deadCallback === "function") {
-            deadCallback();
-          }
-          return watch.dispose();
-        }
-      }, this));
-    };
-    Gears.prototype.register_skeletons = function() {
-      var constructor, newskeleton, type, _i, _len, _ref, _results;
-      newskeleton = __bind(function(type, constructor) {
-        var skeleton;
-        skeleton = new constructor();
-        this.skeletons[type](skeleton);
-        return this.watch_worksource(skeleton, (function() {
-          return newskeleton(type, constructor);
-        }));
-      }, this);
-      _ref = Worksource.prototype.types;
-      _results = [];
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        constructor = _ref[_i];
-        type = constructor.prototype.type;
-        this.skeletons[type] = ko.observable(null);
-        _results.push(newskeleton(type, constructor));
-      }
-      return _results;
-    };
     Gears.prototype.start = function() {
       var worksource, _i, _len, _ref;
       _ref = this.client.getWorksources();
@@ -365,28 +348,58 @@
         return this.client.setThreadNumber(this.threads());
       }, this));
     };
-    function Gears(client) {
+    function Gears(client, newworksourceforms) {
+      var newworksourceform, _i, _len, _ref;
       this.client = client;
+      this.newworksourceforms = newworksourceforms;
       this.start = __bind(this.start, this);
-      this.register_skeletons = __bind(this.register_skeletons, this);
-      this.watch_worksource = __bind(this.watch_worksource, this);
       this.client.onLog.subscribe(log('main'));
-      this.register_skeletons();
+      _ref = this.newworksourceforms();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        newworksourceform = _ref[_i];
+        newworksourceform.worksource.subscribe(__bind(function(newworksource) {
+          var death_watch;
+          this.client.addWorksource(newworksource.worksource);
+          this.worksources.push(newworksource);
+          return death_watch = worksource.living.subscribe(__bind(function(living) {
+            if (living === false) {
+              this.client.removeWorksource(worksource.worksource);
+              this.worksources.remove(worksource);
+              return death_watch.dispose();
+            }
+          }, this));
+        }, this));
+      }
     }
     return Gears;
   })();
+  bvp6 = new BoincNewWorksourceForm({
+    formtitle: 'Add Bvp6 demo project',
+    description: 'Description',
+    projectname: 'Bvp6 demo',
+    projecturl: 'http://bvp6.hpc.iit.bme.hu/w2g',
+    scheduler: 'http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi',
+    authkey: '2962b0b8970c4ca693d953da648724cd',
+    hide: ['projecturl', 'scheduler', 'authkey', 'username_password'],
+    ok: true
+  });
+  empty = new BoincNewWorksourceForm({
+    formtitle: 'Add BOINC project',
+    description: 'Description',
+    hide: ['scheduler', 'authkey'],
+    ok: false
+  });
+  empty_dev = new BoincNewWorksourceForm({
+    formtitle: 'Add BOINC project (for developers)',
+    description: 'Description',
+    ok: false
+  });
   client = new web2grid.core.control.Client("GridBee");
   if (client.getWorksources().length === 0) {
     client.addBoincWorkSource("http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi", "2962b0b8970c4ca693d953da648724cd");
   }
-  window.gears = new Gears(client);
+  window.gears = new Gears(client, NewWorksourceForm.prototype.newworksourceforms);
   $(function() {
-    var constructor, _i, _len, _ref;
-    _ref = Worksource.prototype.types;
-    for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-      constructor = _ref[_i];
-      $('#skeleton').tmpl(constructor.prototype).appendTo('#skeletons');
-    }
     ko.applyBindings(window.gears);
     return window.gears.start();
   });

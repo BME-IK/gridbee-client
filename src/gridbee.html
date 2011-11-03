@@ -52,14 +52,14 @@
       Overview
     </h1>
     <h1 class="selectable"
-        tab="newworksource" onclick="selectTab(this.getAttribute('tab'))">
+        tab="newworksourceforms" onclick="selectTab(this.getAttribute('tab'))">
       Add new worksource
     </h1>
   </div>
 </div>
 
 <div id="tabs"
-     data-bind="template: {name : 'worksource-tab', foreach : worksources}">
+     -data-bind="template: {name : 'worksource-tab', foreach : worksources}">
 
   <script type="text/html" id="worksource-tab">
   <div class="worksource-tab" data-bind="attr : {id : 'worksource-' + id}">
@@ -78,37 +78,24 @@
   </div>
   </script>
 
-  <div id="newworksource">
+  <div id="newworksourceforms">
     <h1>Add new worksource</h1>
 
-    <div class="template">
-      <h2 class="selectable selected"
-          onclick="$(this).toggleClass('selected')">
-        New BOINC worksource
-      </h2>
-      <p>
-        This worksource add form is a test. If you want to add anew BOINC
-        worksource, then this is made especially for you.
-      </p>
-      <form>
-        <div>
-          <label>Project url</label> <input>
-        </div>
-        <div>
-          <label>Scheduler url</label> <input>
-        </div>
-        <div>
-          <label>Username</label> <input>
-          <label>Password</label> <input>
-          <button>Register</button>
-        </div>
-        <div>
-          <label>Authentication key</label> <input>
-        </div>
-        <div>
-          <button>Add BOINC project</button>
-        </div>
-      </form>
+    <div data-bind="template : {name : 'newworksourceform', foreach : window.gears.newworksourceforms}">
+      <script type="text/html" id="newworksourceform">
+      <div>
+        <h2 class="selectable"
+            onclick="$(this).toggleClass('selected')"
+            data-bind="text : formtitle">
+        </h2>
+
+        <p data-bind="text : description">
+        </p>
+
+        <form data-bind="template : {name : 'newworksourceform-' + type}">
+        </form>
+      </div>
+      </script>
     </div>
 
   </div>
