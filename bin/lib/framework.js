@@ -2,6 +2,52 @@ $estr = function() { return js.Boot.__string_rec(this,''); }
 if(typeof web2grid=='undefined') web2grid = {}
 if(!web2grid.worksource) web2grid.worksource = {}
 if(!web2grid.worksource.boinc) web2grid.worksource.boinc = {}
+if(!web2grid.worksource.boinc.webrpc) web2grid.worksource.boinc.webrpc = {}
+if(!web2grid.worksource.boinc.webrpc.result) web2grid.worksource.boinc.webrpc.result = {}
+web2grid.worksource.boinc.webrpc.result.PendingCreditRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.PendingCreditRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("total_claimed_credit")) this.total_claimed_credit = Std.parseFloat(input.node.resolve("total_claimed_credit").getInnerData());
+	if(input.hasNode.resolve("result")) {
+		this.pending_arr = new Array();
+		{ var $it0 = input.nodes.resolve("result").iterator();
+		while( $it0.hasNext() ) { var i = $it0.next();
+		this.pending_arr.push(new web2grid.worksource.boinc.webrpc.subclasses.PendingCredit(i));
+		}}
+	}
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.PendingCreditRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","PendingCreditRes"];
+web2grid.worksource.boinc.webrpc.result.PendingCreditRes.prototype.total_claimed_credit = null;
+web2grid.worksource.boinc.webrpc.result.PendingCreditRes.prototype.pending_arr = null;
+web2grid.worksource.boinc.webrpc.result.PendingCreditRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.PendingCreditRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("total_claimed_credit: " + this.total_claimed_credit,{ fileName : "PendingCreditRes.hx", lineNumber : 23, className : "web2grid.worksource.boinc.webrpc.result.PendingCreditRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.PendingCreditRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.PendingCreditRes;
+web2grid.worksource.boinc.webrpc.result.ApplicVersionRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.ApplicVersionRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("application")) {
+		this.applic_arr = new Array();
+		{ var $it0 = input.nodes.resolve("application").iterator();
+		while( $it0.hasNext() ) { var i = $it0.next();
+		this.applic_arr.push(new web2grid.worksource.boinc.webrpc.subclasses.Applic(i));
+		}}
+	}
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.ApplicVersionRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","ApplicVersionRes"];
+web2grid.worksource.boinc.webrpc.result.ApplicVersionRes.prototype.applic_arr = null;
+web2grid.worksource.boinc.webrpc.result.ApplicVersionRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.ApplicVersionRes::print");
+	var $spos = $s.length;
+	if(this.applic_arr != null) this.applic_arr[0].print();
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.ApplicVersionRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.ApplicVersionRes;
 if(!web2grid.worksource.boinc.reply) web2grid.worksource.boinc.reply = {}
 web2grid.worksource.boinc.reply.DataServerReply = function(node) { if( node === $_ ) return; {
 	$s.push("web2grid.worksource.boinc.reply.DataServerReply::new");
@@ -329,12 +375,156 @@ web2grid.core.work.WorkUnitPool.prototype.hxUnserialize = function(s) {
 }
 web2grid.core.work.WorkUnitPool.prototype.__class__ = web2grid.core.work.WorkUnitPool;
 web2grid.core.work.WorkUnitPool.__interfaces__ = [web2grid.core.iface.Persistent,henkolib.log.LogSource,web2grid.core.iface.Operable];
+web2grid.worksource.boinc.webrpc.result.LookupTeamsRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.LookupTeamsRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("team")) {
+		this.teams_arr = new Array();
+		{ var $it0 = input.nodes.resolve("team").iterator();
+		while( $it0.hasNext() ) { var i = $it0.next();
+		this.teams_arr.push(new web2grid.worksource.boinc.webrpc.subclasses.Team(i));
+		}}
+	}
+	else if(input.getName() == "team") {
+		this.teams_arr = new Array();
+		this.teams_arr.push(new web2grid.worksource.boinc.webrpc.subclasses.Team(input));
+	}
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.LookupTeamsRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","LookupTeamsRes"];
+web2grid.worksource.boinc.webrpc.result.LookupTeamsRes.prototype.teams_arr = null;
+web2grid.worksource.boinc.webrpc.result.LookupTeamsRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.LookupTeamsRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("Print first team:",{ fileName : "LookupTeamsRes.hx", lineNumber : 26, className : "web2grid.worksource.boinc.webrpc.result.LookupTeamsRes", methodName : "print"});
+	this.teams_arr[0].print();
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.LookupTeamsRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.LookupTeamsRes;
+web2grid.worksource.boinc.webrpc.result.CreateTeamRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.CreateTeamRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("teamid")) this.teamid = Std.parseInt(input.node.resolve("teamid").getInnerData());
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.CreateTeamRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","CreateTeamRes"];
+web2grid.worksource.boinc.webrpc.result.CreateTeamRes.prototype.teamid = null;
+web2grid.worksource.boinc.webrpc.result.CreateTeamRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.CreateTeamRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("teamid: " + this.teamid,{ fileName : "CreateTeamRes.hx", lineNumber : 14, className : "web2grid.worksource.boinc.webrpc.result.CreateTeamRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.CreateTeamRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.CreateTeamRes;
 if(!henkolib.events) henkolib.events = {}
 henkolib.events.PublicEvent = function() { }
 henkolib.events.PublicEvent.__name__ = ["henkolib","events","PublicEvent"];
 henkolib.events.PublicEvent.prototype.subscribe = null;
 henkolib.events.PublicEvent.prototype.unsubscribe = null;
 henkolib.events.PublicEvent.prototype.__class__ = henkolib.events.PublicEvent;
+if(!web2grid.worksource.boinc.webrpc.subclasses) web2grid.worksource.boinc.webrpc.subclasses = {}
+web2grid.worksource.boinc.webrpc.subclasses.Applic = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Applic::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("name")) this.name = input.node.resolve("name").getInnerData();
+	if(input.hasNode.resolve("id")) this.id = Std.parseInt(input.node.resolve("id").getInnerData());
+	if(input.hasNode.resolve("version")) {
+		var k = input.node.resolve("version");
+		this.version = new web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion(k);
+	}
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.subclasses.Applic.__name__ = ["web2grid","worksource","boinc","webrpc","subclasses","Applic"];
+web2grid.worksource.boinc.webrpc.subclasses.Applic.prototype.name = null;
+web2grid.worksource.boinc.webrpc.subclasses.Applic.prototype.id = null;
+web2grid.worksource.boinc.webrpc.subclasses.Applic.prototype.version = null;
+web2grid.worksource.boinc.webrpc.subclasses.Applic.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Applic::print");
+	var $spos = $s.length;
+	haxe.Log.trace("name: " + this.name,{ fileName : "Applic.hx", lineNumber : 25, className : "web2grid.worksource.boinc.webrpc.subclasses.Applic", methodName : "print"});
+	haxe.Log.trace("id: " + this.id,{ fileName : "Applic.hx", lineNumber : 26, className : "web2grid.worksource.boinc.webrpc.subclasses.Applic", methodName : "print"});
+	haxe.Log.trace("***Version descriptions***",{ fileName : "Applic.hx", lineNumber : 27, className : "web2grid.worksource.boinc.webrpc.subclasses.Applic", methodName : "print"});
+	this.version.print();
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.subclasses.Applic.prototype.__class__ = web2grid.worksource.boinc.webrpc.subclasses.Applic;
+web2grid.worksource.boinc.webrpc.subclasses.Daemon = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Daemon::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("host")) this.host = input.node.resolve("host").getInnerData();
+	if(input.hasNode.resolve("command")) this.command = input.node.resolve("command").getInnerData();
+	if(input.hasNode.resolve("status")) this.status = input.node.resolve("status").getInnerData();
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.subclasses.Daemon.__name__ = ["web2grid","worksource","boinc","webrpc","subclasses","Daemon"];
+web2grid.worksource.boinc.webrpc.subclasses.Daemon.prototype.host = null;
+web2grid.worksource.boinc.webrpc.subclasses.Daemon.prototype.command = null;
+web2grid.worksource.boinc.webrpc.subclasses.Daemon.prototype.status = null;
+web2grid.worksource.boinc.webrpc.subclasses.Daemon.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Daemon::print");
+	var $spos = $s.length;
+	haxe.Log.trace("host: " + this.host,{ fileName : "Daemon.hx", lineNumber : 22, className : "web2grid.worksource.boinc.webrpc.subclasses.Daemon", methodName : "print"});
+	haxe.Log.trace("command: " + this.command,{ fileName : "Daemon.hx", lineNumber : 23, className : "web2grid.worksource.boinc.webrpc.subclasses.Daemon", methodName : "print"});
+	haxe.Log.trace("status: " + this.status,{ fileName : "Daemon.hx", lineNumber : 24, className : "web2grid.worksource.boinc.webrpc.subclasses.Daemon", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.subclasses.Daemon.prototype.__class__ = web2grid.worksource.boinc.webrpc.subclasses.Daemon;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.CreditInfoRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("id")) this.id = Std.parseInt(input.node.resolve("id").getInnerData());
+	if(input.hasNode.resolve("cpid")) this.cpid = input.node.resolve("cpid").getInnerData();
+	if(input.hasNode.resolve("create_time")) this.create_time = Std.parseInt(input.node.resolve("create_time").getInnerData());
+	if(input.hasNode.resolve("name")) this.name = input.node.resolve("name").getInnerData();
+	if(input.hasNode.resolve("country")) this.country = input.node.resolve("country").getInnerData();
+	if(input.hasNode.resolve("total_credit")) this.total_credit = Std.parseFloat(input.node.resolve("total_credit").getInnerData());
+	if(input.hasNode.resolve("expavg_credit")) this.expavg_credit = Std.parseFloat(input.node.resolve("expavg_credit").getInnerData());
+	if(input.hasNode.resolve("expavg_time")) this.expavg_time = Std.parseFloat(input.node.resolve("expavg_time").getInnerData());
+	if(input.hasNode.resolve("teamid")) this.teamid = Std.parseInt(input.node.resolve("teamid").getInnerData());
+	if(input.hasNode.resolve("url")) this.url = input.node.resolve("url").getInnerData();
+	if(input.hasNode.resolve("has_profile")) {
+		if(input.node.resolve("has_profile").getInnerData() == "1") this.has_profile = true;
+		else if(input.node.resolve("has_profile").getInnerData() == "0") this.has_profile = false;
+	}
+	if(input.hasNode.resolve("host")) {
+		this.host_arr = new Array();
+		{ var $it0 = input.nodes.resolve("host").iterator();
+		while( $it0.hasNext() ) { var i = $it0.next();
+		this.host_arr.push(new web2grid.worksource.boinc.webrpc.subclasses.Host(i));
+		}}
+	}
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","CreditInfoRes"];
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.id = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.cpid = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.create_time = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.name = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.country = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.total_credit = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.expavg_credit = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.expavg_time = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.teamid = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.url = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.has_profile = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.host_arr = null;
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.CreditInfoRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("id: " + this.id,{ fileName : "CreditInfoRes.hx", lineNumber : 57, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("cpid:" + this.cpid,{ fileName : "CreditInfoRes.hx", lineNumber : 58, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("create_time: " + this.create_time,{ fileName : "CreditInfoRes.hx", lineNumber : 59, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("name: " + this.name,{ fileName : "CreditInfoRes.hx", lineNumber : 60, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("country: " + this.country,{ fileName : "CreditInfoRes.hx", lineNumber : 61, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("total_credit: " + this.total_credit,{ fileName : "CreditInfoRes.hx", lineNumber : 62, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("expavg_credit: " + this.expavg_credit,{ fileName : "CreditInfoRes.hx", lineNumber : 63, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("expavg_time: " + this.expavg_time,{ fileName : "CreditInfoRes.hx", lineNumber : 64, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("teamid: " + this.teamid,{ fileName : "CreditInfoRes.hx", lineNumber : 65, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("url: " + this.url,{ fileName : "CreditInfoRes.hx", lineNumber : 66, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	haxe.Log.trace("has_profile: " + this.has_profile,{ fileName : "CreditInfoRes.hx", lineNumber : 67, className : "web2grid.worksource.boinc.webrpc.result.CreditInfoRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.CreditInfoRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.CreditInfoRes;
 web2grid.worksource.boinc.BoincData = function() { }
 web2grid.worksource.boinc.BoincData.__name__ = ["web2grid","worksource","boinc","BoincData"];
 web2grid.worksource.boinc.BoincData.prototype.toXmlString = null;
@@ -1336,6 +1526,28 @@ web2grid.worksource.boinc.request.Result.prototype.toXmlString = function(indent
 }
 web2grid.worksource.boinc.request.Result.prototype.__class__ = web2grid.worksource.boinc.request.Result;
 web2grid.worksource.boinc.request.Result.__interfaces__ = [web2grid.worksource.boinc.BoincData];
+web2grid.worksource.boinc.webrpc.result.TeamMembrListRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.TeamMembrListRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("user")) {
+		this.Membr_arr = new Array();
+		{ var $it0 = input.nodes.resolve("user").iterator();
+		while( $it0.hasNext() ) { var i = $it0.next();
+		this.Membr_arr.push(new web2grid.worksource.boinc.webrpc.subclasses.TeamMembr(i));
+		}}
+	}
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.TeamMembrListRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","TeamMembrListRes"];
+web2grid.worksource.boinc.webrpc.result.TeamMembrListRes.prototype.Membr_arr = null;
+web2grid.worksource.boinc.webrpc.result.TeamMembrListRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.TeamMembrListRes::print");
+	var $spos = $s.length;
+	if(this.Membr_arr[0] != null) this.Membr_arr[0].print();
+	else haxe.Log.trace("No members",{ fileName : "TeamMembrListRes.hx", lineNumber : 22, className : "web2grid.worksource.boinc.webrpc.result.TeamMembrListRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.TeamMembrListRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.TeamMembrListRes;
 web2grid.core.work.BasicWorkUnit = function(p) { if( p === $_ ) return; {
 	$s.push("web2grid.core.work.BasicWorkUnit::new");
 	var $spos = $s.length;
@@ -2416,6 +2628,22 @@ web2grid.core.work.WorkExecutor.prototype.onmessage = function(event) {
 }
 web2grid.core.work.WorkExecutor.prototype.__class__ = web2grid.core.work.WorkExecutor;
 web2grid.core.work.WorkExecutor.__interfaces__ = [web2grid.core.iface.Operable];
+web2grid.worksource.boinc.webrpc.result.SetHostInfoRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.SetHostInfoRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("success")) this.success = true;
+	else this.success = false;
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.SetHostInfoRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","SetHostInfoRes"];
+web2grid.worksource.boinc.webrpc.result.SetHostInfoRes.prototype.success = null;
+web2grid.worksource.boinc.webrpc.result.SetHostInfoRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.SetHostInfoRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("success: " + this.success,{ fileName : "SetHostInfoRes.hx", lineNumber : 18, className : "web2grid.worksource.boinc.webrpc.result.SetHostInfoRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.SetHostInfoRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.SetHostInfoRes;
 if(!haxe.xml) haxe.xml = {}
 if(!haxe.xml._Fast) haxe.xml._Fast = {}
 haxe.xml._Fast.NodeAccess = function(x) { if( x === $_ ) return; {
@@ -4257,6 +4485,55 @@ Xml.prototype.toString = function() {
 	$s.pop();
 }
 Xml.prototype.__class__ = Xml;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.ServerStatusRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("update_time")) this.update_time = Std.parseInt(input.node.resolve("update_time").getInnerData());
+	if(input.hasNode.resolve("software_version")) this.software_version = input.node.resolve("software_version").getInnerData();
+	if(input.node.resolve("daemon_status").hasNode.resolve("daemon")) {
+		this.daemon_arr = new Array();
+		{ var $it0 = input.node.resolve("daemon_status").nodes.resolve("daemon").iterator();
+		while( $it0.hasNext() ) { var i = $it0.next();
+		this.daemon_arr.push(new web2grid.worksource.boinc.webrpc.subclasses.Daemon(i));
+		}}
+	}
+	var k = input.node.resolve("database_file_states");
+	if(k.hasNode.resolve("results_ready_to_send")) this.results_ready_to_send = Std.parseInt(k.node.resolve("results_ready_to_send").getInnerData());
+	if(k.hasNode.resolve("results_in_progress")) this.results_in_progress = Std.parseInt(k.node.resolve("results_in_progress").getInnerData());
+	if(k.hasNode.resolve("workunits_waiting_for_validation")) this.workunits_waiting_for_validation = Std.parseInt(k.node.resolve("workunits_waiting_for_validation").getInnerData());
+	if(k.hasNode.resolve("workunits_waiting_for_assimilation")) this.workunits_waiting_for_assimilation = Std.parseInt(k.node.resolve("workunits_waiting_for_assimilation").getInnerData());
+	if(k.hasNode.resolve("workunits_waiting_for_deletion")) this.workunits_waiting_for_deletion = Std.parseInt(k.node.resolve("workunits_waiting_for_deletion").getInnerData());
+	if(k.hasNode.resolve("results_waiting_for_deletion")) this.results_waiting_for_deletion = Std.parseInt(k.node.resolve("results_waiting_for_deletion").getInnerData());
+	if(k.hasNode.resolve("transitioner_backlog_hours")) this.transitioner_backlog_hours = Std.parseFloat(k.node.resolve("transitioner_backlog_hours").getInnerData());
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","ServerStatusRes"];
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.update_time = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.software_version = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.daemon_arr = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.results_ready_to_send = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.results_in_progress = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.workunits_waiting_for_validation = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.workunits_waiting_for_assimilation = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.workunits_waiting_for_deletion = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.results_waiting_for_deletion = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.transitioner_backlog_hours = null;
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.ServerStatusRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("update_time: " + this.update_time,{ fileName : "ServerStatusRes.hx", lineNumber : 50, className : "web2grid.worksource.boinc.webrpc.result.ServerStatusRes", methodName : "print"});
+	haxe.Log.trace("software_version: " + this.software_version,{ fileName : "ServerStatusRes.hx", lineNumber : 51, className : "web2grid.worksource.boinc.webrpc.result.ServerStatusRes", methodName : "print"});
+	if(this.daemon_arr != null) this.daemon_arr[0].print();
+	haxe.Log.trace("results_ready_to_send: " + this.results_ready_to_send,{ fileName : "ServerStatusRes.hx", lineNumber : 54, className : "web2grid.worksource.boinc.webrpc.result.ServerStatusRes", methodName : "print"});
+	haxe.Log.trace("results_in_progress: " + this.results_in_progress,{ fileName : "ServerStatusRes.hx", lineNumber : 55, className : "web2grid.worksource.boinc.webrpc.result.ServerStatusRes", methodName : "print"});
+	haxe.Log.trace("workunits_waiting_for_validation: " + this.workunits_waiting_for_validation,{ fileName : "ServerStatusRes.hx", lineNumber : 56, className : "web2grid.worksource.boinc.webrpc.result.ServerStatusRes", methodName : "print"});
+	haxe.Log.trace("workunits_waiting_for_assimilation: " + this.workunits_waiting_for_assimilation,{ fileName : "ServerStatusRes.hx", lineNumber : 57, className : "web2grid.worksource.boinc.webrpc.result.ServerStatusRes", methodName : "print"});
+	haxe.Log.trace("workunits_waiting_for_deletion: " + this.workunits_waiting_for_deletion,{ fileName : "ServerStatusRes.hx", lineNumber : 58, className : "web2grid.worksource.boinc.webrpc.result.ServerStatusRes", methodName : "print"});
+	haxe.Log.trace("results_waiting_for_deletion: " + this.results_waiting_for_deletion,{ fileName : "ServerStatusRes.hx", lineNumber : 59, className : "web2grid.worksource.boinc.webrpc.result.ServerStatusRes", methodName : "print"});
+	haxe.Log.trace("transitioner_backlog_hours: " + this.transitioner_backlog_hours,{ fileName : "ServerStatusRes.hx", lineNumber : 60, className : "web2grid.worksource.boinc.webrpc.result.ServerStatusRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.ServerStatusRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.ServerStatusRes;
 haxe.Timer = function(time_ms) { if( time_ms === $_ ) return; {
 	$s.push("haxe.Timer::new");
 	var $spos = $s.length;
@@ -4579,6 +4856,113 @@ IntHash.prototype.toString = function() {
 	$s.pop();
 }
 IntHash.prototype.__class__ = IntHash;
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("p_fpops")) this.p_fpops = Std.parseFloat(input.node.resolve("p_fpops").getInnerData());
+	if(input.hasNode.resolve("p_iops")) this.p_iops = Std.parseFloat(input.node.resolve("p_iops").getInnerData());
+	if(input.hasNode.resolve("p_membw")) this.p_membw = Std.parseFloat(input.node.resolve("p_membw").getInnerData());
+	if(input.hasNode.resolve("m_nbytes")) this.m_nbytes = Std.parseFloat(input.node.resolve("m_nbytes").getInnerData());
+	if(input.hasNode.resolve("m_swap")) this.m_swap = Std.parseFloat(input.node.resolve("m_swap").getInnerData());
+	if(input.hasNode.resolve("d_free")) this.d_free = Std.parseFloat(input.node.resolve("d_free").getInnerData());
+	if(input.hasNode.resolve("bwup")) this.bwup = Std.parseFloat(input.node.resolve("bwup").getInnerData());
+	if(input.hasNode.resolve("bwdown")) this.bwdown = Std.parseFloat(input.node.resolve("bwdown").getInnerData());
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.__name__ = ["web2grid","worksource","boinc","webrpc","subclasses","SystemRequirements"];
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.p_fpops = null;
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.p_iops = null;
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.p_membw = null;
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.m_nbytes = null;
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.m_swap = null;
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.d_free = null;
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.bwup = null;
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.bwdown = null;
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements::print");
+	var $spos = $s.length;
+	haxe.Log.trace("p_fpops: " + this.p_fpops,{ fileName : "SystemRequirements.hx", lineNumber : 36, className : "web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements", methodName : "print"});
+	haxe.Log.trace("p_iops: " + this.p_iops,{ fileName : "SystemRequirements.hx", lineNumber : 37, className : "web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements", methodName : "print"});
+	haxe.Log.trace("p_membw: " + this.p_membw,{ fileName : "SystemRequirements.hx", lineNumber : 38, className : "web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements", methodName : "print"});
+	haxe.Log.trace("m_nbytes: " + this.m_nbytes,{ fileName : "SystemRequirements.hx", lineNumber : 39, className : "web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements", methodName : "print"});
+	haxe.Log.trace("m_swap: " + this.m_swap,{ fileName : "SystemRequirements.hx", lineNumber : 40, className : "web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements", methodName : "print"});
+	haxe.Log.trace("d_free: " + this.d_free,{ fileName : "SystemRequirements.hx", lineNumber : 41, className : "web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements", methodName : "print"});
+	haxe.Log.trace("bwup: " + this.bwup,{ fileName : "SystemRequirements.hx", lineNumber : 42, className : "web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements", methodName : "print"});
+	haxe.Log.trace("bwdown: " + this.bwdown,{ fileName : "SystemRequirements.hx", lineNumber : 43, className : "web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements.prototype.__class__ = web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.ProjectConfigRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("name")) this.name = input.node.resolve("name").getInnerData();
+	if(input.hasNode.resolve("master_url")) this.master_url = input.node.resolve("master_url").getInnerData();
+	if(input.hasNode.resolve("local_revision")) this.local_revision = input.node.resolve("local_revision").getInnerData();
+	if(input.hasNode.resolve("web_stopped")) {
+		if(input.node.resolve("web_stopped").getInnerData() == "1") this.web_stopped = true;
+		else if(input.node.resolve("web_stopped").getInnerData() == "0") this.web_stopped = false;
+	}
+	if(input.hasNode.resolve("account_creation_disabled")) this.account_creation_disabled = true;
+	else this.account_creation_disabled = false;
+	if(input.hasNode.resolve("client_account_creation_disabled")) this.client_account_creation_disabled = true;
+	else this.client_account_creation_disabled = false;
+	if(input.hasNode.resolve("min_passwd_length")) this.min_passwd_length = Std.parseInt(input.node.resolve("min_passwd_length").getInnerData());
+	if(input.hasNode.resolve("account_manager")) this.account_manager = true;
+	else this.account_manager = false;
+	if(input.hasNode.resolve("uses_username")) this.uses_username = true;
+	else this.uses_username = false;
+	if(input.hasNode.resolve("rpc_prefix")) this.rpc_prefix = input.node.resolve("rpc_prefix").getInnerData();
+	if(input.hasNode.resolve("error_num")) this.error_num = Std.parseInt(input.node.resolve("error_num").getInnerData());
+	if(input.hasNode.resolve("sched_stopped")) {
+		if(input.node.resolve("sched_stopped").getInnerData() == "1") this.sched_stopped = true;
+		else if(input.node.resolve("sched_stopped").getInnerData() == "0") this.sched_stopped = false;
+	}
+	if(input.hasNode.resolve("platforms")) if(input.node.resolve("platforms").hasNode.resolve("platform")) {
+		this.platforms_arr = new Array();
+		{ var $it0 = input.node.resolve("platforms").nodes.resolve("platform").iterator();
+		while( $it0.hasNext() ) { var i = $it0.next();
+		this.platforms_arr.push(new web2grid.worksource.boinc.webrpc.subclasses.Platforms(i));
+		}}
+	}
+	if(input.hasNode.resolve("system_requiremenets")) this.system_requirements = new web2grid.worksource.boinc.webrpc.subclasses.SystemRequirements(input.node.resolve("system_requirements"));
+	else this.system_requirements = null;
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","ProjectConfigRes"];
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.name = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.master_url = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.local_revision = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.web_stopped = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.account_creation_disabled = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.client_account_creation_disabled = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.min_passwd_length = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.account_manager = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.uses_username = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.rpc_prefix = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.error_num = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.sched_stopped = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.platforms_arr = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.system_requirements = null;
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.ProjectConfigRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("name: " + this.name,{ fileName : "ProjectConfigRes.hx", lineNumber : 82, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("master_url: " + this.master_url,{ fileName : "ProjectConfigRes.hx", lineNumber : 83, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("local_revision: " + this.local_revision,{ fileName : "ProjectConfigRes.hx", lineNumber : 84, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("web_stopped: " + this.web_stopped,{ fileName : "ProjectConfigRes.hx", lineNumber : 85, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("account_creation_disabled: " + this.account_creation_disabled,{ fileName : "ProjectConfigRes.hx", lineNumber : 86, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("client_account_creation_disabled: " + this.client_account_creation_disabled,{ fileName : "ProjectConfigRes.hx", lineNumber : 87, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("min_passwd_length: " + this.min_passwd_length,{ fileName : "ProjectConfigRes.hx", lineNumber : 88, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("account_manager: " + this.account_manager,{ fileName : "ProjectConfigRes.hx", lineNumber : 89, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("uses_username: " + this.uses_username,{ fileName : "ProjectConfigRes.hx", lineNumber : 90, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("rpc_prefix: " + this.rpc_prefix,{ fileName : "ProjectConfigRes.hx", lineNumber : 91, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("error_num: " + this.error_num,{ fileName : "ProjectConfigRes.hx", lineNumber : 92, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	haxe.Log.trace("sched_stopped: " + this.sched_stopped,{ fileName : "ProjectConfigRes.hx", lineNumber : 93, className : "web2grid.worksource.boinc.webrpc.result.ProjectConfigRes", methodName : "print"});
+	if(this.platforms_arr[0] != null) this.platforms_arr[0].print();
+	if(this.system_requirements != null) this.system_requirements.print();
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.ProjectConfigRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.ProjectConfigRes;
 web2grid.worksource.boinc.reply.AppVersion = function(node) { if( node === $_ ) return; {
 	$s.push("web2grid.worksource.boinc.reply.AppVersion::new");
 	var $spos = $s.length;
@@ -5061,6 +5445,9 @@ web2grid.worksource.boinc.BoincWorkSource.prototype.hxSerialize = function(s) {
 	s.serialize(this.host);
 	s.serialize(this.uploader);
 	s.serialize(this.reportqueue);
+	s.serialize(this.projecturl);
+	s.serialize(this.projectname);
+	s.serialize(this.username);
 	web2grid.core.work.BasicWorkSource.prototype.hxSerialize.call(this,s);
 	$s.pop();
 }
@@ -5072,6 +5459,9 @@ web2grid.worksource.boinc.BoincWorkSource.prototype.hxUnserialize = function(s) 
 	this.host = s.unserialize();
 	this.uploader = s.unserialize();
 	this.reportqueue = s.unserialize();
+	this.projecturl = s.unserialize();
+	this.projectname = s.unserialize();
+	this.username = s.unserialize();
 	web2grid.core.work.BasicWorkSource.prototype.hxUnserialize.call(this,s);
 	$s.pop();
 }
@@ -5085,6 +5475,63 @@ web2grid.worksource.boinc.reply.ResultAck = function(node) { if( node === $_ ) r
 web2grid.worksource.boinc.reply.ResultAck.__name__ = ["web2grid","worksource","boinc","reply","ResultAck"];
 web2grid.worksource.boinc.reply.ResultAck.prototype.name = null;
 web2grid.worksource.boinc.reply.ResultAck.prototype.__class__ = web2grid.worksource.boinc.reply.ResultAck;
+web2grid.worksource.boinc.webrpc.subclasses.Host = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Host::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("id")) this.id = Std.parseInt(input.node.resolve("id").getInnerData());
+	if(input.hasNode.resolve("create_time")) this.create_time = Std.parseInt(input.node.resolve("create_time").getInnerData());
+	if(input.hasNode.resolve("rpc_seqno")) this.rpc_seqno = Std.parseInt(input.node.resolve("rpc_seqno").getInnerData());
+	if(input.hasNode.resolve("host_cpid")) this.host_cpid = input.node.resolve("host_cpid").getInnerData();
+	if(input.hasNode.resolve("total_credit")) this.total_credit = Std.parseFloat(input.node.resolve("total_credit").getInnerData());
+	if(input.hasNode.resolve("expavg_credit")) this.expavg_credit = Std.parseFloat(input.node.resolve("expavg_credit").getInnerData());
+	if(input.hasNode.resolve("expavg_time")) this.expavg_time = Std.parseFloat(input.node.resolve("expavg_time").getInnerData());
+	if(input.hasNode.resolve("domain_name")) this.domain_name = input.node.resolve("domain_name").getInnerData();
+	if(input.hasNode.resolve("p_ncpus")) this.p_ncpus = Std.parseInt(input.node.resolve("p_ncpus").getInnerData());
+	if(input.hasNode.resolve("p_vendor")) this.p_vendor = input.node.resolve("p_vendor").getInnerData();
+	if(input.hasNode.resolve("p_model")) this.p_model = input.node.resolve("p_model").getInnerData();
+	if(input.hasNode.resolve("p_fpops")) this.p_fpops = Std.parseFloat(input.node.resolve("p_fpops").getInnerData());
+	if(input.hasNode.resolve("p_iops")) this.p_iops = Std.parseFloat(input.node.resolve("p_iops").getInnerData());
+	if(input.hasNode.resolve("os_name")) this.os_name = input.node.resolve("os_name").getInnerData();
+	if(input.hasNode.resolve("os_version")) this.os_version = input.node.resolve("os_version").getInnerData();
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.subclasses.Host.__name__ = ["web2grid","worksource","boinc","webrpc","subclasses","Host"];
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.id = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.create_time = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.rpc_seqno = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.host_cpid = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.total_credit = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.expavg_credit = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.expavg_time = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.domain_name = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.p_ncpus = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.p_vendor = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.p_model = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.p_fpops = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.p_iops = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.os_name = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.os_version = null;
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Host::print");
+	var $spos = $s.length;
+	haxe.Log.trace("id: " + this.id,{ fileName : "Host.hx", lineNumber : 58, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("create_time: " + this.create_time,{ fileName : "Host.hx", lineNumber : 59, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("rpc_seqno: " + this.rpc_seqno,{ fileName : "Host.hx", lineNumber : 60, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("host_cpid: " + this.host_cpid,{ fileName : "Host.hx", lineNumber : 61, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("total_credit: " + this.total_credit,{ fileName : "Host.hx", lineNumber : 62, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("expavg_credit: " + this.expavg_credit,{ fileName : "Host.hx", lineNumber : 63, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("expavg_time: " + this.expavg_time,{ fileName : "Host.hx", lineNumber : 64, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("domain_name: " + this.domain_name,{ fileName : "Host.hx", lineNumber : 65, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("p_ncpus: " + this.p_ncpus,{ fileName : "Host.hx", lineNumber : 66, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("p_vendor: " + this.p_vendor,{ fileName : "Host.hx", lineNumber : 67, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("p_model: " + this.p_model,{ fileName : "Host.hx", lineNumber : 68, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("p_fpops: " + this.p_fpops,{ fileName : "Host.hx", lineNumber : 69, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("p_iops: " + this.p_iops,{ fileName : "Host.hx", lineNumber : 70, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("os_name: " + this.os_name,{ fileName : "Host.hx", lineNumber : 71, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	haxe.Log.trace("os_version: " + this.os_version,{ fileName : "Host.hx", lineNumber : 72, className : "web2grid.worksource.boinc.webrpc.subclasses.Host", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.subclasses.Host.prototype.__class__ = web2grid.worksource.boinc.webrpc.subclasses.Host;
 StringBuf = function(p) { if( p === $_ ) return; {
 	$s.push("StringBuf::new");
 	var $spos = $s.length;
@@ -5521,6 +5968,60 @@ web2grid.js.XMLHttpRequestUpload = function() { }
 web2grid.js.XMLHttpRequestUpload.__name__ = ["web2grid","js","XMLHttpRequestUpload"];
 web2grid.js.XMLHttpRequestUpload.prototype.__class__ = web2grid.js.XMLHttpRequestUpload;
 web2grid.js.XMLHttpRequestUpload.__interfaces__ = [web2grid.js.XMLHttpRequestEventTarget];
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.TeamMembr::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("id")) this.id = Std.parseInt(input.node.resolve("id").getInnerData());
+	if(input.hasNode.resolve("email_addr")) this.email_addr = input.node.resolve("email_addr").getInnerData();
+	if(input.hasNode.resolve("email_ok")) {
+		if(input.node.resolve("email_ok").getInnerData() == "yes") this.email_ok = true;
+		else if(input.node.resolve("email_ok").getInnerData() == "no") this.email_ok = false;
+	}
+	if(input.hasNode.resolve("cpid")) this.cpid = input.node.resolve("cpid").getInnerData();
+	if(input.hasNode.resolve("create_time")) this.create_time = Std.parseInt(input.node.resolve("create_time").getInnerData());
+	if(input.hasNode.resolve("name")) this.name = input.node.resolve("name").getInnerData();
+	if(input.hasNode.resolve("country")) this.country = input.node.resolve("country").getInnerData();
+	if(input.hasNode.resolve("total_credit")) this.total_credit = Std.parseFloat(input.node.resolve("total_credit").getInnerData());
+	if(input.hasNode.resolve("expavg_credit")) this.expavg_credit = Std.parseFloat(input.node.resolve("expavg_credit").getInnerData());
+	if(input.hasNode.resolve("expavg_time")) this.expavg_time = Std.parseFloat(input.node.resolve("expavg_time").getInnerData());
+	if(input.hasNode.resolve("url")) this.url = input.node.resolve("url").getInnerData();
+	if(input.hasNode.resolve("has_profile")) {
+		if(input.node.resolve("has_profile").getInnerData() == "1") this.has_profile = true;
+		else if(input.node.resolve("has_profile").getInnerData() == "0") this.has_profile = false;
+	}
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.__name__ = ["web2grid","worksource","boinc","webrpc","subclasses","TeamMembr"];
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.id = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.email_addr = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.email_ok = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.cpid = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.create_time = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.name = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.country = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.total_credit = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.expavg_credit = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.expavg_time = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.url = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.has_profile = null;
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.TeamMembr::print");
+	var $spos = $s.length;
+	haxe.Log.trace("id: " + this.id,{ fileName : "TeamMembr.hx", lineNumber : 55, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("email_addr: " + this.email_addr,{ fileName : "TeamMembr.hx", lineNumber : 56, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("email_ok: " + this.email_ok,{ fileName : "TeamMembr.hx", lineNumber : 57, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("cpid: " + this.cpid,{ fileName : "TeamMembr.hx", lineNumber : 58, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("create_time: " + this.create_time,{ fileName : "TeamMembr.hx", lineNumber : 59, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("name: " + this.name,{ fileName : "TeamMembr.hx", lineNumber : 60, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("country: " + this.country,{ fileName : "TeamMembr.hx", lineNumber : 61, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("total_credit: " + this.total_credit,{ fileName : "TeamMembr.hx", lineNumber : 62, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("expavg_credit: " + this.expavg_credit,{ fileName : "TeamMembr.hx", lineNumber : 63, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("expavg_time: " + this.expavg_time,{ fileName : "TeamMembr.hx", lineNumber : 64, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("url: " + this.url,{ fileName : "TeamMembr.hx", lineNumber : 65, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	haxe.Log.trace("has_profile: " + this.has_profile,{ fileName : "TeamMembr.hx", lineNumber : 66, className : "web2grid.worksource.boinc.webrpc.subclasses.TeamMembr", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.subclasses.TeamMembr.prototype.__class__ = web2grid.worksource.boinc.webrpc.subclasses.TeamMembr;
 web2grid.js.MessageEvent = function() { }
 web2grid.js.MessageEvent.__name__ = ["web2grid","js","MessageEvent"];
 web2grid.js.MessageEvent.prototype.data = null;
@@ -5554,6 +6055,48 @@ henkolib.log.LogEntry.prototype.message = null;
 henkolib.log.LogEntry.prototype.data = null;
 henkolib.log.LogEntry.prototype.pos = null;
 henkolib.log.LogEntry.prototype.__class__ = henkolib.log.LogEntry;
+web2grid.worksource.boinc.webrpc.subclasses.Platforms = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Platforms::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("platform_name")) this.platform_name = input.node.resolve("platform_name").getInnerData();
+	if(input.hasNode.resolve("user_friendly_name")) this.user_friendly_name = input.node.resolve("user_friendly_name").getInnerData();
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.subclasses.Platforms.__name__ = ["web2grid","worksource","boinc","webrpc","subclasses","Platforms"];
+web2grid.worksource.boinc.webrpc.subclasses.Platforms.prototype.platform_name = null;
+web2grid.worksource.boinc.webrpc.subclasses.Platforms.prototype.user_friendly_name = null;
+web2grid.worksource.boinc.webrpc.subclasses.Platforms.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Platforms::print");
+	var $spos = $s.length;
+	haxe.Log.trace("platform_name: " + this.platform_name,{ fileName : "Platforms.hx", lineNumber : 19, className : "web2grid.worksource.boinc.webrpc.subclasses.Platforms", methodName : "print"});
+	haxe.Log.trace("user_friendly_name: " + this.user_friendly_name,{ fileName : "Platforms.hx", lineNumber : 20, className : "web2grid.worksource.boinc.webrpc.subclasses.Platforms", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.subclasses.Platforms.prototype.__class__ = web2grid.worksource.boinc.webrpc.subclasses.Platforms;
+web2grid.worksource.boinc.webrpc.subclasses.PendingCredit = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.PendingCredit::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("resultid")) this.resultid = Std.parseInt(input.node.resolve("resultid").getInnerData());
+	if(input.hasNode.resolve("workunitid")) this.workunitid = Std.parseInt(input.node.resolve("workunitid").getInnerData());
+	if(input.hasNode.resolve("claimed_credit")) this.claimed_credit = Std.parseFloat(input.node.resolve("claimed_credit").getInnerData());
+	if(input.hasNode.resolve("received_time")) this.received_time = Std.parseInt(input.node.resolve("received_time").getInnerData());
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.subclasses.PendingCredit.__name__ = ["web2grid","worksource","boinc","webrpc","subclasses","PendingCredit"];
+web2grid.worksource.boinc.webrpc.subclasses.PendingCredit.prototype.resultid = null;
+web2grid.worksource.boinc.webrpc.subclasses.PendingCredit.prototype.workunitid = null;
+web2grid.worksource.boinc.webrpc.subclasses.PendingCredit.prototype.claimed_credit = null;
+web2grid.worksource.boinc.webrpc.subclasses.PendingCredit.prototype.received_time = null;
+web2grid.worksource.boinc.webrpc.subclasses.PendingCredit.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.PendingCredit::print");
+	var $spos = $s.length;
+	haxe.Log.trace("resultid: " + this.resultid,{ fileName : "PendingCredit.hx", lineNumber : 25, className : "web2grid.worksource.boinc.webrpc.subclasses.PendingCredit", methodName : "print"});
+	haxe.Log.trace("workunitid: " + this.workunitid,{ fileName : "PendingCredit.hx", lineNumber : 26, className : "web2grid.worksource.boinc.webrpc.subclasses.PendingCredit", methodName : "print"});
+	haxe.Log.trace("claimed_credit: " + this.claimed_credit,{ fileName : "PendingCredit.hx", lineNumber : 27, className : "web2grid.worksource.boinc.webrpc.subclasses.PendingCredit", methodName : "print"});
+	haxe.Log.trace("received_time: " + this.received_time,{ fileName : "PendingCredit.hx", lineNumber : 28, className : "web2grid.worksource.boinc.webrpc.subclasses.PendingCredit", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.subclasses.PendingCredit.prototype.__class__ = web2grid.worksource.boinc.webrpc.subclasses.PendingCredit;
 web2grid.worksource.boinc.reply.Workunit = function(node) { if( node === $_ ) return; {
 	$s.push("web2grid.worksource.boinc.reply.Workunit::new");
 	var $spos = $s.length;
@@ -5817,6 +6360,36 @@ DateTools.make = function(o) {
 	$s.pop();
 }
 DateTools.prototype.__class__ = DateTools;
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("platform_short")) this.platform_short = input.node.resolve("platform_short").getInnerData();
+	if(input.hasNode.resolve("platform_long")) this.platform_long = input.node.resolve("platform_long").getInnerData();
+	if(input.hasNode.resolve("version_num")) this.version_num = Std.parseFloat(input.node.resolve("version_num").getInnerData());
+	if(input.hasNode.resolve("plan_class")) this.plan_class = input.node.resolve("plan_class").getInnerData();
+	if(input.hasNode.resolve("date")) this.date = input.node.resolve("date").getInnerData();
+	if(input.hasNode.resolve("date_unix")) this.date_unix = Std.parseInt(input.node.resolve("date").getInnerData());
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion.__name__ = ["web2grid","worksource","boinc","webrpc","subclasses","ApplicVersion"];
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion.prototype.platform_short = null;
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion.prototype.platform_long = null;
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion.prototype.version_num = null;
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion.prototype.plan_class = null;
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion.prototype.date = null;
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion.prototype.date_unix = null;
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion::print");
+	var $spos = $s.length;
+	haxe.Log.trace("platform_short: " + this.platform_short,{ fileName : "ApplicVersion.hx", lineNumber : 31, className : "web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion", methodName : "print"});
+	haxe.Log.trace("platform_long: " + this.platform_long,{ fileName : "ApplicVersion.hx", lineNumber : 32, className : "web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion", methodName : "print"});
+	haxe.Log.trace("version_num: " + this.version_num,{ fileName : "ApplicVersion.hx", lineNumber : 33, className : "web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion", methodName : "print"});
+	haxe.Log.trace("plan_class: " + this.plan_class,{ fileName : "ApplicVersion.hx", lineNumber : 34, className : "web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion", methodName : "print"});
+	haxe.Log.trace("date: " + this.date,{ fileName : "ApplicVersion.hx", lineNumber : 35, className : "web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion", methodName : "print"});
+	haxe.Log.trace("date_unix: " + this.date_unix,{ fileName : "ApplicVersion.hx", lineNumber : 36, className : "web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion.prototype.__class__ = web2grid.worksource.boinc.webrpc.subclasses.ApplicVersion;
 web2grid.worksource.boinc.reply.Message = function(node) { if( node === $_ ) return; {
 	$s.push("web2grid.worksource.boinc.reply.Message::new");
 	var $spos = $s.length;
@@ -5929,6 +6502,63 @@ Std.random = function(x) {
 	$s.pop();
 }
 Std.prototype.__class__ = Std;
+web2grid.worksource.boinc.webrpc.subclasses.Team = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Team::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("id")) this.id = Std.parseInt(input.node.resolve("id").getInnerData());
+	if(input.hasNode.resolve("create_time")) this.create_time = Std.parseInt(input.node.resolve("create_time").getInnerData());
+	if(input.hasNode.resolve("userid")) this.userid = Std.parseInt(input.node.resolve("userid").getInnerData());
+	if(input.hasNode.resolve("name")) this.name = input.node.resolve("name").getInnerData();
+	if(input.hasNode.resolve("url")) this.url = input.node.resolve("url").getInnerData();
+	if(input.hasNode.resolve("type")) this.type = Std.parseInt(input.node.resolve("type").getInnerData());
+	if(input.hasNode.resolve("country")) this.country = input.node.resolve("country").getInnerData();
+	if(input.hasNode.resolve("total_credit")) this.total_credit = Std.parseFloat(input.node.resolve("total_credit").getInnerData());
+	if(input.hasNode.resolve("expavg_credit")) this.expavg_credit = Std.parseFloat(input.node.resolve("expavg_credit").getInnerData());
+	if(input.hasNode.resolve("expavg_time")) this.expavg_time = Std.parseFloat(input.node.resolve("expavg_time").getInnerData());
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.subclasses.Team.__name__ = ["web2grid","worksource","boinc","webrpc","subclasses","Team"];
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.id = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.create_time = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.userid = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.name = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.url = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.type = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.country = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.total_credit = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.expavg_credit = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.expavg_time = null;
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.subclasses.Team::print");
+	var $spos = $s.length;
+	haxe.Log.trace("id: " + this.id,{ fileName : "Team.hx", lineNumber : 43, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	haxe.Log.trace("create_time: " + this.create_time,{ fileName : "Team.hx", lineNumber : 44, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	haxe.Log.trace("userid: " + this.userid,{ fileName : "Team.hx", lineNumber : 45, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	haxe.Log.trace("name: " + this.name,{ fileName : "Team.hx", lineNumber : 46, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	haxe.Log.trace("url: " + this.url,{ fileName : "Team.hx", lineNumber : 47, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	haxe.Log.trace("type: " + this.type,{ fileName : "Team.hx", lineNumber : 48, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	haxe.Log.trace("country: " + this.country,{ fileName : "Team.hx", lineNumber : 49, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	haxe.Log.trace("total_credit: " + this.total_credit,{ fileName : "Team.hx", lineNumber : 50, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	haxe.Log.trace("expavg_credit: " + this.expavg_credit,{ fileName : "Team.hx", lineNumber : 51, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	haxe.Log.trace("expavg_time: " + this.expavg_time,{ fileName : "Team.hx", lineNumber : 52, className : "web2grid.worksource.boinc.webrpc.subclasses.Team", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.subclasses.Team.prototype.__class__ = web2grid.worksource.boinc.webrpc.subclasses.Team;
+web2grid.worksource.boinc.webrpc.result.LookupAccRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.LookupAccRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("authenticator")) this.Auth = input.node.resolve("authenticator").getInnerData();
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.LookupAccRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","LookupAccRes"];
+web2grid.worksource.boinc.webrpc.result.LookupAccRes.prototype.Auth = null;
+web2grid.worksource.boinc.webrpc.result.LookupAccRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.LookupAccRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("authenticator: " + this.Auth,{ fileName : "LookupAccRes.hx", lineNumber : 14, className : "web2grid.worksource.boinc.webrpc.result.LookupAccRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.LookupAccRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.LookupAccRes;
 web2grid.worksource.boinc.BoincResultState = { __ename__ : ["web2grid","worksource","boinc","BoincResultState"], __constructs__ : ["New","CheckingStatus","ReadyToUpload","Uploading","Uploaded","Error"] }
 web2grid.worksource.boinc.BoincResultState.New = ["New",0];
 web2grid.worksource.boinc.BoincResultState.New.toString = $estr;
@@ -6275,6 +6905,40 @@ web2grid.worksource.boinc.reply.FileRef.prototype.open_name = null;
 web2grid.worksource.boinc.reply.FileRef.prototype.main_program = null;
 web2grid.worksource.boinc.reply.FileRef.prototype.file_info = null;
 web2grid.worksource.boinc.reply.FileRef.prototype.__class__ = web2grid.worksource.boinc.reply.FileRef;
+web2grid.worksource.boinc.webrpc.result.AccountCreateRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.AccountCreateRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("authenticator")) this.authenticator = input.node.resolve("authenticator").getInnerData();
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.AccountCreateRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","AccountCreateRes"];
+web2grid.worksource.boinc.webrpc.result.AccountCreateRes.prototype.authenticator = null;
+web2grid.worksource.boinc.webrpc.result.AccountCreateRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.AccountCreateRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("authenticator: " + this.authenticator,{ fileName : "AccountCreateRes.hx", lineNumber : 16, className : "web2grid.worksource.boinc.webrpc.result.AccountCreateRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.AccountCreateRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.AccountCreateRes;
+web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("success")) this.success = true;
+	else this.success = false;
+	if(input.hasNode.resolve("opaque_auth")) this.opaque_auth = input.node.resolve("opaque_auth").getInnerData();
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","SetAccountInfoRes"];
+web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes.prototype.success = null;
+web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes.prototype.opaque_auth = null;
+web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("success: " + this.success,{ fileName : "SetAccountInfoRes.hx", lineNumber : 21, className : "web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes", methodName : "print"});
+	haxe.Log.trace("opaque_auth: " + this.opaque_auth,{ fileName : "SetAccountInfoRes.hx", lineNumber : 22, className : "web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes;
 Main = function() { }
 Main.__name__ = ["Main"];
 Main.gbClient = null;
@@ -6290,7 +6954,7 @@ Main.onload = function() {
 	var $spos = $s.length;
 	Main.logdiv = js.Lib.document.getElementById("log");
 	henkolib.log.Console.main.onLog.subscribe($closure(Main,"onLog"));
-	henkolib.log.Console.main.logNotice("Console loaded.",null,null,{ fileName : "Main.hx", lineNumber : 31, className : "Main", methodName : "onload"});
+	henkolib.log.Console.main.logNotice("Console loaded.",null,null,{ fileName : "Main.hx", lineNumber : 32, className : "Main", methodName : "onload"});
 	Main.gbClient = new web2grid.core.control.Client("GridBeeClient_storage");
 	Main.gbClient.start(2000);
 	if(Main.gbClient.getWorksources().length == 0) Main.gbClient.addBoincWorkSource("http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi","2962b0b8970c4ca693d953da648724cd");
@@ -6358,6 +7022,7 @@ web2grid.core.control.Client.__name__ = ["web2grid","core","control","Client"];
 web2grid.core.control.Client.prototype.timer = null;
 web2grid.core.control.Client.prototype.worksourcepool = null;
 web2grid.core.control.Client.prototype.savepath = null;
+web2grid.core.control.Client.prototype.webrpc = null;
 web2grid.core.control.Client.prototype.onLog = null;
 web2grid.core.control.Client.prototype.start = function(ms) {
 	$s.push("web2grid.core.control.Client::start");
@@ -6380,6 +7045,17 @@ web2grid.core.control.Client.prototype.terminate = function() {
 		this.worksourcepool.terminate();
 		this.timer.stop();
 		this.timer = null;
+	}
+	$s.pop();
+}
+web2grid.core.control.Client.prototype.CreateBoincWebRPCHandler = function(projecturl) {
+	$s.push("web2grid.core.control.Client::CreateBoincWebRPCHandler");
+	var $spos = $s.length;
+	this.webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(projecturl);
+	{
+		var $tmp = this.webrpc;
+		$s.pop();
+		return $tmp;
 	}
 	$s.pop();
 }
@@ -6447,7 +7123,7 @@ web2grid.core.control.Client.prototype.restore = function() {
 		var string = localStorage.getItem(this.savepath);
 		if(string == null || string == "") {
 			this.worksourcepool = new web2grid.core.work.WorkSourcePool();
-			henkolib.log.Console.main.logWarning("Client is not installed in this browser yet. Installing new settings.",null,null,{ fileName : "Client.hx", lineNumber : 112, className : "web2grid.core.control.Client", methodName : "restore"});
+			henkolib.log.Console.main.logWarning("Client is not installed in this browser yet. Installing new settings.",null,null,{ fileName : "Client.hx", lineNumber : 120, className : "web2grid.core.control.Client", methodName : "restore"});
 		}
 		else {
 			this.worksourcepool = (function($this) {
@@ -6458,7 +7134,7 @@ web2grid.core.control.Client.prototype.restore = function() {
 				$r = $t;
 				return $r;
 			}(this));
-			henkolib.log.Console.main.logNotice("Loaded last settings from LocalStorage.",null,null,{ fileName : "Client.hx", lineNumber : 117, className : "web2grid.core.control.Client", methodName : "restore"});
+			henkolib.log.Console.main.logNotice("Loaded last settings from LocalStorage.",null,null,{ fileName : "Client.hx", lineNumber : 125, className : "web2grid.core.control.Client", methodName : "restore"});
 		}
 	}
 	catch( $e0 ) {
@@ -6470,13 +7146,645 @@ web2grid.core.control.Client.prototype.restore = function() {
 				$s.push($e[0]);
 				this.worksourcepool = new web2grid.core.work.WorkSourcePool();
 				this.save();
-				henkolib.log.Console.main.logError("Could not load from LocalStorage! Invalid data found! Installing new settings.",null,null,{ fileName : "Client.hx", lineNumber : 123, className : "web2grid.core.control.Client", methodName : "restore"});
+				henkolib.log.Console.main.logError("Could not load from LocalStorage! Invalid data found! Installing new settings.",null,null,{ fileName : "Client.hx", lineNumber : 131, className : "web2grid.core.control.Client", methodName : "restore"});
 			}
 		}
 	}
 	$s.pop();
 }
 web2grid.core.control.Client.prototype.__class__ = web2grid.core.control.Client;
+web2grid.worksource.boinc.webrpc.BoincWebRPC = function(projectUrl) { if( projectUrl === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::new");
+	var $spos = $s.length;
+	while(StringTools.endsWith(projectUrl,"/")) {
+		projectUrl = projectUrl.substr(0,projectUrl.length - 1);
+	}
+	this.projectUrl = projectUrl;
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.__name__ = ["web2grid","worksource","boinc","webrpc","BoincWebRPC"];
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.projectUrl = null;
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.lookupAccount = function(email,passwd) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::lookupAccount");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var passwd_hash;
+	var url;
+	email = email.toLowerCase();
+	passwd_hash = haxe.Md5.encode(passwd + email);
+	url = this.projectUrl + "/lookup_account.php?email_addr=" + email + "&passwd_hash=" + passwd_hash + "&get_opaque_auth=0";
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::lookupAccount@85");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.LookupAccRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::lookupAccount@110");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.getAccountInfo = function(Auth) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getAccountInfo");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/am_get_info.php?account_key=" + Auth;
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getAccountInfo@126");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.AccountInfoRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getAccountInfo@151");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.setAccountInfo = function(Auth,email_addr,password,name,country,postal_code,global_prefs,project_prefs,yoururl,send_email,show_hosts,teamid,venue) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::setAccountInfo");
+	var $spos = $s.length;
+	if(venue == null) venue = "";
+	if(teamid == null) teamid = -1;
+	if(show_hosts == null) show_hosts = -1;
+	if(send_email == null) send_email = -1;
+	if(yoururl == null) yoururl = "";
+	if(project_prefs == null) project_prefs = "";
+	if(global_prefs == null) global_prefs = "";
+	if(postal_code == null) postal_code = "";
+	if(country == null) country = "";
+	if(name == null) name = "";
+	if(password == null) password = "";
+	if(email_addr == null) email_addr = "";
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/am_set_info.php?account_key=" + Auth;
+	if(email_addr != "") url += "&email_addr=" + email_addr.toLowerCase();
+	if(password != "") url += "&password_hash=" + haxe.Md5.encode(password + email_addr.toLowerCase());
+	if(name != "") url += "&name=" + StringTools.urlEncode(name);
+	if(country != "") url += "&country=" + StringTools.urlEncode(country);
+	if(postal_code != "") url += "&postal_code=" + StringTools.urlEncode(postal_code);
+	if(global_prefs != "") url += "&global_prefs=" + StringTools.urlEncode(global_prefs);
+	if(project_prefs != "") url += "&project_prefs=" + StringTools.urlEncode(project_prefs);
+	if(yoururl != "") url += "&url=" + yoururl;
+	if(send_email != -1) {
+		if(send_email == 1) url += "&send_email=1";
+		else if(send_email == 0) url += "&send_email=0";
+	}
+	if(show_hosts != -1) {
+		if(show_hosts == 1) url += "&show_hosts=1";
+		else if(show_hosts == 0) url += "&show_hosts=0";
+	}
+	if(teamid != -1) url += "&teamid=" + teamid;
+	if(venue != "") url += "&venue=" + StringTools.urlEncode(venue);
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::setAccountInfo@205");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.SetAccountInfoRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::setAccountInfo@230");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.createAccount = function(username,email,passwd) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::createAccount");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	var passwd_hash;
+	email = email.toLowerCase();
+	passwd_hash = haxe.Md5.encode(passwd + email);
+	url = this.projectUrl + "/create_account.php?email_addr=" + email + "&passwd_hash=" + passwd_hash + "&user_name=" + username;
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::createAccount@250");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.AccountCreateRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::createAccount@275");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.getCreditInformationWithID = function(Id) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getCreditInformationWithID");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/show_user.php?userid=" + Id + "&format=xml";
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getCreditInformationWithID@291");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.CreditInfoRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getCreditInformationWithID@316");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.getCreditInformationWithAuth = function(Auth) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getCreditInformationWithAuth");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/show_user.php?auth=" + Auth + "&format=xml";
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getCreditInformationWithAuth@332");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.CreditInfoRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getCreditInformationWithAuth@358");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.getPendingCreditInfo = function(Auth) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getPendingCreditInfo");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/pending.php?authenticator=" + Auth + "&format=xml";
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getPendingCreditInfo@374");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.PendingCreditRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getPendingCreditInfo@400");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.setHostInfo = function(Auth,hostid,venue) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::setHostInfo");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/am_set_host_info.php?account_key=" + Auth + "&hostid=" + hostid + "&venue=" + StringTools.urlEncode(venue);
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::setHostInfo@416");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.SetHostInfoRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::setHostInfo@441");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.createTeam = function(Auth,TeamName,TeamType,TeamDescription,TeamCountry,TeamUrl,TeamNameHTML) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::createTeam");
+	var $spos = $s.length;
+	if(TeamNameHTML == null) TeamNameHTML = "";
+	if(TeamCountry == null) TeamCountry = "";
+	if(TeamDescription == null) TeamDescription = "";
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	if(TeamNameHTML == "") TeamNameHTML = TeamName;
+	url = this.projectUrl + "/create_team.php?account_key=" + Auth + "&name=" + StringTools.urlEncode(TeamName) + "&type=" + StringTools.urlEncode(TeamType) + "&name_html=" + StringTools.htmlEscape(TeamNameHTML);
+	if(TeamDescription != "") url += "&description=" + StringTools.urlEncode(TeamDescription);
+	if(TeamCountry != "") url += "&country=" + StringTools.urlEncode(TeamCountry);
+	if(TeamUrl != "") url += "&url=" + TeamUrl;
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::createTeam@470");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.CreateTeamRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::createTeam@495");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.lookupTeamByName = function(TeamName) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::lookupTeamByName");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/team_lookup.php?team_name=" + StringTools.urlEncode(TeamName) + "&format=xml";
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::lookupTeamByName@511");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.LookupTeamsRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::lookupTeamByName@536");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.lookupTeamByID = function(TeamID) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::lookupTeamByID");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/team_lookup.php?team_id=" + TeamID + "&format=xml";
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::lookupTeamByID@551");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.LookupTeamsRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::lookupTeamByID@576");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.getTeamMembersList = function(TeamID,TeamAdminAuth) {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getTeamMembersList");
+	var $spos = $s.length;
+	if(TeamAdminAuth == null) TeamAdminAuth = "";
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/team_email_list.php?teamid=" + TeamID + "&xml=1";
+	if(TeamAdminAuth != "") url += "&account_key=" + TeamAdminAuth;
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getTeamMembersList@595");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.TeamMembrListRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getTeamMembersList@619");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.getServerStatus = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getServerStatus");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/server_status.php?xml=1";
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getServerStatus@637");
+		var $spos = $s.length;
+		if(response.content.indexOf("Access denied") != -1) {
+			operation.setError("Access denied, you might have to log in for this action");
+		}
+		else {
+			var inXml = Xml.parse(response.content);
+			var input = new haxe.xml.Fast(inXml.firstElement());
+			if(input.getName() == "error") {
+				if(input.hasNode.resolve("error_msg")) {
+					operation.setError(input.node.resolve("error_msg").getInnerData());
+				}
+				else if(input.hasNode.resolve("error_string")) {
+					operation.setError(input.node.resolve("error_string").getInnerData());
+				}
+			}
+			else {
+				var output = new web2grid.worksource.boinc.webrpc.result.ServerStatusRes(input);
+				operation.setResult(output);
+			}
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getServerStatus@669");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.getApplicationVersionsList = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getApplicationVersionsList");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/apps.php?xml=1";
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getApplicationVersionsList@685");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.ApplicVersionRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::getApplicationVersionsList@710");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.projectConfiguration = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::projectConfiguration");
+	var $spos = $s.length;
+	var operation = new henkolib.async.AsyncOperation();
+	var url;
+	url = this.projectUrl + "/get_project_config.php";
+	var req = web2grid.core.net.HTTPRequest.get(url).send();
+	req.onComplete.subscribe(function(response) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::projectConfiguration@726");
+		var $spos = $s.length;
+		var inXml = Xml.parse(response.content);
+		var input = new haxe.xml.Fast(inXml.firstElement());
+		if(input.getName() == "error") {
+			if(input.hasNode.resolve("error_msg")) {
+				operation.setError(input.node.resolve("error_msg").getInnerData());
+			}
+			else if(input.hasNode.resolve("error_string")) {
+				operation.setError(input.node.resolve("error_string").getInnerData());
+			}
+		}
+		else {
+			var output = new web2grid.worksource.boinc.webrpc.result.ProjectConfigRes(input);
+			operation.setResult(output);
+		}
+		$s.pop();
+	});
+	req.onError.subscribe(function(error) {
+		$s.push("web2grid.worksource.boinc.webrpc.BoincWebRPC::projectConfiguration@751");
+		var $spos = $s.length;
+		operation.setError(error);
+		$s.pop();
+	});
+	{
+		$s.pop();
+		return operation;
+	}
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.BoincWebRPC.prototype.__class__ = web2grid.worksource.boinc.webrpc.BoincWebRPC;
 if(!haxe.macro) haxe.macro = {}
 haxe.macro.Constant = { __ename__ : ["haxe","macro","Constant"], __constructs__ : ["CInt","CFloat","CString","CIdent","CType","CRegexp"] }
 haxe.macro.Constant.CInt = function(v) { var $x = ["CInt",0,v]; $x.__enum__ = haxe.macro.Constant; $x.toString = $estr; return $x; }
@@ -8504,10 +9812,11 @@ web2grid.worksource.boinc.BoincWorkUnit.prototype.download = function() {
 		}
 	}
 	downloader.add(this.unitinfo.application.version.main_program.file_info.url);
+	this.onlog.invoke(new henkolib.log.LogEntry(null,henkolib.log.LogLevel.L5_Debug,"Downloading input files",null,null));
 	var dlresult = downloader.downloadAll();
 	var self = this;
 	dlresult.onComplete.subscribe(function(files) {
-		$s.push("web2grid.worksource.boinc.BoincWorkUnit::download@74");
+		$s.push("web2grid.worksource.boinc.BoincWorkUnit::download@76");
 		var $spos = $s.length;
 		{ var $it0 = files.keys();
 		while( $it0.hasNext() ) { var url = $it0.next();
@@ -8527,6 +9836,7 @@ web2grid.worksource.boinc.BoincWorkUnit.prototype.download = function() {
 		}}
 		self.boincresult.state = 2;
 		self.filesdownloaded = true;
+		self.onlog.invoke(new henkolib.log.LogEntry(null,henkolib.log.LogLevel.L5_Debug,"Download successfully finished",null,null));
 		self.SwitchState(web2grid.core.iface.WorkUnitState.Passive);
 		$s.pop();
 	});
@@ -9334,6 +10644,64 @@ StringTools.isEOF = function(c) {
 	$s.pop();
 }
 StringTools.prototype.__class__ = StringTools;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes = function(input) { if( input === $_ ) return; {
+	$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::new");
+	var $spos = $s.length;
+	if(input.hasNode.resolve("id")) this.id = Std.parseInt(input.node.resolve("id").getInnerData());
+	if(input.hasNode.resolve("name")) this.name = input.node.resolve("name").getInnerData();
+	if(input.hasNode.resolve("country")) this.country = input.node.resolve("country").getInnerData();
+	if(input.hasNode.resolve("weak_auth")) this.weak_auth = input.node.resolve("weak_auth").getInnerData();
+	if(input.hasNode.resolve("postal_code")) this.postal_code = input.node.resolve("postal_code").getInnerData();
+	if(input.hasNode.resolve("global_prefs")) this.global_prefs = input.node.resolve("global_prefs").getInnerData();
+	if(input.hasNode.resolve("project_prefs")) this.project_prefs = input.node.resolve("project_prefs").getInnerData();
+	if(input.hasNode.resolve("url")) this.url = input.node.resolve("url").getInnerData();
+	if(input.hasNode.resolve("send_email")) {
+		if(input.node.resolve("send_email").getInnerData() == "1") this.send_email = true;
+		else if(input.node.resolve("send_email").getInnerData() == "0") this.send_email = false;
+	}
+	if(input.hasNode.resolve("show_hosts")) {
+		if(input.node.resolve("show_hosts").getInnerData() == "1") this.show_hosts = true;
+		else if(input.node.resolve("show_hosts").getInnerData() == "0") this.show_hosts = false;
+	}
+	if(input.hasNode.resolve("teamid")) this.teamid = Std.parseInt(input.node.resolve("teamid").getInnerData());
+	if(input.hasNode.resolve("venue")) this.venue = input.node.resolve("venue").getInnerData();
+	if(input.hasNode.resolve("teamfounder")) this.teamfounder = true;
+	else this.teamfounder = false;
+	$s.pop();
+}}
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.__name__ = ["web2grid","worksource","boinc","webrpc","result","AccountInfoRes"];
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.id = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.name = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.country = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.weak_auth = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.postal_code = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.global_prefs = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.project_prefs = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.url = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.send_email = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.show_hosts = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.teamid = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.venue = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.teamfounder = null;
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.print = function() {
+	$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::print");
+	var $spos = $s.length;
+	haxe.Log.trace("id: " + this.id,{ fileName : "AccountInfoRes.hx", lineNumber : 59, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("name: " + this.name,{ fileName : "AccountInfoRes.hx", lineNumber : 60, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("country: " + this.country,{ fileName : "AccountInfoRes.hx", lineNumber : 61, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("weak_auth: " + this.weak_auth,{ fileName : "AccountInfoRes.hx", lineNumber : 62, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("postal_code: " + this.postal_code,{ fileName : "AccountInfoRes.hx", lineNumber : 63, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("global_prefs: " + this.global_prefs,{ fileName : "AccountInfoRes.hx", lineNumber : 64, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("project_prefs: " + this.project_prefs,{ fileName : "AccountInfoRes.hx", lineNumber : 65, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("url: " + this.url,{ fileName : "AccountInfoRes.hx", lineNumber : 66, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("send_email: " + this.send_email,{ fileName : "AccountInfoRes.hx", lineNumber : 67, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("show_hosts: " + this.show_hosts,{ fileName : "AccountInfoRes.hx", lineNumber : 68, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("teamid: " + this.teamid,{ fileName : "AccountInfoRes.hx", lineNumber : 69, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("venue: " + this.venue,{ fileName : "AccountInfoRes.hx", lineNumber : 70, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	haxe.Log.trace("teamfounder: " + this.teamfounder,{ fileName : "AccountInfoRes.hx", lineNumber : 71, className : "web2grid.worksource.boinc.webrpc.result.AccountInfoRes", methodName : "print"});
+	$s.pop();
+}
+web2grid.worksource.boinc.webrpc.result.AccountInfoRes.prototype.__class__ = web2grid.worksource.boinc.webrpc.result.AccountInfoRes;
 $_ = {}
 js.Boot.__res = {}
 $s = [];
@@ -9341,7 +10709,7 @@ $e = [];
 js.Boot.__init();
 {
 	js["XMLHttpRequest"] = window.XMLHttpRequest?XMLHttpRequest:window.ActiveXObject?function() {
-		$s.push("StringTools::isEOF");
+		$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::print");
 		var $spos = $s.length;
 		try {
 			{
@@ -9394,7 +10762,7 @@ js.Boot.__init();
 	Math.NEGATIVE_INFINITY = Number["NEGATIVE_INFINITY"];
 	Math.POSITIVE_INFINITY = Number["POSITIVE_INFINITY"];
 	Math.isFinite = function(i) {
-		$s.push("StringTools::isEOF");
+		$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::print");
 		var $spos = $s.length;
 		{
 			var $tmp = isFinite(i);
@@ -9404,7 +10772,7 @@ js.Boot.__init();
 		$s.pop();
 	}
 	Math.isNaN = function(i) {
-		$s.push("StringTools::isEOF");
+		$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::print");
 		var $spos = $s.length;
 		{
 			var $tmp = isNaN(i);
@@ -9445,7 +10813,7 @@ js.Boot.__init();
 }
 {
 	web2grid.js["XMLHttpRequest"] = typeof XMLHttpRequest != 'undefined'?XMLHttpRequest:typeof ActiveXObject != 'undefined'?function() {
-		$s.push("StringTools::isEOF");
+		$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::print");
 		var $spos = $s.length;
 		try {
 			{
@@ -9532,7 +10900,7 @@ js.Boot.__init();
 {
 	js.Lib.document = document;
 	js.Lib.window = window;
-	onerror = function(msg,url,line) {
+	NOonerror = function(msg,url,line) {
 		var stack = $s.copy();
 		var f = js.Lib.onerror;
 		$s.splice(0,$s.length);
@@ -9556,7 +10924,7 @@ js.Boot.__init();
 {
 	var d = Date;
 	d.now = function() {
-		$s.push("StringTools::isEOF");
+		$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::print");
 		var $spos = $s.length;
 		{
 			var $tmp = new Date();
@@ -9566,7 +10934,7 @@ js.Boot.__init();
 		$s.pop();
 	}
 	d.fromTime = function(t) {
-		$s.push("StringTools::isEOF");
+		$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::print");
 		var $spos = $s.length;
 		var d1 = new Date();
 		d1["setTime"](t);
@@ -9577,7 +10945,7 @@ js.Boot.__init();
 		$s.pop();
 	}
 	d.fromString = function(s) {
-		$s.push("StringTools::isEOF");
+		$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::print");
 		var $spos = $s.length;
 		switch(s.length) {
 		case 8:{
@@ -9617,7 +10985,7 @@ js.Boot.__init();
 		$s.pop();
 	}
 	d.prototype["toString"] = function() {
-		$s.push("StringTools::isEOF");
+		$s.push("web2grid.worksource.boinc.webrpc.result.AccountInfoRes::print");
 		var $spos = $s.length;
 		var date = this;
 		var m = date.getMonth() + 1;
