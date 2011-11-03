@@ -146,11 +146,11 @@ body {
   visibility: hidden;
   z-index: 0;
 }
-#tabs > div {
+#tabs .tab {
   display: none;
   width: 100%;
 }
-#tabs.active > div.selected {
+#tabs.active .selected.tab {
   display: block;
 }
 #tabs #newworksourceforms > div > div {

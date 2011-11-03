@@ -58,27 +58,33 @@
   </div>
 </div>
 
-<div id="tabs"
-     -data-bind="template: {name : 'worksource-tab', foreach : worksources}">
+<div id="tabs">
 
-  <script type="text/html" id="worksource-tab">
-  <div class="worksource-tab" data-bind="attr : {id : 'worksource-' + id}">
-    <h1 data-bind="text: name"></h1>
-    <h2>Details</h2>
-    <ul class="details">
-      <li>Project url : <span data-bind="text : projecturl"></span></li>
-      <li>Username : <span data-bind="text : username"></span></li>
-      <li>Scheduler url : <span data-bind="text : scheduler"></span></li>
-      <li>Authentication key : <span data-bind="text : authkey"></span></li>
-    </ul>
-    <h2>Workunits</h2>
-    <ul class="workunits"
-        data-bind="template : {name : 'workunit', foreach : workunits}">
-    </ul>
+  <div data-bind="template: {name : 'worksource-tab', foreach : worksources}">
+    <script type="text/html" id="worksource-tab">
+    <div class="tab worksource-tab"
+         data-bind="attr : {id : 'worksource-' + id}">
+
+      <h1 data-bind="text: name"></h1>
+
+      <h2>Details</h2>
+      <ul class="details">
+        <li>Project url : <span data-bind="text : projecturl"></span></li>
+        <li>Username : <span data-bind="text : username"></span></li>
+        <li>Scheduler url : <span data-bind="text : scheduler"></span></li>
+        <li>Authentication key : <span data-bind="text : authkey"></span></li>
+      </ul>
+
+      <h2>Workunits</h2>
+      <ul class="workunits"
+          data-bind="template : {name : 'workunit', foreach : workunits}">
+      </ul>
+
+    </div>
+    </script>
   </div>
-  </script>
 
-  <div id="newworksourceforms">
+  <div id="newworksourceforms" class="tab">
     <h1>Add new worksource</h1>
 
     <div data-bind="template : {name : 'newworksourceform', foreach : window.gears.newworksourceforms}">
@@ -108,8 +114,8 @@
       $('#tabs').removeClass('active');
     } else {
       $('#tabs').addClass('active');
+      $('#tabs .tab').removeClass('selected')
       $('#tabs #' + tab).addClass('selected')
-                        .siblings().removeClass('selected')
     }
 
     $('[tab]').removeClass('selected');
