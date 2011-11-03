@@ -17,79 +17,39 @@
 </head>
 <body>
 
-<div class="worksource header">
-  <div class="workunits">
-    <div id="app-name"> GRIDBEE </div>
-    <div id="app-description"> the grid computing web app </div>
+<div id="app-name"> GRIDBEE </div>
+<div id="app-description"> the grid computing web app </div>
 
-    <div id="runcontrol" onselectstart="return false;"
-         data-bind="click : function() {running(!running());},
-                    css : {running : running(), stopped : !running()}">
-      <span class="stop">&#x25FC</span>
-      <span class="play">&#x25B6</span>
-    </div>
-
-    <div id="threadnumber" onselectstart="return false;">
-      <span class="minus"
-            data-bind="click : function() {threads(Math.min(1,threads()-1))}">
-        -
-      </span>
-      <span class="number" data-bind="text : threads"></span>
-      <span class="plus"
-            data-bind="click : function() {threads(threads() + 1)}">
-        +
-      </span>
-    </div>
-
-    <div id="state-describtion">
-      <b>Running</b> on <b>3</b> threads
-    </div>
-  </div>
-
-  <div class="information">
-    <h1 class="selectable selected"
-        tab="none" onclick="selectTab(this.getAttribute('tab'))">
-      Overview
-    </h1>
-    <h1 class="selectable"
-        tab="newworksourceforms" onclick="selectTab(this.getAttribute('tab'))">
-      Add new worksource
-    </h1>
-  </div>
+<div id="runcontrol" onselectstart="return false;"
+     data-bind="click : function() {running(!running());},
+                css : {running : running(), stopped : !running()}">
+  <span class="stop">&#x25FC</span>
+  <span class="play">&#x25B6</span>
 </div>
 
-<div id="tabs">
+<div id="threadnumber" onselectstart="return false;">
+  <span class="minus"
+        data-bind="click : function() {threads(Math.min(1,threads()-1))}">
+    -
+  </span>
+  <span class="number" data-bind="text : threads"></span>
+  <span class="plus"
+        data-bind="click : function() {threads(threads() + 1)}">
+    +
+  </span>
+</div>
 
-  <div data-bind="template: {name : 'worksource-tab', foreach : worksources}">
-    <script type="text/html" id="worksource-tab">
-    <div class="tab worksource-tab"
-         data-bind="attr : {id : 'worksource-' + id}">
+<div id="state-describtion">
+  <b>Running</b> on <b>3</b> threads
+</div>
 
-      <h1 data-bind="text: name"></h1>
+<div id="newworksource">
 
-      <h2>Details</h2>
-      <ul class="details">
-        <li>Project url : <span data-bind="text : projecturl"></span></li>
-        <li>Username : <span data-bind="text : username"></span></li>
-        <li>Scheduler url : <span data-bind="text : scheduler"></span></li>
-        <li>Authentication key : <span data-bind="text : authkey"></span></li>
-      </ul>
+  <div class="leftpanel">
 
-      <h2>Workunits</h2>
-      <ul class="workunits"
-          data-bind="template : {name : 'workunit', foreach : workunits}">
-      </ul>
-
-    </div>
-    </script>
-  </div>
-
-  <div id="newworksourceforms" class="tab">
-    <h1>Add new worksource</h1>
-
-    <div data-bind="template : {name : 'newworksourceform', foreach : window.gears.newworksourceforms}">
+    <ul data-bind="template : {name : 'newworksourceform', foreach : window.gears.newworksourceforms}">
       <script type="text/html" id="newworksourceform">
-      <div>
+      <li>
         <h2 class="selectable"
             onclick="$(this).toggleClass('selected')"
             data-bind="text : formtitle">
@@ -100,28 +60,28 @@
 
         <form data-bind="template : {name : 'newworksourceform-' + type}">
         </form>
-      </div>
+      </li>
       </script>
-    </div>
+    </ul>
+
+  </div>
+
+  <div class="rightpanel">
+
+    <h1 class="selectable selector"
+        onclick="selectItem(this)">
+      Add new worksource
+    </h1>
 
   </div>
 
 </div>
 
 <script>
-  function selectTab(tab) {
-    if (tab === 'none') {
-      $('#tabs').removeClass('active');
-    } else {
-      $('#tabs').addClass('active');
-      $('#tabs .tab').removeClass('selected')
-      $('#tabs #' + tab).addClass('selected')
-    }
-
-    $('[tab]').removeClass('selected');
-    $('[tab="' + tab + '"]').addClass('selected');
+  function selectItem(h1) {
+    $('.worksource, #newworksource').removeClass('selected')
+    $(h1).parent().parent().addClass('selected')
   }
-
 
   function checkNonEmptyInputs(e) {
     if (e.target.tagName.toLowerCase() !== 'input') return;
@@ -140,30 +100,29 @@
   }
   document.addEventListener('keypress', checkNonEmptyInputs, false);
   document.addEventListener('keyup', checkNonEmptyInputs, false);
-
 </script>
 
-<div id="worksourcelist"
+<ul id="worksourcelist"
      data-bind="template: {name : 'worksource', foreach : worksources}">
 
   <script type="text/html" id="worksource">
-    <div class="worksource">
+    <li class="worksource">
 
-      <ul class="workunits"
+      <ul class="leftpanel"
           data-bind="template : {name : 'workunit', foreach : workunits}">
       </ul>
 
-      <div class="information">
-        <h1 class="selectable"
-            data-bind="text : name, attr : {tab : 'worksource-' + id}"
-            onclick="selectTab(this.getAttribute('tab'))">
+      <div class="rightpanel">
+        <h1 class="selectable selector"
+            data-bind="text : name"
+            onclick="selectItem(this)">
         </h1>
         <div class="overview"
              data-bind="template: { name: 'overview-item', foreach: overview }">
         </div>
       </div>
 
-    </div>
+    </li>
   </script>
 
   <script type="text/html" id="overview-item">
@@ -185,10 +144,7 @@
     </li>
   </script>
 
-</div>
-
-<div id="skeleton">
-</div>
+</ul>
 
 <script type="text/html" id="settings-boinc">
 <p>

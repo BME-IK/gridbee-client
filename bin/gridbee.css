@@ -15,170 +15,31 @@ body {
   color: rgba(255, 255, 255, 0.8);
   background-color: #000000;
 }
-.selectable {
-  color: rgba(93, 174, 217, 0.55);
+ul {
+  list-style-type: none;
 }
-.selectable.selected {
+.highlight {
   color: rgba(190, 232, 255, 0.9);
   -text-shadow: #000000 1px 2px 2px;
   background-color: rgba(117, 174, 255, 0.1);
+}
+.selected .selector {
+  color: rgba(190, 232, 255, 0.9);
+  -text-shadow: #000000 1px 2px 2px;
+  background-color: rgba(117, 174, 255, 0.1);
+}
+.selectable {
+  color: rgba(93, 174, 217, 0.55);
 }
 .selectable:hover {
   color: rgba(190, 232, 255, 0.9);
   -text-shadow: #000000 1px 2px 2px;
   background-color: rgba(117, 174, 255, 0.1);
 }
-.worksource.header .workunits {
-  font-size: 1.1em;
-}
-.worksource.header #app-name {
-  position: absolute;
-  top: 0em;
-  left: 0em;
-  color: #ffffff;
-  text-shadow: 0 2px 3px #666666;
-  font-size: 3em;
-  font-weight: bold;
-  font-family: Arial;
-}
-.worksource.header #app-description {
-  position: absolute;
-  top: 3.3em;
-  margin-left: 0.35em;
-  color: #ffffff;
-  text-shadow: 0 2px 3px #666666;
-  font-size: 1em;
-  font-weight: bold;
-  font-family: Arial;
-}
-.worksource.header #runcontrol {
-  font-size: 1em;
-  color: #ffffff;
-  display: block;
-  position: absolute;
-  right: 1em;
-  margin-right: 8.5em;
-  top: 0;
-  margin-top: 0em;
-  height: 2.5em;
-  width: 2.5em;
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.050000000000000044);
-  border-radius: 0.6em;
-  cursor: pointer;
-}
-.worksource.header #runcontrol .play {
-  font-size: 1.95em;
-  margin-left: 0.15em;
-  display: none;
-}
-.worksource.header #runcontrol.stopped .play {
-  display: inline;
-}
-.worksource.header #runcontrol .stop {
-  font-size: 1.95em;
-  display: none;
-}
-.worksource.header #runcontrol.running .stop {
-  display: inline;
-}
-.worksource.header #threadnumber {
-  font-size: 1em;
-  color: #ffffff;
-  position: absolute;
-  right: 1em;
-  top: 0;
-  margin-top: 0em;
-  text-align: center;
-  height: 2.5em;
-}
-.worksource.header #threadnumber span {
-  background-color: rgba(255, 255, 255, 0.050000000000000044);
-  border-color: rgba(0, 0, 0, 0.21999999999999997);
-  border-style: solid;
-}
-.worksource.header #threadnumber .plus {
-  display: inline-block;
-  width: 1em;
-  font-size: 2.05em;
-  border-bottom-right-radius: 0.3em;
-  border-top-right-radius: 0.3em;
-  border-left: 0.1em;
-  cursor: pointer;
-}
-.worksource.header #threadnumber .minus {
-  display: inline-block;
-  margin: 0em;
-  width: 1em;
-  font-size: 2.05em;
-  border-bottom-left-radius: 0.3em;
-  border-top-left-radius: 0.3em;
-  border-right: 0.1em;
-  cursor: pointer;
-}
-.worksource.header #threadnumber .number {
-  display: inline-block;
-  font-size: 2.05em;
-  width: 1.3em;
-  cursor: default;
-}
-.worksource.header #state-describtion {
-  display: none;
-  font-size: 1.1em;
-  position: absolute;
-  -text-align: right;
-  top: 0em;
-  right: 1em;
-  color: #CCC;
-  font-family: Arial;
-  -text-shadow: 0 1px 2px #666666;
-}
-#tabs {
-  position: absolute;
-  font-size: 1.5em;
-  padding: 0em 3em 2em 2em;
-  margin-right: 36%;
-  right: 0em;
-  left: 0em;
-  z-index: 1;
-}
-#tabs.active ~ #worksourcelist .workunit {
-  visibility: hidden;
-  z-index: 0;
-}
-#tabs .tab {
-  display: none;
-  width: 100%;
-}
-#tabs.active .selected.tab {
-  display: block;
-}
-#tabs #newworksourceforms > div > div {
-  margin: 1em;
-  margin-bottom: 2em;
-}
-#tabs #newworksourceforms > div > div h2 ~ * {
-  display: none;
-}
-#tabs #newworksourceforms > div > div h2.selected ~ * {
-  display: block;
-}
-#tabs #newworksourceforms > div > div h2 {
-  font-size: 1.5em;
-  padding: 0.3em 0.6666em;
-  margin: 0.3em -0.6666em;
-  cursor: pointer;
-  display: block;
-}
-#tabs #newworksourceforms > div > div h2.selected {
+.selectable.selected {
+  color: rgba(190, 232, 255, 0.9);
+  -text-shadow: #000000 1px 2px 2px;
   background-color: rgba(117, 174, 255, 0.1);
-}
-#tabs #newworksourceforms > div > div h2:hover {
-  background-color: rgba(117, 174, 255, 0.1);
-}
-#tabs #newworksourceforms > div > div p {
-  font-size: 1.1em;
-  margin: 1.3em 0em;
 }
 form {
   font-size: 1.2em;
@@ -254,18 +115,109 @@ form button {
   line-height: 1em;
   padding: 0.3em;
 }
-.worksource-tab h2 {
-  margin: 1em 0em 0.5em;
+body #app-name {
+  position: absolute;
+  top: 0em;
+  left: 0em;
+  color: #ffffff;
+  text-shadow: 0 2px 3px #666666;
+  font-size: 3em;
+  font-weight: bold;
+  font-family: Arial;
 }
-.worksource-tab ul.details {
+body #app-description {
+  position: absolute;
+  top: 3.3em;
+  margin-left: 0.35em;
+  color: #ffffff;
+  text-shadow: 0 2px 3px #666666;
+  font-size: 1em;
+  font-weight: bold;
+  font-family: Arial;
+}
+body #runcontrol {
+  font-size: 1em;
+  color: #ffffff;
   display: block;
-  list-style-type: none;
-  padding-left: 0.5em;
+  position: absolute;
+  right: 1em;
+  margin-right: 8.5em;
+  top: 0;
+  margin-top: 0em;
+  height: 2.5em;
+  width: 2.5em;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.050000000000000044);
+  border-radius: 0.6em;
+  cursor: pointer;
 }
-.worksource-tab ul.details li {
-  margin-bottom: 0.3em;
+body #runcontrol .play {
+  font-size: 1.95em;
+  margin-left: 0.15em;
+  display: none;
 }
-.worksource {
+body #runcontrol.stopped .play {
+  display: inline;
+}
+body #runcontrol .stop {
+  font-size: 1.95em;
+  display: none;
+}
+body #runcontrol.running .stop {
+  display: inline;
+}
+body #threadnumber {
+  font-size: 1em;
+  color: #ffffff;
+  position: absolute;
+  right: 1em;
+  top: 0;
+  margin-top: 0em;
+  text-align: center;
+  height: 2.5em;
+}
+body #threadnumber span {
+  background-color: rgba(255, 255, 255, 0.050000000000000044);
+  border-color: rgba(0, 0, 0, 0.21999999999999997);
+  border-style: solid;
+}
+body #threadnumber .plus {
+  display: inline-block;
+  width: 1em;
+  font-size: 2.05em;
+  border-bottom-right-radius: 0.3em;
+  border-top-right-radius: 0.3em;
+  border-left: 0.1em;
+  cursor: pointer;
+}
+body #threadnumber .minus {
+  display: inline-block;
+  margin: 0em;
+  width: 1em;
+  font-size: 2.05em;
+  border-bottom-left-radius: 0.3em;
+  border-top-left-radius: 0.3em;
+  border-right: 0.1em;
+  cursor: pointer;
+}
+body #threadnumber .number {
+  display: inline-block;
+  font-size: 2.05em;
+  width: 1.3em;
+  cursor: default;
+}
+body #state-describtion {
+  display: none;
+  font-size: 1.1em;
+  position: absolute;
+  -text-align: right;
+  top: 0em;
+  right: 1em;
+  color: #CCC;
+  font-family: Arial;
+  -text-shadow: 0 1px 2px #666666;
+}
+.worksource, #newworksource {
   position: relative;
   display: -webkit-box;
   display: -moz-box;
@@ -297,25 +249,7 @@ form button {
   padding: 0em 2em;
   margin: 1em 0em 2.5em;
 }
-.worksource .information {
-  width: 36%;
-  padding-left: 1em;
-  margin-left: -0.5em;
-  border-left: 0.5em solid #333333;
-}
-.worksource .information .overview p {
-  margin-bottom: 0.5em;
-}
-.worksource .information h1 {
-  font-size: 2em;
-  padding: 0.2em 0.5em;
-  margin: 0em -1em 0.5em -0.5em;
-  cursor: pointer;
-  font-weight: bold;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.worksource .workunits {
+.worksource .leftpanel, #newworksource .leftpanel {
   position: relative;
   display: block;
   -webkit-box-flex: 1;
@@ -325,6 +259,55 @@ form button {
   box-flex: 1;
   border-right: 0.5em solid #333333;
   padding-right: 1em;
+}
+.worksource .rightpanel, #newworksource .rightpanel {
+  display: block;
+  width: 36%;
+  padding-left: 1em;
+  margin-left: -0.5em;
+  border-left: 0.5em solid #333333;
+}
+.worksource .rightpanel .overview p, #newworksource .rightpanel .overview p {
+  margin-bottom: 0.5em;
+}
+.worksource .rightpanel h1, #newworksource .rightpanel h1 {
+  font-size: 2em;
+  padding: 0.2em 0.5em;
+  margin: 0em -1em 0.5em -0.5em;
+  cursor: pointer;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#newworksource {
+  margin-top: 5em;
+}
+#newworksource .leftpanel li {
+  margin: 1em;
+  margin-bottom: 2em;
+}
+#newworksource .leftpanel li h2 ~ * {
+  display: none;
+}
+#newworksource .leftpanel li h2.selected ~ * {
+  display: block;
+}
+#newworksource .leftpanel li h2 {
+  font-size: 1.5em;
+  padding: 0.3em 0.6666em;
+  margin: 0.3em -0.6666em;
+  cursor: pointer;
+  display: block;
+}
+#newworksource .leftpanel li h2.selected {
+  background-color: rgba(117, 174, 255, 0.1);
+}
+#newworksource .leftpanel li h2:hover {
+  background-color: rgba(117, 174, 255, 0.1);
+}
+#newworksource .leftpanel li p {
+  font-size: 1.1em;
+  margin: 1.3em 0em;
 }
 .workunit {
   display: -webkit-box;
