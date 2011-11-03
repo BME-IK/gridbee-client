@@ -29,6 +29,15 @@ class Gears
 
   client: undefined
 
+  watch_death : (worksource) =>
+    death_watch = worksource.living.subscribe (living) =>
+      if living is false
+        # The worksource has died
+        @client.removeWorksource worksource.worksource
+        @worksources.remove worksource
+
+        death_watch.dispose()
+
   start : =>
     for worksource in @client.getWorksources()
       if worksource instanceof web2grid.worksource.boinc.BoincWorkSource
@@ -38,7 +47,7 @@ class Gears
 
       @worksources.push worksource
 
-      @watch_worksource worksource
+      @watch_death worksource
 
     if @running()
       @client.start()
@@ -61,13 +70,7 @@ class Gears
         @client.addWorksource newworksource.worksource
         @worksources.push newworksource
 
-        death_watch = worksource.living.subscribe (living) =>
-          if living is false
-            # The worksource has died
-            @client.removeWorksource worksource.worksource
-            @worksources.remove worksource
-
-            death_watch.dispose()
+        @watch_death newworksource
 
 # NewWorksourceForms :
 bvp6 = new BoincNewWorksourceForm

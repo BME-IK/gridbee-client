@@ -319,6 +319,16 @@
     Gears.prototype.worksources = ko.observableArray([]);
     Gears.prototype.newworksourceforms = void 0;
     Gears.prototype.client = void 0;
+    Gears.prototype.watch_death = function(worksource) {
+      var death_watch;
+      return death_watch = worksource.living.subscribe(__bind(function(living) {
+        if (living === false) {
+          this.client.removeWorksource(worksource.worksource);
+          this.worksources.remove(worksource);
+          return death_watch.dispose();
+        }
+      }, this));
+    };
     Gears.prototype.start = function() {
       var worksource, _i, _len, _ref;
       _ref = this.client.getWorksources();
@@ -330,7 +340,7 @@
           continue;
         }
         this.worksources.push(worksource);
-        this.watch_worksource(worksource);
+        this.watch_death(worksource);
       }
       if (this.running()) {
         this.client.start();
@@ -352,21 +362,15 @@
       this.client = client;
       this.newworksourceforms = newworksourceforms;
       this.start = __bind(this.start, this);
+      this.watch_death = __bind(this.watch_death, this);
       this.client.onLog.subscribe(log('main'));
       _ref = this.newworksourceforms();
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         newworksourceform = _ref[_i];
         newworksourceform.worksource.subscribe(__bind(function(newworksource) {
-          var death_watch;
           this.client.addWorksource(newworksource.worksource);
           this.worksources.push(newworksource);
-          return death_watch = worksource.living.subscribe(__bind(function(living) {
-            if (living === false) {
-              this.client.removeWorksource(worksource.worksource);
-              this.worksources.remove(worksource);
-              return death_watch.dispose();
-            }
-          }, this));
+          return this.watch_death(newworksource);
         }, this));
       }
     }
