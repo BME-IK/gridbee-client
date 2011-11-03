@@ -47,10 +47,12 @@
   </div>
 
   <div class="information">
-    <h1 tab="none" onclick="selectTab(this.getAttribute('tab'))" class="selected">
+    <h1 class="selectable selected"
+        tab="none" onclick="selectTab(this.getAttribute('tab'))">
       Overview
     </h1>
-    <h1 tab="newworksource" onclick="selectTab(this.getAttribute('tab'))">
+    <h1 class="selectable"
+        tab="newworksource" onclick="selectTab(this.getAttribute('tab'))">
       Add new worksource
     </h1>
   </div>
@@ -78,6 +80,37 @@
 
   <div id="newworksource">
     <h1>Add new worksource</h1>
+
+    <div class="template">
+      <h2 class="selectable selected"
+          onclick="$(this).toggleClass('selected')">
+        New BOINC worksource
+      </h2>
+      <p>
+        This worksource add form is a test. If you want to add anew BOINC
+        worksource, then this is made especially for you.
+      </p>
+      <form>
+        <div>
+          <label>Project url</label> <input>
+        </div>
+        <div>
+          <label>Scheduler url</label> <input>
+        </div>
+        <div>
+          <label>Username</label> <input>
+          <label>Password</label> <input>
+          <button>Register</button>
+        </div>
+        <div>
+          <label>Authentication key</label> <input>
+        </div>
+        <div>
+          <button>Add BOINC project</button>
+        </div>
+      </form>
+    </div>
+
   </div>
 
 </div>
@@ -95,6 +128,26 @@
     $('[tab]').removeClass('selected');
     $('[tab="' + tab + '"]').addClass('selected');
   }
+
+
+  function checkNonEmptyInputs(e) {
+    if (e.target.tagName.toLowerCase() !== 'input') return;
+    console.log(e.charCode);
+
+    var input = $(e.target);
+    if (e.charCode !== 0) {
+      input.addClass('nonempty');
+    } else {
+      if (input.val().length > 0) {
+        input.addClass('nonempty');
+      } else {
+        input.removeClass('nonempty');
+      }
+    }
+  }
+  document.addEventListener('keypress', checkNonEmptyInputs, false);
+  document.addEventListener('keyup', checkNonEmptyInputs, false);
+
 </script>
 
 <div id="worksourcelist"
@@ -108,7 +161,8 @@
       </ul>
 
       <div class="information">
-        <h1 data-bind="text : name, attr : {tab : 'worksource-' + id}"
+        <h1 class="selectable"
+            data-bind="text : name, attr : {tab : 'worksource-' + id}"
             onclick="selectTab(this.getAttribute('tab'))">
         </h1>
         <div class="overview"

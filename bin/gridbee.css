@@ -15,6 +15,19 @@ body {
   color: rgba(255, 255, 255, 0.8);
   background-color: #000000;
 }
+.selectable {
+  color: rgba(93, 174, 217, 0.55);
+}
+.selectable.selected {
+  color: rgba(190, 232, 255, 0.9);
+  -text-shadow: #000000 1px 2px 2px;
+  background-color: rgba(117, 174, 255, 0.1);
+}
+.selectable:hover {
+  color: rgba(190, 232, 255, 0.9);
+  -text-shadow: #000000 1px 2px 2px;
+  background-color: rgba(117, 174, 255, 0.1);
+}
 .worksource.header .workunits {
   font-size: 1.1em;
 }
@@ -127,9 +140,11 @@ body {
   margin-right: 36%;
   right: 0em;
   left: 0em;
+  z-index: 1;
 }
 #tabs.active ~ #worksourcelist .workunit {
-  opacity: 0.05;
+  visibility: hidden;
+  z-index: 0;
 }
 #tabs > div {
   display: none;
@@ -137,6 +152,104 @@ body {
 }
 #tabs.active > div.selected {
   display: block;
+}
+#tabs #newworksource .template {
+  margin: 1em;
+  margin-bottom: 2em;
+}
+#tabs #newworksource .template h2 ~ * {
+  display: none;
+}
+#tabs #newworksource .template h2.selected ~ * {
+  display: block;
+}
+#tabs #newworksource .template h2 {
+  font-size: 1.5em;
+  padding: 0.3em 0.6666em;
+  margin: 0.3em -0.6666em;
+  cursor: pointer;
+  display: block;
+}
+#tabs #newworksource .template h2.selected {
+  background-color: rgba(117, 174, 255, 0.1);
+}
+#tabs #newworksource .template h2:hover {
+  background-color: rgba(117, 174, 255, 0.1);
+}
+#tabs #newworksource .template p {
+  font-size: 1.1em;
+  margin: 1.3em 0em;
+}
+form {
+  font-size: 1.2em;
+}
+form div {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
+  -webkit-box-orient: horizontal;
+  -moz-box-orient: horizontal;
+  -ms-box-orient: horizontal;
+  -o-box-orient: horizontal;
+  box-orient: horizontal;
+  -webkit-box-pack: start;
+  -moz-box-pack: start;
+  -ms-box-pack: start;
+  -o-box-pack: start;
+  box-pack: start;
+  -webkit-box-align: start;
+  -moz-box-align: start;
+  -ms-box-align: start;
+  -o-box-align: start;
+  box-align: start;
+  margin-bottom: 1em;
+}
+form label {
+  position: absolute;
+  padding: 0.3em;
+  z-index: -1;
+  color: rgba(255, 255, 255, 0.19999999999999996);
+}
+form input {
+  display: block;
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  -ms-box-flex: 1;
+  -o-box-flex: 1;
+  box-flex: 1;
+  font-size: inherit;
+  padding: 0.3em;
+  line-height: 1em;
+  border: 0px;
+  color: #ffffff;
+  font-family: inherit;
+  background-color: rgba(255, 255, 255, 0.09999999999999998);
+  -webkit-transition-property: background-color;
+  -moz-transition-property: background-color;
+  -ms-transition-property: background-color;
+  -o-transition-property: background-color;
+  transition-property: background-color;
+  -webkit-transition-duration: 0.1s;
+  -moz-transition-duration: 0.1s;
+  -ms-transition-duration: 0.1s;
+  -o-transition-duration: 0.1s;
+  transition-duration: 0.1s;
+}
+form input:focus {
+  background-color: rgba(38, 38, 38, 0.6699999999999999);
+}
+form input.nonempty {
+  background-color: #191919;
+}
+form input ~ * {
+  margin-left: 2em;
+}
+form button {
+  font-size: inherit;
+  line-height: 1em;
+  padding: 0.3em;
 }
 .worksource-tab h2 {
   margin: 1em 0em 0.5em;
@@ -198,16 +311,6 @@ body {
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;
-}
-.worksource .information h1:hover {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.1);
-  text-shadow: #ffffff 0px 0px 1px;
-}
-.worksource .information h1.selected {
-  color: #ffffff;
-  background-color: rgba(255, 255, 255, 0.1);
-  text-shadow: #ffffff 0px 0px 1px;
 }
 .worksource .workunits {
   position: relative;
