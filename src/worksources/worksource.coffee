@@ -18,9 +18,7 @@ class Worksource
   # The framework worksource object
   worksource : ko.observable undefined
 
-  # A [{name : 'name', observable : }] list of the most important data
-  # to be shown in an overview display
-  overview : ko.observableArray []
+  living : => @worksource()?
 
   constructor : () ->
     # Generating unique id.

@@ -47,8 +47,8 @@
 
   <div class="leftpanel">
 
-    <ul data-bind="template : {name : 'newworksourceform', foreach : templates}">
-      <script type="text/html" id="newworksourceform">
+    <ul data-bind="template : {name : 'informationform', foreach : templates}">
+      <script type="text/html" id="informationform">
       <li>
         <h2 class="selectable"
             onclick="$(this).toggleClass('selected')"
@@ -58,7 +58,7 @@
         <p data-bind="text : description">
         </p>
 
-        <form data-bind="template : {name : 'newworksourceform-' + type}">
+        <form data-bind="template : {name : 'informationform-' + type}">
         </form>
       </li>
       </script>
@@ -117,19 +117,13 @@
             data-bind="text : name"
             onclick="selectItem(this)">
         </h1>
-        <div class="overview"
-             data-bind="template: { name: 'overview-item', foreach: overview }">
-        </div>
+        <h2 data-bind="text : console.log($data.name)"></h2>
+        <form class="overview"
+              data-bind="template : {name : 'informationform-' + type, data : $data}">
+        </form>
       </div>
 
     </li>
-  </script>
-
-  <script type="text/html" id="overview-item">
-    <p>
-      <span data-bind="text : name"></span> :
-      <span data-bind="text : observable"></span>
-    </p>
   </script>
 
   <script type="text/html" id="workunit">

@@ -1,0 +1,51 @@
+<div data-bind="css : {hidden : !living() && isHidden('projecturl')}">
+  <label>Project url</label>
+  <input data-bind="value : projecturl,
+                    valueUpdate: 'keyup',
+                    css : {error : !living() && isError('projecturl')}">
+</div>
+
+<div data-bind="css : {hidden : !living() && isHidden('scheduler')}">
+  <label>Scheduler url</label>
+  <input data-bind="value : scheduler,
+                    valueUpdate: 'keyup',
+                    css : {error : !living() && isError('scheduler')}">
+</div>
+
+<div data-bind="css : {hidden : !living() && isHidden('username_password')}">
+  <label>Username</label>
+  <input data-bind="value : username,
+                    valueUpdate: 'keyup',
+                    css : {error : !living() && isError('username')},
+                    enable : scheduler().length != 0"/>
+  <label>Password</label>
+  <input data-bind="value : password,
+                    valueUpdate: 'keyup',
+                    css : {error : !living() && isError('password'),
+                           hidden : living()},
+                    enable : scheduler().length != 0" />
+  <!--<button>Register</button>-->
+</div>
+
+<div data-bind="css : {hidden : !living() && isHidden('authkey')}">
+  <label>Authentication key</label>
+  <input data-bind="value : authkey,
+                    valueUpdate: 'keyup',
+                    css : {error : !living() && isError('authkey')},
+                    enable : scheduler().length != 0 &&
+                             username().length == 0 &&
+                             password().length == 0" />
+</div>
+
+<div>
+  <button data-bind="enable : !living() && ok(),
+                     css : {hidden : living()},
+                     click : function() {if (!living()) create()}">
+    Add BOINC project
+  </button>
+  <button class="templatehidden"
+          data-bind="css : {hidden : !living()},
+                     click : function() {worksource(undefined)}">
+    Remove worksource
+  </button>
+</div>

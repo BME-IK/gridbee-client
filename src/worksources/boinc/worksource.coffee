@@ -36,11 +36,6 @@ class BoincWorksource extends Worksource
 
     @name = @projectname() ? @projecturl() ? @scheduler
 
-    @overview = [
-      {name : 'Scheduler', observable : @scheduler},
-      {name : 'Authkey', observable : @authkey}
-    ]
-
     # Load the workunits of the passed worksource
     for workunit in @worksource().getWorkUnits()
       @workunits.push new BoincWorkunit(workunit)

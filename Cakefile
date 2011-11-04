@@ -26,7 +26,7 @@ templates = {}
 
 for ws in worksources
   templates['settings-' + ws] = wsdir + ws + '/settings.tmpl'
-  templates['newworksourceform-' + ws] = wsdir + ws + '/newworksourceform.tmpl'
+  templates['informationform-' + ws] = wsdir + ws + '/informationform.tmpl'
 
 
 compile_scripts = (callback) ->

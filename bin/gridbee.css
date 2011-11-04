@@ -67,9 +67,6 @@ form div {
   box-align: start;
   margin-bottom: 1em;
 }
-form div.hidden {
-  display: none;
-}
 form label {
   position: absolute;
   padding: 0.3em;
@@ -114,6 +111,9 @@ form button {
   font-size: inherit;
   line-height: 1em;
   padding: 0.3em;
+}
+form .hidden {
+  display: none;
 }
 body #app-name {
   position: absolute;

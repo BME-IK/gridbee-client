@@ -36,7 +36,10 @@ temporarilyAdd = (observable, values, removeTriggerObservables) ->
     o.subscribe callback
 
 class BoincTemplate extends BoincWorksource
-  constructor: (parameters) ->
+  isHidden : (field) => (field in @hide)
+  isError : (field) => (field in @error)
+
+  constructor : (parameters) ->
     # Parent constructor
     super()
 

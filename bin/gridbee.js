@@ -7,6 +7,11 @@
     child.prototype = new ctor;
     child.__super__ = parent.prototype;
     return child;
+  }, __indexOf = Array.prototype.indexOf || function(item) {
+    for (var i = 0, l = this.length; i < l; i++) {
+      if (this[i] === item) return i;
+    }
+    return -1;
   };
   max_id = 0;
   Worksource = (function() {
@@ -16,8 +21,12 @@
     Worksource.prototype.workunits = ko.observableArray([]);
     Worksource.prototype.worksource = ko.observable(void 0);
     Worksource.prototype.overview = ko.observableArray([]);
+    Worksource.prototype.x = 1;
+    Worksource.prototype.living = function() {
+      return this.worksource() != null;
+    };
     function Worksource() {
-      this.id = max_id++;
+      this.living = __bind(this.living, this);      this.id = max_id++;
       this.worksource = ko.observable(void 0);
       this.name = ko.observable(null);
       this.workunits = ko.observableArray([]);
@@ -172,12 +181,20 @@
   };
   BoincTemplate = (function() {
     __extends(BoincTemplate, BoincWorksource);
+    BoincTemplate.prototype.isHidden = function(field) {
+      return __indexOf.call(this.hide, field) >= 0;
+    };
+    BoincTemplate.prototype.isError = function(field) {
+      return __indexOf.call(this.error, field) >= 0;
+    };
     function BoincTemplate(parameters) {
       this.getProjectname = __bind(this.getProjectname, this);
       this.checkAuthkey = __bind(this.checkAuthkey, this);
       this.getAuthkey = __bind(this.getAuthkey, this);
       this.getSchedulerUrl = __bind(this.getSchedulerUrl, this);
       this.create = __bind(this.create, this);
+      this.isError = __bind(this.isError, this);
+      this.isHidden = __bind(this.isHidden, this);
       var property, _i, _len, _ref, _ref2, _ref3;
       BoincTemplate.__super__.constructor.call(this);
       this.formtitle = parameters.formtitle;
