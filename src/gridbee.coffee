@@ -25,7 +25,7 @@ class Gears
 
   worksources : ko.observableArray []
 
-  newworksourceforms : undefined
+  newworksourceforms : ko.observableArray []
 
   client: undefined
 
@@ -72,35 +72,13 @@ class Gears
 
         @watch_death newworksource
 
-# NewWorksourceForms :
-bvp6 = new BoincNewWorksourceForm
-  formtitle : 'Add Bvp6 demo project'
-  description : 'Description'
-  projectname : 'Bvp6 demo'
-  projecturl : 'http://bvp6.hpc.iit.bme.hu/w2g'
-  scheduler : 'http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi'
-  authkey : '2962b0b8970c4ca693d953da648724cd'
-  hide : ['projecturl', 'scheduler', 'authkey', 'username_password']
-  ok : true
-
-empty = new BoincNewWorksourceForm
-  formtitle : 'Add BOINC project'
-  description : 'Description'
-  hide : ['scheduler', 'authkey']
-  ok : false
-
-empty_dev = new BoincNewWorksourceForm
-  formtitle : 'Add BOINC project (for developers)'
-  description : 'Description'
-  ok : false
-
 client = new web2grid.core.control.Client("GridBee")
 
 if (client.getWorksources().length == 0)
   client.addBoincWorkSource "http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi", \
                             "2962b0b8970c4ca693d953da648724cd"
 
-window.gears = new Gears(client, NewWorksourceForm.prototype.newworksourceforms)
+window.gears = new Gears(client, templates)
 
 $ ->
   ko.applyBindings window.gears

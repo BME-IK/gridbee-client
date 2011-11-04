@@ -19,6 +19,7 @@ for ws in worksources
   sourcefiles.push wsdir + ws + '/workunit.coffee'
   sourcefiles.push wsdir + ws + '/newworksourceform.coffee'
 
+sourcefiles.push 'src/templates.coffee'
 sourcefiles.push 'src/gridbee.coffee'
 
 # JQuery templates
