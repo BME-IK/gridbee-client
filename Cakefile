@@ -12,12 +12,11 @@ sourcefiles = []
 wsdir = 'src/worksources/'
 sourcefiles.push wsdir + 'worksource.coffee'
 sourcefiles.push wsdir + 'workunit.coffee'
-sourcefiles.push wsdir + 'newworksourceform.coffee'
 
 for ws in worksources
   sourcefiles.push wsdir + ws + '/worksource.coffee'
   sourcefiles.push wsdir + ws + '/workunit.coffee'
-  sourcefiles.push wsdir + ws + '/newworksourceform.coffee'
+  sourcefiles.push wsdir + ws + '/template.coffee'
 
 sourcefiles.push 'src/templates.coffee'
 sourcefiles.push 'src/gridbee.coffee'

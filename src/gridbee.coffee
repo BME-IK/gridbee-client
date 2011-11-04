@@ -25,29 +25,51 @@ class Gears
 
   worksources : ko.observableArray []
 
-  newworksourceforms : ko.observableArray []
+  templates : ko.observableArray []
 
   client: undefined
 
-  watch_death : (worksource) =>
-    death_watch = worksource.living.subscribe (living) =>
-      if living is false
-        # The worksource has died
-        @client.removeWorksource worksource.worksource
-        @worksources.remove worksource
+  watch_worksource : (worksource, livingCallback, deadCallback) =>
+    previousWorksource = worksource.worksource()
 
-        death_watch.dispose()
+    watch = worksource.worksource.subscribe (newWorksource) =>
+      if (previousWorksource is undefined) and \
+         (newWorksource isnt undefined)
+        @client.addWorksource newWorksource
+        @worksources.push worksource
+        livingCallback?()
+
+      else if (previousWorksource isnt undefined) and \
+              (newWorksource is undefined)
+        @client.removeWorksource previousWorksource
+        @worksources.remove worksource
+        deadCallback?()
+
+        watch.dispose()
+
+      previousWorksource = newWorksource
+
+  register_templates : (templates) =>
+    instantiateTemplate = (template) =>
+      templateInstance = new template.type(template.parameters)
+      @templates.push templateInstance
+
+      @watch_worksource templateInstance, =>
+        @templates.remove templateInstance
+        instantiateTemplate template
+
+    templates.map instantiateTemplate
 
   start : =>
     for worksource in @client.getWorksources()
       if worksource instanceof web2grid.worksource.boinc.BoincWorkSource
-        worksource = new Boinc(worksource)
+        worksource = new BoincWorksource(worksource)
       else
         continue
 
       @worksources.push worksource
 
-      @watch_death worksource
+      @watch_worksource worksource
 
     if @running()
       @client.start()
@@ -61,16 +83,10 @@ class Gears
     @threads.subscribe =>
       @client.setThreadNumber @threads()
 
-  constructor : (@client, @newworksourceforms) ->
+  constructor : (@client, templates) ->
+    @register_templates templates
+
     @client.onLog.subscribe log('main')
-
-    for newworksourceform in @newworksourceforms()
-
-      newworksourceform.worksource.subscribe (newworksource) =>
-        @client.addWorksource newworksource.worksource
-        @worksources.push newworksource
-
-        @watch_death newworksource
 
 client = new web2grid.core.control.Client("GridBee")
 

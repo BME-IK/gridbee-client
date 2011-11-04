@@ -1,31 +1,82 @@
-class BoincNewWorksourceForm extends NewWorksourceForm
-  constructor: (@parameters) ->
-    # Parent constructor
-    super('boinc', parameters.formtitle, parameters.description)
+observableClass = (ko.observable()).__proto__
 
-    # Set the form field to the default values
-    @reset()
+observableClass.delayedSubscribe = (callback) ->
+  observable = this;
+
+  timeout = undefined
+
+  observable.subscribe (newValue) ->
+    clearTimeout timeout if timeout?
+
+    if observable.nodelay is true
+      callback(newValue)
+    else
+      timeout = setTimeout (-> callback(newValue)), 1000
+
+observableClass.immediate = (newValue) ->
+  window.o = observable = this
+
+  observable.nodelay = true
+  returnValue = observable(newValue)
+  observable.nodelay = false
+
+  return returnValue
+
+temporarilyAdd = (observable, values, removeTriggerObservables) ->
+  for value in values
+    observable.push value
+
+  callback = ->
+    for w in watches
+      w.dispose()
+    for value in values
+      observable.remove value
+
+  watches = for o in towatch
+    o.subscribe callback
+
+class BoincTemplate extends BoincWorksource
+  constructor: (parameters) ->
+    # Parent constructor
+    super()
+
+    # Standard template parameters
+    @formtitle = parameters.formtitle
+    @description = parameters.description
+    @templatename = parameters.templatename
+
+    # Optional template parameters
+    @ok = ko.observable(parameters.ok ? false)
+    @hide = parameters.hide ? [];
+
+    # List of fields containing wrong parameters
+    @error = ko.observableArray []
+
+    # Set the form fields to the given default values
+    for property in ['projecturl', 'projectname', 'scheduler', \
+                     'username', 'password', 'authkey']
+      this[property](parameters[property]) if parameters[property]?
 
     # UI behavior:
     # Reset every field if the user changes the project url
     # Reset authkey if the user changes the password or the username
-    @projecturl.immediateSubscribe =>
-      @projectname ''
-      @scheduler ''
+    @projecturl.subscribe =>
+      @projectname.immediate ''
+      @scheduler.immediate ''
       @username.immediate ''
       @password.immediate ''
       @authkey.immediate ''
-    @username.immediateSubscribe => @authkey.immediate ''
-    @password.immediateSubscribe => @authkey.immediate ''
+    @username.subscribe => @authkey.immediate ''
+    @password.subscribe => @authkey.immediate ''
 
     # WebRPC binding
-    @projecturl.subscribe =>
+    @projecturl.delayedSubscribe =>
       @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
       @getSchedulerUrl()
       @getProjectname()
-    @username.subscribe @getAuthkey
-    @password.subscribe @getAuthkey
-    @authkey.subscribe @checkAuthkey
+    @username.delayedSubscribe @getAuthkey
+    @password.delayedSubscribe @getAuthkey
+    @authkey.delayedSubscribe @checkAuthkey
 
   # Create a workunit instance in the model
   create : =>
@@ -34,26 +85,7 @@ class BoincNewWorksourceForm extends NewWorksourceForm
     modelWorksource.projecturl = @projecturl()
     modelWorksource.projectname = @projectname()
     modelWorksource.username = @username()
-    @worksource new Boinc(modelWorksource)
-
-    @reset()
-
-  # Reset all input fields
-  reset : =>
-    # Possible user-facing input fields
-    @projecturl = delayedObservable(@parameters.projecturl ? '')
-    @projectname = ko.observable(@parameters.projectname ? '')
-    @scheduler = ko.observable(@parameters.scheduler ? '')
-
-    @username = delayedObservable(@parameters.username ? '')
-    @password = delayedObservable(@parameters.password ? '')
-    @authkey = delayedObservable(@parameters.authkey ? '')
-
-    # Disable 'Add BOINC project' button
-    @ok = ko.observable(@parameters.ok ? false)
-
-    # List of hidden fields
-    @hide = @parameters.hide ? [];
+    @worksource modelWorksource
 
   # Extract scheduler url from the project's master url
   getSchedulerUrl : =>
@@ -71,10 +103,10 @@ class BoincNewWorksourceForm extends NewWorksourceForm
         schedulers = link.match url_re for link in links
 
         # We will use the first scheduler
-        @scheduler schedulers[0]
+        @scheduler.immediate schedulers[0]
 
       error : =>
-        temporarilySet @error, 'Invalid project url', [@projecturl]
+        temporarilyAdd @error, ['projecturl'], [@projecturl]
 
   # Get the authkey using WebRPC call 'lookup_account'
   # see http://boinc.berkeley.edu/trac/wiki/WebRpc#lookup_account
@@ -86,7 +118,7 @@ class BoincNewWorksourceForm extends NewWorksourceForm
     request.onComplete.subscribe (userInfo) =>
       @authkey.immediate userInfo.Auth
     request.onError.subscribe (error) =>
-      temporarilySet @error, 'Invalid username and/or password', [@username, @password] unless @ok()
+      temporarilyAdd @error, ['username', 'password'], [@username, @password]
 
   # Check if the authkey is OK using WebRPC call 'am_get_info'
   # see http://boinc.berkeley.edu/trac/wiki/WebRpc#am_get_info
@@ -100,7 +132,7 @@ class BoincNewWorksourceForm extends NewWorksourceForm
       @ok true
     request.onError.subscribe (error) =>
       @ok false
-      temporarilySet @error, 'Invalid authkey', [@authkey] unless @ok()
+      temporarilyAdd @error, ['authkey'], [@authkey]
 
   # Get the name of the project
   getProjectname : =>

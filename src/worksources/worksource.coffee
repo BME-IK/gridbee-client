@@ -1,9 +1,6 @@
 max_id = 0
 
 class Worksource
-  # Unique identifier. Simplifies the GUI.
-  id : null
-
   # Worksource type: this should be the same as the directory name
   type : null
 
@@ -18,22 +15,18 @@ class Worksource
   # see http://knockoutjs.com/documentation/observableArrays.html
   workunits : ko.observableArray []
 
-  # Set this to true after the worksource starts working
-  # It will be set back to false when the user deletes the worksource
-  living : ko.observable false
-
   # The framework worksource object
-  worksource : undefined
+  worksource : ko.observable undefined
 
   # A [{name : 'name', observable : }] list of the most important data
   # to be shown in an overview display
   overview : ko.observableArray []
 
-  constructor : (@worksource) ->
+  constructor : () ->
     # Generating unique id.
     @id = max_id++
 
     # Initializing a new instance of observable variables
+    @worksource = ko.observable undefined
     @name = ko.observable null
     @workunits = ko.observableArray []
-    @living = ko.observable true
