@@ -1,30 +1,26 @@
-delayedObservable = (initialValue) ->
-  observable = ko.observable initialValue
+observableClass = (ko.observable()).__proto__
 
-  # Redefining the old subscribe function so
-  # that it will only fire after the user ended typing
-  observable.immediateSubscribe = observable.subscribe
-  callbacks = []
-  nodelay = false
+observableClass.delayedSubscribe = (callback) ->
+  observable = this;
 
-  observable.subscribe = (callback) ->
-    callbacks.push callback
-    t = null
+  timeout = undefined
 
-    observable.immediateSubscribe ->
-      if t
-        clearTimeout t
-      t = setTimeout (-> callback observable()), 1000 unless nodelay
+  observable.subscribe (newValue) ->
+    clearTimeout timeout if timeout?
 
-  # Set value, and call subscribers now
-  observable.immediate = (newValue) ->
-    nodelay = true
-    observable newValue
-    nodelay = false
-    for callback in callbacks
-      callback newValue
+    if observable.nodelay is true
+      callback(newValue)
+    else
+      timeout = setTimeout (-> callback(newValue)), 1000
 
-  observable
+observableClass.immediateSet = (newValue) ->
+  window.o = observable = this
+
+  observable.nodelay = true
+  returnValue = observable(newValue)
+  observable.nodelay = false
+
+  return returnValue
 
 temporarilySet = (observable, value, towatch) ->
   observable(value)
