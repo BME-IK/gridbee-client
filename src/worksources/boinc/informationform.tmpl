@@ -18,12 +18,14 @@
                     valueUpdate: 'keyup',
                     css : {error : !living() && isError('username')},
                     enable : scheduler().length != 0"/>
-  <label>Password</label>
+
+  <label data-bind="css : {hidden : living()}">Password</label>
   <input data-bind="value : password,
                     valueUpdate: 'keyup',
                     css : {error : !living() && isError('password'),
                            hidden : living()},
                     enable : scheduler().length != 0" />
+
   <!--<button>Register</button>-->
 </div>
 
