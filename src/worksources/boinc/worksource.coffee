@@ -16,6 +16,14 @@ class BoincWorksource extends Worksource
     @password = ko.observable ''
     @authkey = ko.observable ''
 
+    @name = ko.dependentObservable =>
+      if @projectname().length > 0
+        @projectname()
+      else if @projecturl().length > 0
+        @projecturl()
+      else if @scheduler().length > 0
+        @scheduler()
+
     # If the worksource is set, start operating
     @worksource.subscribe =>
       throw 1 if @worksource() instanceof BoincWorksource
@@ -27,14 +35,12 @@ class BoincWorksource extends Worksource
   start : =>
     console.log @worksource()
     # Load data fields from the passed worksource
-    @projecturl = ko.observable(@worksource().projecturl)
-    @projectname = ko.observable(@worksource().projectname)
-    @scheduler = ko.observable(@worksource().getSchedulerUrl())
+    @projecturl @worksource().projecturl
+    @projectname @worksource().projectname
+    @scheduler @worksource().getSchedulerUrl()
 
-    @username = ko.observable(@worksource().username)
-    @authkey = ko.observable(@worksource().getAuthkey())
-
-    @name = @projectname() ? @projecturl() ? @scheduler
+    @username @worksource().username
+    @authkey @worksource().getAuthkey()
 
     # Load the workunits of the passed worksource
     for workunit in @worksource().getWorkUnits()
