@@ -25,7 +25,6 @@ sourcefiles.push 'src/gridbee.coffee'
 templates = {}
 
 for ws in worksources
-  templates['settings-' + ws] = wsdir + ws + '/settings.tmpl'
   templates['informationform-' + ws] = wsdir + ws + '/informationform.tmpl'
 
 

@@ -1,5 +1,3 @@
-max_id = 0
-
 class Worksource
   # Worksource type: this should be the same as the directory name
   type : null
