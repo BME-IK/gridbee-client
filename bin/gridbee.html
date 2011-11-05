@@ -17,61 +17,60 @@
 </head>
 <body>
 
-<div id="app-name"> GRIDBEE </div>
-<div id="app-description"> the grid computing web app </div>
-
-<div id="runcontrol" onselectstart="return false;"
-     data-bind="click : function() {running(!running());},
-                css : {running : running(), stopped : !running()}">
-  <span class="stop">&#x25FC</span>
-  <span class="play">&#x25B6</span>
-</div>
-
-<div id="threadnumber" onselectstart="return false;">
-  <span class="minus"
-        data-bind="click : function() {threads(Math.min(1,threads()-1))}">
-    -
-  </span>
-  <span class="number" data-bind="text : threads"></span>
-  <span class="plus"
-        data-bind="click : function() {threads(threads() + 1)}">
-    +
-  </span>
-</div>
-
-<div id="state-describtion">
-  <b>Running</b> on <b>3</b> threads
-</div>
-
-<div id="newworksource">
-
+<div class="worksource" id="header">
   <div class="leftpanel">
+  <div id="app-name"> GRIDBEE </div>
+  <div id="app-description"> the grid computing web app </div>
 
-    <ul data-bind="template : {name : 'informationform', foreach : templates}">
-      <script type="text/html" id="informationform">
-      <li data-bind="attr : {templatename : templatename}"
-          onclick="selectTemplate(this.getAttribute('templatename'))">
-        <h2 class="selectable selector"
-            data-bind="text : formtitle">
-        </h2>
+  <div id="runcontrol" onselectstart="return false;"
+       data-bind="click : function() {running(!running());},
+                  css : {running : running(), stopped : !running()}">
+    <span class="stop">&#x25FC</span>
+    <span class="play">&#x25B6</span>
+  </div>
 
-        <p data-bind="text : description">
-        </p>
-      </li>
-      </script>
-    </ul>
+  <div id="threadnumber" onselectstart="return false;">
+    <span class="minus"
+          data-bind="click : function() {threads(Math.max(1,threads()-1))}">
+      -
+    </span>
+    <span class="number" data-bind="text : threads"></span>
+    <span class="plus"
+          data-bind="click : function() {threads(threads() + 1)}">
+      +
+    </span>
+  </div>
+  
+  <div id="state-describtion">
+    <span data-bind="css : {hidden : running()}, text : running() ? '' : 'Computation'"></span>
+    <b data-bind="text : running() ? 'Running' : 'stopped'"></b>
+    <span data-bind="css : {hidden : !running()}"> on <b data-bind="text: threads">3</b> threads </span>
+  </div>
 
   </div>
 
   <div class="rightpanel">
-
     <h1 class="selectable selector"
         onclick="selectItem(this)">
       Add new worksource
     </h1>
-
   </div>
+</div>
 
+<div id="template-selector">
+  <ul data-bind="template : {name : 'informationform', foreach : templates}">
+    <script type="text/html" id="informationform">
+    <li data-bind="attr : {templatename : templatename}"
+        onclick="selectTemplate(this.getAttribute('templatename'))">
+      <h2 class="selectable selector"
+          data-bind="text : formtitle">
+      </h2>
+      
+      <p data-bind="text : description">
+      </p>
+    </li>
+    </script>
+  </ul>
 </div>
 
 <script>
@@ -79,16 +78,22 @@
     // Do not allow selection of an item in the template list
     if ($('#worksourcelist .template').find(h1).length > 0) return;
 
-    // If the selected item is not the newworksource, then unselect all templates
-    if ($('#newworksource').find(h1).length === 0) selectTemplate(null);
+    $('#worksourcelist .worksource:not(.template), #template-selector, #header').removeClass('selected');
 
-    $('#worksourcelist .worksource:not(.template), #newworksource').removeClass('selected');
-    $(h1).parent().parent().addClass('selected');
+    // If the selected item is not the newworksource, then unselect all templates
+    if ($('#header').find(h1).length === 0) {
+      selectTemplate(null);
+      $(h1).parent().parent().addClass('selected');
+    } else {
+      $('#template-selector').addClass('selected');
+      $('#header').addClass('selected');
+    }
+
   }
 
   function setTemplatesHeight() {
     var margintop;
-    var margin = $('#newworksource').outerHeight() / 3 * 2.5;
+    var margin = $('#header').outerHeight() / 5 * 2.5;
     if ($('#worksourcelist .template.selected').length === 0) {
       margintop = margin;
     } else {
@@ -100,10 +105,10 @@
 
   function selectTemplate(templatename) {
     if (templatename == null) {
-      $('#newworksource li').removeClass('selected');
+      $('#template-selector li').removeClass('selected');
       $('#worksourcelist li.template').removeClass('selected');
     } else {
-      selector = $('#newworksource li[templatename="' + templatename + '"]');
+      selector = $('#template-selector li[templatename="' + templatename + '"]');
       template = $('#worksourcelist li.template[templatename="' + templatename + '"]');
 
       selector.addClass('selected')

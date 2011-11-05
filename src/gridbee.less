@@ -162,9 +162,13 @@ form {
 }
 
 
-body {
+#header {
+  .leftpanel {
+    height: 5em;
+  }
+
   #app-name {
-    position: absolute;
+    position: relative;
     top: 0em;
     left: 0em;
 
@@ -176,9 +180,9 @@ body {
   }
 
   #app-description {
-    position: absolute;
-    top: 3.3em;
-    margin-left: 0.35em;
+    -position: absolute;
+    -top: 3.3em;
+    margin-left: 0.4em;
 
     color: @foreground;
     text-shadow: 0 2px 3px #666666;
@@ -188,18 +192,19 @@ body {
   }
 
   #runcontrol {
+    -float: right;
     font-size: 1em;
     color: @foreground;
     display: block;
     position: absolute;
     right: 1em;
     margin-right: 8.5em;
-    top: 0;
+    top: 2em;
     margin-top: 0em;
     height: 2.5em;
     width: 2.5em;
     text-align: center;
-    background-color: fadeout(@foreground, 95%);//rgba(255,255,255,0.05);
+    background-color: fadeout(@foreground, 90%);//rgba(255,255,255,0.05);
     border-radius: 0.6em;
     cursor: pointer;
 
@@ -225,15 +230,16 @@ body {
     color: @foreground;
     position: absolute;
     right: 1em;
-    top: 0;
+    top: 2em;
     margin-top: 0em;
     text-align: center;
     height: 2.5em;
 
     span {
-      background-color: fadeout(@foreground, 95%);//rgba(255,255,255,0.05);
+      background-color: fadeout(@foreground, 90%);//rgba(255,255,255,0.05);
       border-color: fadeout(@background, 78%);//rgba(0,0,0,0.22);
       border-style: solid;
+      border-width: 0;
     }
 
     .plus {
@@ -242,7 +248,7 @@ body {
       font-size: 2.05em;
       border-bottom-right-radius: 0.3em;
       border-top-right-radius: 0.3em;
-      border-left: 0.1em;
+      border-left-width: 0.1em;
       cursor: pointer;
     }
 
@@ -253,7 +259,7 @@ body {
       font-size: 2.05em;
       border-bottom-left-radius: 0.3em;
       border-top-left-radius: 0.3em;
-      border-right: 0.1em;
+      border-right-width: 0.1em;
       cursor: pointer;
     }
 
@@ -262,24 +268,26 @@ body {
       font-size: 2.05em;
       width: 1.3em;
       cursor:default;
+      margin: 0 -0.15em;
     }
   }
 
   #state-describtion {
-    display: none;
     font-size: 1.1em;
     position: absolute;
-    -text-align: right;
-    top: 0em;
+    top: 0;
     right: 1em;
     color: #CCC;
     font-family: Arial;
-    -text-shadow: 0 1px 2px #666666;
+
+    .hidden {
+      display: none;
+    }
   }
 
 }
 
-.worksource, #newworksource {
+.worksource {
   position: relative;
   .display-box;
   .box-orient(horizontal);
@@ -342,50 +350,39 @@ body {
 
 }
 
-@topspace : 5em;
-
-#newworksource {
-  margin-top: @topspace;
-  height: 3em;
-  overflow: visible;
+#template-selector {
+  font-size: 1.5em;
+  position: absolute;
   z-index: 2;
-
-  &.selected .leftpanel li {
+  margin: 0 36% 0 2em;
+  display: none;
+  
+  &.selected {
     display: block;
   }
 
-  .leftpanel {
-    border-width: 0;
+  h2 {
+    font-size: 1.5em;
+    padding: 0.3em 0.6666em;
+    margin: 0.3em -0.6666em;
+    cursor: pointer;
+    display: block;
+    
+    &.selected { background-color: @selectbackground; }
+    &:hover    { background-color: @selectbackground; }
   }
 
-  .leftpanel li {
-    display: none;
-    margin: 1em;
-    margin-bottom: 2em;
-
-    h2 {
-      font-size: 1.5em;
-      padding: 0.3em 0.6666em;
-      margin: 0.3em -0.6666em;
-      cursor: pointer;
-      display: block;
-
-      &.selected { background-color: @selectbackground; }
-      &:hover    { background-color: @selectbackground; }
-    }
-
-    p {
-      font-size: 1.1em;
-      margin: 1.3em 0em;
-    }
+  p {
+    font-size: 1.1em;
+    margin: 1.3em 0em;
   }
 }
 
-#newworksource.selected ~ #templatelist {
+#header.selected ~ #templatelist {
   display: block;
 }
 
-#newworksource.selected ~ #worksourcelist {
+#header.selected ~ #worksourcelist {
   &> li:not(.template):not(.selected) {
     .leftpanel {
       opacity: 0;
@@ -399,7 +396,7 @@ body {
     .display-box;
     position: absolute;
     margin-top: 0;
-    top: @topspace + 5.5em;
+    top: 8.5em;
   }
 }
 

@@ -120,8 +120,11 @@ form button {
 form .hidden {
   display: none;
 }
-body #app-name {
-  position: absolute;
+#header .leftpanel {
+  height: 5em;
+}
+#header #app-name {
+  position: relative;
   top: 0em;
   left: 0em;
   color: #ffffff;
@@ -130,99 +133,102 @@ body #app-name {
   font-weight: bold;
   font-family: Arial;
 }
-body #app-description {
-  position: absolute;
-  top: 3.3em;
-  margin-left: 0.35em;
+#header #app-description {
+  -position: absolute;
+  -top: 3.3em;
+  margin-left: 0.4em;
   color: #ffffff;
   text-shadow: 0 2px 3px #666666;
   font-size: 1em;
   font-weight: bold;
   font-family: Arial;
 }
-body #runcontrol {
+#header #runcontrol {
+  -float: right;
   font-size: 1em;
   color: #ffffff;
   display: block;
   position: absolute;
   right: 1em;
   margin-right: 8.5em;
-  top: 0;
+  top: 2em;
   margin-top: 0em;
   height: 2.5em;
   width: 2.5em;
   text-align: center;
-  background-color: rgba(255, 255, 255, 0.050000000000000044);
+  background-color: rgba(255, 255, 255, 0.09999999999999998);
   border-radius: 0.6em;
   cursor: pointer;
 }
-body #runcontrol .play {
+#header #runcontrol .play {
   font-size: 1.95em;
   margin-left: 0.15em;
   display: none;
 }
-body #runcontrol.stopped .play {
+#header #runcontrol.stopped .play {
   display: inline;
 }
-body #runcontrol .stop {
+#header #runcontrol .stop {
   font-size: 1.95em;
   display: none;
 }
-body #runcontrol.running .stop {
+#header #runcontrol.running .stop {
   display: inline;
 }
-body #threadnumber {
+#header #threadnumber {
   font-size: 1em;
   color: #ffffff;
   position: absolute;
   right: 1em;
-  top: 0;
+  top: 2em;
   margin-top: 0em;
   text-align: center;
   height: 2.5em;
 }
-body #threadnumber span {
-  background-color: rgba(255, 255, 255, 0.050000000000000044);
+#header #threadnumber span {
+  background-color: rgba(255, 255, 255, 0.09999999999999998);
   border-color: rgba(0, 0, 0, 0.21999999999999997);
   border-style: solid;
+  border-width: 0;
 }
-body #threadnumber .plus {
+#header #threadnumber .plus {
   display: inline-block;
   width: 1em;
   font-size: 2.05em;
   border-bottom-right-radius: 0.3em;
   border-top-right-radius: 0.3em;
-  border-left: 0.1em;
+  border-left-width: 0.1em;
   cursor: pointer;
 }
-body #threadnumber .minus {
+#header #threadnumber .minus {
   display: inline-block;
   margin: 0em;
   width: 1em;
   font-size: 2.05em;
   border-bottom-left-radius: 0.3em;
   border-top-left-radius: 0.3em;
-  border-right: 0.1em;
+  border-right-width: 0.1em;
   cursor: pointer;
 }
-body #threadnumber .number {
+#header #threadnumber .number {
   display: inline-block;
   font-size: 2.05em;
   width: 1.3em;
   cursor: default;
+  margin: 0 -0.15em;
 }
-body #state-describtion {
-  display: none;
+#header #state-describtion {
   font-size: 1.1em;
   position: absolute;
-  -text-align: right;
-  top: 0em;
+  top: 0;
   right: 1em;
   color: #CCC;
   font-family: Arial;
-  -text-shadow: 0 1px 2px #666666;
 }
-.worksource, #newworksource {
+#header #state-describtion .hidden {
+  display: none;
+}
+.worksource {
   position: relative;
   display: -webkit-box;
   display: -moz-box;
@@ -265,7 +271,7 @@ body #state-describtion {
   -o-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
-.worksource .leftpanel, #newworksource .leftpanel {
+.worksource .leftpanel {
   position: relative;
   display: block;
   -webkit-box-flex: 1;
@@ -276,17 +282,17 @@ body #state-describtion {
   border-right: 0.5em solid #333333;
   padding-right: 1em;
 }
-.worksource .rightpanel, #newworksource .rightpanel {
+.worksource .rightpanel {
   display: block;
   width: 36%;
   padding-left: 1em;
   margin-left: -0.5em;
   border-left: 0.5em solid #333333;
 }
-.worksource .rightpanel .overview p, #newworksource .rightpanel .overview p {
+.worksource .rightpanel .overview p {
   margin-bottom: 0.5em;
 }
-.worksource .rightpanel h1, #newworksource .rightpanel h1 {
+.worksource .rightpanel h1 {
   font-size: 2em;
   padding: 0.2em 0.5em;
   margin: 0em -1em 0.5em -0.5em;
@@ -295,10 +301,7 @@ body #state-describtion {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.worksource:not(.selected) .leftpanel,
-#newworksource:not(.selected) .leftpanel,
-.worksource .rightpanel,
-#newworksource .rightpanel {
+.worksource:not(.selected) .leftpanel, .worksource .rightpanel {
   -webkit-transition-property: opacity;
   -moz-transition-property: opacity;
   -ms-transition-property: opacity;
@@ -310,53 +313,46 @@ body #state-describtion {
   -o-transition-duration: 0.3s;
   transition-duration: 0.3s;
 }
-.worksource.template, #newworksource.template {
+.worksource.template {
   display: none;
 }
-#newworksource {
-  margin-top: 5em;
-  height: 3em;
-  overflow: visible;
+#template-selector {
+  font-size: 1.5em;
+  position: absolute;
   z-index: 2;
+  margin: 0 36% 0 2em;
+  display: none;
 }
-#newworksource.selected .leftpanel li {
+#template-selector.selected {
   display: block;
 }
-#newworksource .leftpanel {
-  border-width: 0;
-}
-#newworksource .leftpanel li {
-  display: none;
-  margin: 1em;
-  margin-bottom: 2em;
-}
-#newworksource .leftpanel li h2 {
+#template-selector h2 {
   font-size: 1.5em;
   padding: 0.3em 0.6666em;
   margin: 0.3em -0.6666em;
   cursor: pointer;
   display: block;
 }
-#newworksource .leftpanel li h2.selected {
+#template-selector h2.selected {
   background-color: rgba(117, 174, 255, 0.1);
 }
-#newworksource .leftpanel li h2:hover {
+#template-selector h2:hover {
   background-color: rgba(117, 174, 255, 0.1);
 }
-#newworksource .leftpanel li p {
+#template-selector p {
   font-size: 1.1em;
   margin: 1.3em 0em;
 }
-#newworksource.selected ~ #templatelist {
+#header.selected ~ #templatelist {
   display: block;
 }
-#newworksource.selected ~ #worksourcelist > li:not(.template):not(.selected) .leftpanel {
+#header.selected ~ #worksourcelist > li:not(.template):not(.selected) .leftpanel {
   opacity: 0;
 }
-#newworksource.selected ~ #worksourcelist > li:not(.template):not(.selected) .rightpanel {
+#header.selected ~ #worksourcelist > li:not(.template):not(.selected) .rightpanel {
   opacity: 0.3;
 }
-#newworksource.selected ~ #worksourcelist > li.template.selected {
+#header.selected ~ #worksourcelist > li.template.selected {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
@@ -364,7 +360,7 @@ body #state-describtion {
   display: box;
   position: absolute;
   margin-top: 0;
-  top: 10.5em;
+  top: 8.5em;
 }
 .workunit {
   display: -webkit-box;
