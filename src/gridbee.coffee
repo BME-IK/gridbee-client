@@ -36,7 +36,7 @@ class Gears
       if (previousWorksource is undefined) and \
          (newWorksource isnt undefined)
         @client.addWorksource newWorksource
-        @worksources.push worksource
+        @worksources.unshift worksource
         livingCallback?()
 
       else if (previousWorksource isnt undefined) and \
@@ -67,7 +67,7 @@ class Gears
       else
         continue
 
-      @worksources.push worksource
+      @worksources.unshift worksource
 
       @watch_worksource worksource
 

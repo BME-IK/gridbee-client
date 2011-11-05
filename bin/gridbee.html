@@ -49,17 +49,14 @@
 
     <ul data-bind="template : {name : 'informationform', foreach : templates}">
       <script type="text/html" id="informationform">
-      <li>
-        <h2 class="selectable"
-            onclick="$(this).toggleClass('selected')"
+      <li data-bind="attr : {templatename : templatename}"
+          onclick="selectTemplate(this.getAttribute('templatename'))">
+        <h2 class="selectable selector"
             data-bind="text : formtitle">
         </h2>
 
         <p data-bind="text : description">
         </p>
-
-        <form data-bind="template : {name : 'informationform-' + type}">
-        </form>
       </li>
       </script>
     </ul>
@@ -79,9 +76,33 @@
 
 <script>
   function selectItem(h1) {
-    $('.worksource, #newworksource').removeClass('selected')
+    $('#worksourcelist .worksource, #newworksource').removeClass('selected')
     $(h1).parent().parent().addClass('selected')
   }
+
+  function setNewWorksourceHeight() {
+    var leftheight = $('#newworksource .leftpanel').outerHeight();
+    var rightheight = $('#newworksource .rightpanel').outerHeight() + 
+                      $('#templatelist').outerHeight();
+    var margin = Math.max(0, leftheight - rightheight);
+    $('#templatelist').css('margin-bottom', margin);
+    console.log(leftheight, rightheight, margin);
+  }
+
+  function selectTemplate(templatename) {
+    selector = $('#newworksource li[templatename="' + templatename + '"]');
+    template = $('#templatelist li[templatename="' + templatename + '"]');
+
+    selector.addClass('selected')
+            .siblings().removeClass('selected');
+
+    template.addClass('selected')
+            .siblings().removeClass('selected');
+
+    //setNewWorksourceHeight();
+  }
+
+  //$('#newworksource .rightpanel h1').click(setNewWorksourceHeight);
 
   function checkNonEmptyInputs(e) {
     if (e.target.tagName.toLowerCase() !== 'input') return;
@@ -102,11 +123,16 @@
   document.addEventListener('keyup', checkNonEmptyInputs, false);
 </script>
 
+<ul id="templatelist"
+     data-bind="template: {name : 'worksource', foreach : templates}">
+</ul>
+
 <ul id="worksourcelist"
      data-bind="template: {name : 'worksource', foreach : worksources}">
 
   <script type="text/html" id="worksource">
-    <li class="worksource">
+    <li class="worksource"
+        data-bind="attr : {templatename : living() ? '' : templatename}">
 
       <ul class="leftpanel"
           data-bind="template : {name : 'workunit', foreach : workunits}">
@@ -140,19 +166,6 @@
 
 </ul>
 
-<script type="text/html" id="settings-boinc">
-<p>
-  Project name: <span data-bind="text : projectname"></span>
-</p>
-<p>
-  Project url:
-  <a data-bind="text : projecturl, attr : {href : projecturl}"></a>
-</p>
-<p>
-  Authentication key: <span data-bind="text : authkey"></span>
-</p>
-</script>
-
 <script type="text/html" id="informationform-boinc">
 <div data-bind="css : {hidden : !living() && isHidden('projecturl')}">
   <label>Project url</label>
@@ -174,12 +187,14 @@
                     valueUpdate: 'keyup',
                     css : {error : !living() && isError('username')},
                     enable : scheduler().length != 0"/>
-  <label>Password</label>
+
+  <label data-bind="css : {hidden : living()}">Password</label>
   <input data-bind="value : password,
                     valueUpdate: 'keyup',
                     css : {error : !living() && isError('password'),
                            hidden : living()},
                     enable : scheduler().length != 0" />
+
   <!--<button>Register</button>-->
 </div>
 

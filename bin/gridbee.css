@@ -23,7 +23,12 @@ ul {
   -text-shadow: #000000 1px 2px 2px;
   background-color: rgba(117, 174, 255, 0.1);
 }
-.selected .selector {
+.selected > .selector {
+  color: rgba(190, 232, 255, 0.9);
+  -text-shadow: #000000 1px 2px 2px;
+  background-color: rgba(117, 174, 255, 0.1);
+}
+.selected > * > .selector {
   color: rgba(190, 232, 255, 0.9);
   -text-shadow: #000000 1px 2px 2px;
   background-color: rgba(117, 174, 255, 0.1);
@@ -239,6 +244,7 @@ body #state-describtion {
   -ms-box-align: start;
   -o-box-align: start;
   box-align: start;
+  z-index: 1;
   font-size: 1.5em;
   width: 100%;
   -webkit-box-sizing: border-box;
@@ -279,18 +285,37 @@ body #state-describtion {
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.worksource .leftpanel,
+#newworksource .leftpanel,
+.worksource .rightpanel,
+#newworksource .rightpanel {
+  -webkit-transition-property: opacity;
+  -moz-transition-property: opacity;
+  -ms-transition-property: opacity;
+  -o-transition-property: opacity;
+  transition-property: opacity;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  -ms-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
+}
 #newworksource {
   margin-top: 5em;
+  height: 3em;
+  overflow: visible;
+  z-index: 2;
+}
+#newworksource.selected .leftpanel li {
+  display: block;
+}
+#newworksource .leftpanel {
+  border-width: 0;
 }
 #newworksource .leftpanel li {
+  display: none;
   margin: 1em;
   margin-bottom: 2em;
-}
-#newworksource .leftpanel li h2 ~ * {
-  display: none;
-}
-#newworksource .leftpanel li h2.selected ~ * {
-  display: block;
 }
 #newworksource .leftpanel li h2 {
   font-size: 1.5em;
@@ -308,6 +333,28 @@ body #state-describtion {
 #newworksource .leftpanel li p {
   font-size: 1.1em;
   margin: 1.3em 0em;
+}
+#newworksource.selected ~ #templatelist {
+  display: block;
+}
+#newworksource.selected ~ #worksourcelist .leftpanel {
+  opacity: 0.05;
+}
+#newworksource.selected ~ #worksourcelist .rightpanel {
+  opacity: 0.3;
+}
+#templatelist {
+  display: none;
+}
+#templatelist .worksource {
+  display: none;
+}
+#templatelist .worksource.selected {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-box;
+  display: -o-box;
+  display: box;
 }
 .workunit {
   display: -webkit-box;

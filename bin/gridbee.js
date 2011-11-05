@@ -13,15 +13,12 @@
     }
     return -1;
   };
-  max_id = 0;
   Worksource = (function() {
     Worksource.prototype.type = null;
     Worksource.prototype.description = null;
     Worksource.prototype.name = ko.observable(null);
     Worksource.prototype.workunits = ko.observableArray([]);
     Worksource.prototype.worksource = ko.observable(void 0);
-    Worksource.prototype.overview = ko.observableArray([]);
-    Worksource.prototype.x = 1;
     Worksource.prototype.living = function() {
       return this.worksource() != null;
     };
@@ -58,6 +55,15 @@
       this.username = ko.observable('');
       this.password = ko.observable('');
       this.authkey = ko.observable('');
+      this.name = ko.dependentObservable(__bind(function() {
+        if (this.projectname().length > 0) {
+          return this.projectname();
+        } else if (this.projecturl().length > 0) {
+          return this.projecturl();
+        } else if (this.scheduler().length > 0) {
+          return this.scheduler();
+        }
+      }, this));
       this.worksource.subscribe(__bind(function() {
         if (this.worksource() instanceof BoincWorksource) {
           throw 1;
@@ -69,37 +75,27 @@
       this.worksource(worksource);
     }
     BoincWorksource.prototype.start = function() {
-      var workunit, _i, _len, _ref, _ref2, _ref3;
+      var workunit, _i, _len, _ref;
       console.log(this.worksource());
-      this.projecturl = ko.observable(this.worksource().projecturl);
-      this.projectname = ko.observable(this.worksource().projectname);
-      this.scheduler = ko.observable(this.worksource().getSchedulerUrl());
-      this.username = ko.observable(this.worksource().username);
-      this.authkey = ko.observable(this.worksource().getAuthkey());
-      this.name = (_ref = (_ref2 = this.projectname()) != null ? _ref2 : this.projecturl()) != null ? _ref : this.scheduler;
-      this.overview = [
-        {
-          name: 'Scheduler',
-          observable: this.scheduler
-        }, {
-          name: 'Authkey',
-          observable: this.authkey
-        }
-      ];
-      _ref3 = this.worksource().getWorkUnits();
-      for (_i = 0, _len = _ref3.length; _i < _len; _i++) {
-        workunit = _ref3[_i];
+      this.projecturl(this.worksource().projecturl);
+      this.projectname(this.worksource().projectname);
+      this.scheduler(this.worksource().getSchedulerUrl());
+      this.username(this.worksource().username);
+      this.authkey(this.worksource().getAuthkey());
+      _ref = this.worksource().getWorkUnits();
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        workunit = _ref[_i];
         this.workunits.push(new BoincWorkunit(workunit));
       }
       this.worksource().onAddWorkunit.subscribe(__bind(function(addedWorkunit) {
         return this.workunits.push(new BoincWorkunit(addedWorkunit));
       }, this));
       return this.worksource().onRemoveWorkunit.subscribe(__bind(function(removedWorkunit) {
-        var candidate, _j, _len2, _ref4, _results;
-        _ref4 = this.workunits();
+        var candidate, _j, _len2, _ref2, _results;
+        _ref2 = this.workunits();
         _results = [];
-        for (_j = 0, _len2 = _ref4.length; _j < _len2; _j++) {
-          candidate = _ref4[_j];
+        for (_j = 0, _len2 = _ref2.length; _j < _len2; _j++) {
+          candidate = _ref2[_j];
           _results.push(candidate.workunit === removedWorkunit ? this.workunits.remove(candidate) : void 0);
         }
         return _results;
@@ -376,7 +372,7 @@
       return watch = worksource.worksource.subscribe(__bind(function(newWorksource) {
         if ((previousWorksource === void 0) && (newWorksource !== void 0)) {
           this.client.addWorksource(newWorksource);
-          this.worksources.push(worksource);
+          this.worksources.unshift(worksource);
           if (typeof livingCallback === "function") {
             livingCallback();
           }
@@ -414,7 +410,7 @@
         } else {
           continue;
         }
-        this.worksources.push(worksource);
+        this.worksources.unshift(worksource);
         this.watch_worksource(worksource);
       }
       if (this.running()) {
