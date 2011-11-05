@@ -364,8 +364,8 @@
   };
   Gears = (function() {
     Gears.prototype.log = null;
-    Gears.prototype.running = ko.observable(false);
-    Gears.prototype.threads = ko.observable(2);
+    Gears.prototype.running = ko.observable(true);
+    Gears.prototype.threads = ko.observable(1);
     Gears.prototype.worksources = ko.observableArray([]);
     Gears.prototype.templates = [];
     Gears.prototype.client = void 0;
@@ -443,9 +443,6 @@
     return Gears;
   })();
   client = new gridbee.core.control.Client("GridBee");
-  if (client.getWorksources().length === 0) {
-    client.addBoincWorkSource("http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi", "2962b0b8970c4ca693d953da648724cd");
-  }
   window.gears = new Gears(client, templates);
   $(function() {
     ko.applyBindings(window.gears);

@@ -19,9 +19,9 @@ log = (logname) -> (entry) ->
 class Gears
   log : null
 
-  running : ko.observable false
+  running : ko.observable true
 
-  threads : ko.observable 2
+  threads : ko.observable 1
 
   worksources : ko.observableArray []
 
@@ -90,10 +90,6 @@ class Gears
     @client.onLog.subscribe log('main')
 
 client = new gridbee.core.control.Client("GridBee")
-
-if (client.getWorksources().length == 0)
-  client.addBoincWorkSource "http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi", \
-                            "2962b0b8970c4ca693d953da648724cd"
 
 window.gears = new Gears(client, templates)
 
