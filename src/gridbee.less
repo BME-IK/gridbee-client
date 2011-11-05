@@ -161,11 +161,27 @@ form {
   .hidden { display: none; }
 }
 
+.worksource:not(.selected) form {
+    display: none;
+}
+
+.worksource:not(.template) form {
+  div {
+    display: block;
+  }
+
+  input {
+    width: 100%;
+    background-color: @background;
+  }
+
+  label {
+    position: relative;
+  }
+}
 
 #header {
-  .leftpanel {
-    height: 5em;
-  }
+  font-size: 1.6em;
 
   #app-name {
     position: relative;
@@ -378,10 +394,6 @@ form {
   }
 }
 
-#header.selected ~ #templatelist {
-  display: block;
-}
-
 #header.selected ~ #worksourcelist {
   &> li:not(.template):not(.selected) {
     .leftpanel {
@@ -396,7 +408,7 @@ form {
     .display-box;
     position: absolute;
     margin-top: 0;
-    top: 8.5em;
+    top: 11.6em;
   }
 }
 

@@ -50,7 +50,13 @@
   </div>
 
   <div class="rightpanel">
-    <h1 class="selectable selector"
+    <h1 id="overview-button"
+        class="selectable selected"
+        onclick="selectItem(this)">
+      Overview
+    </h1>
+    <h1 id="newworksource-button"
+        class="selectable selector"
         onclick="selectItem(this)">
       Add new worksource
     </h1>
@@ -78,25 +84,31 @@
     // Do not allow selection of an item in the template list
     if ($('#worksourcelist .template').find(h1).length > 0) return;
 
-    $('#worksourcelist .worksource:not(.template), #template-selector, #header').removeClass('selected');
+    $('#worksourcelist .worksource:not(.template), #template-selector, #header h1, #header').removeClass('selected');
 
     // If the selected item is not the newworksource, then unselect all templates
-    if ($('#header').find(h1).length === 0) {
+    if ($(h1).attr('id') != 'newworksource-button') {
       selectTemplate(null);
+    }
+
+    if ($('#header').find(h1).length === 0) {
       $(h1).parent().parent().addClass('selected');
     } else {
-      $('#template-selector').addClass('selected');
-      $('#header').addClass('selected');
+      $(h1).addClass('selected');
+      if ($(h1).attr('id') == 'newworksource-button') {
+        $(h1).parent().parent().addClass('selected');
+        $('#template-selector').addClass('selected');
+      }
     }
   }
   $(function(){
     if(window.gears.worksources().length == window.gears.templates.length)
-      selectItem($('#header h1'));
-  });
+      selectItem($('#newworksource-button'));
+   });
 
   function setTemplatesHeight() {
     var margintop;
-    var margin = $('#header').outerHeight() / 5 * 2.5;
+    var margin = $('#header').outerHeight() / 7.3 * 2.5;
     if ($('#worksourcelist .template.selected').length === 0) {
       margintop = margin;
     } else {

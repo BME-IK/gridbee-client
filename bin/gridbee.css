@@ -120,8 +120,21 @@ form button {
 form .hidden {
   display: none;
 }
-#header .leftpanel {
-  height: 5em;
+.worksource:not(.selected) form {
+  display: none;
+}
+.worksource:not(.template) form div {
+  display: block;
+}
+.worksource:not(.template) form input {
+  width: 100%;
+  background-color: #000000;
+}
+.worksource:not(.template) form label {
+  position: relative;
+}
+#header {
+  font-size: 1.6em;
 }
 #header #app-name {
   position: relative;
@@ -343,9 +356,6 @@ form .hidden {
   font-size: 1.1em;
   margin: 1.3em 0em;
 }
-#header.selected ~ #templatelist {
-  display: block;
-}
 #header.selected ~ #worksourcelist > li:not(.template):not(.selected) .leftpanel {
   opacity: 0;
 }
@@ -360,7 +370,7 @@ form .hidden {
   display: box;
   position: absolute;
   margin-top: 0;
-  top: 8.5em;
+  top: 11.6em;
 }
 .workunit {
   display: -webkit-box;
