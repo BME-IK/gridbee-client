@@ -43,6 +43,8 @@ class BoincTemplate extends BoincWorksource
     # Parent constructor
     super()
 
+    @template true
+
     # Standard template parameters
     @formtitle = parameters.formtitle
     @description = parameters.description
@@ -89,6 +91,7 @@ class BoincTemplate extends BoincWorksource
     modelWorksource.projectname = @projectname()
     modelWorksource.username = @username()
     @worksource modelWorksource
+    @template false
 
   # Extract scheduler url from the project's master url
   getSchedulerUrl : =>

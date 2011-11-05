@@ -1,52 +1,52 @@
-<div data-bind="css : {hidden : !living() && isHidden('projecturl')}">
+<div data-bind="css : {hidden : template() && isHidden('projecturl')}">
   <label>Project url</label>
   <input data-bind="value : projecturl,
                     valueUpdate: 'keyup',
-                    css : {error : !living() && isError('projecturl')}">
+                    css : {error : template() && isError('projecturl')}">
 </div>
 
-<div data-bind="css : {hidden : !living() && isHidden('scheduler')}">
+<div data-bind="css : {hidden : template() && isHidden('scheduler')}">
   <label>Scheduler url</label>
   <input data-bind="value : scheduler,
                     valueUpdate: 'keyup',
-                    css : {error : !living() && isError('scheduler')}">
+                    css : {error : template() && isError('scheduler')}">
 </div>
 
-<div data-bind="css : {hidden : !living() && isHidden('username_password')}">
+<div data-bind="css : {hidden : template() && isHidden('username_password')}">
   <label>Username</label>
   <input data-bind="value : username,
                     valueUpdate: 'keyup',
-                    css : {error : !living() && isError('username')},
+                    css : {error : template() && isError('username')},
                     enable : scheduler().length != 0"/>
 
   <label data-bind="css : {hidden : living()}">Password</label>
   <input data-bind="value : password,
                     valueUpdate: 'keyup',
-                    css : {error : !living() && isError('password'),
+                    css : {error : template() && isError('password'),
                            hidden : living()},
                     enable : scheduler().length != 0" />
 
   <!--<button>Register</button>-->
 </div>
 
-<div data-bind="css : {hidden : !living() && isHidden('authkey')}">
+<div data-bind="css : {hidden : template() && isHidden('authkey')}">
   <label>Authentication key</label>
   <input data-bind="value : authkey,
                     valueUpdate: 'keyup',
-                    css : {error : !living() && isError('authkey')},
+                    css : {error : template() && isError('authkey')},
                     enable : scheduler().length != 0 &&
                              username().length == 0 &&
                              password().length == 0" />
 </div>
 
 <div>
-  <button data-bind="enable : !living() && ok(),
+  <button data-bind="enable : template() && ok(),
                      css : {hidden : living()},
                      click : function() {if (!living()) create()}">
     Add BOINC project
   </button>
   <button class="templatehidden"
-          data-bind="css : {hidden : !living()},
+          data-bind="css : {hidden : template()},
                      click : function() {worksource(undefined)}">
     Remove worksource
   </button>

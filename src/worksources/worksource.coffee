@@ -26,3 +26,4 @@ class Worksource
     @worksource = ko.observable undefined
     @name = ko.observable null
     @workunits = ko.observableArray []
+    @template = ko.observable false
