@@ -25,7 +25,7 @@ class Gears
 
   worksources : ko.observableArray []
 
-  templates : ko.observableArray []
+  templates : []
 
   client: undefined
 
@@ -36,7 +36,6 @@ class Gears
       if (previousWorksource is undefined) and \
          (newWorksource isnt undefined)
         @client.addWorksource newWorksource
-        @worksources.unshift worksource
         livingCallback?()
 
       else if (previousWorksource isnt undefined) and \
@@ -52,22 +51,24 @@ class Gears
   register_templates : (templates) =>
     instantiateTemplate = (template) =>
       templateInstance = new template.type(template.parameters)
-      @templates.push templateInstance
+      @worksources.unshift templateInstance
 
       @watch_worksource templateInstance, =>
-        @templates.remove templateInstance
         instantiateTemplate template
 
     templates.map instantiateTemplate
 
+    # Save the most important properties to the @templates variable
+    @templates = templates.map (template) -> template.parameters
+
   start : =>
     for worksource in @client.getWorksources()
-      if worksource instanceof web2grid.worksource.boinc.BoincWorkSource
+      if worksource instanceof gridbee.worksource.boinc.BoincWorkSource
         worksource = new BoincWorksource(worksource)
       else
         continue
 
-      @worksources.unshift worksource
+      @worksources.push worksource
 
       @watch_worksource worksource
 
@@ -88,7 +89,7 @@ class Gears
 
     @client.onLog.subscribe log('main')
 
-client = new web2grid.core.control.Client("GridBee")
+client = new gridbee.core.control.Client("GridBee")
 
 if (client.getWorksources().length == 0)
   client.addBoincWorkSource "http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi", \

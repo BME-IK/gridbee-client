@@ -76,37 +76,62 @@
 
 <script>
   function selectItem(h1) {
-    $('#worksourcelist .worksource, #newworksource').removeClass('selected')
-    $(h1).parent().parent().addClass('selected')
+    // Do not allow selection of an item in the template list
+    if ($('#worksourcelist .template').find(h1).length > 0) return;
+
+    // If the selected item is not the newworksource, then unselect all templates
+    if ($('#newworksource').find(h1).length === 0) selectTemplate(null);
+
+    $('#worksourcelist .worksource:not(.template), #newworksource').removeClass('selected');
+    $(h1).parent().parent().addClass('selected');
   }
 
-  function setNewWorksourceHeight() {
-    var leftheight = $('#newworksource .leftpanel').outerHeight();
-    var rightheight = $('#newworksource .rightpanel').outerHeight() + 
-                      $('#templatelist').outerHeight();
-    var margin = Math.max(0, leftheight - rightheight);
-    $('#templatelist').css('margin-bottom', margin);
-    console.log(leftheight, rightheight, margin);
+  function setTemplatesHeight() {
+    var margintop;
+    var margin = $('#newworksource').outerHeight() / 3 * 2.5;
+    if ($('#worksourcelist .template.selected').length === 0) {
+      margintop = margin;
+    } else {
+      var height = $('#worksourcelist .template.selected .rightpanel').outerHeight();
+      margintop = height + margin*2
+    }
+    $('#worksourcelist li:not(.template):first').css('margin-top', margintop);
   }
 
   function selectTemplate(templatename) {
-    selector = $('#newworksource li[templatename="' + templatename + '"]');
-    template = $('#templatelist li[templatename="' + templatename + '"]');
+    if (templatename == null) {
+      $('#newworksource li').removeClass('selected');
+      $('#worksourcelist li.template').removeClass('selected');
+    } else {
+      selector = $('#newworksource li[templatename="' + templatename + '"]');
+      template = $('#worksourcelist li.template[templatename="' + templatename + '"]');
 
-    selector.addClass('selected')
-            .siblings().removeClass('selected');
+      selector.addClass('selected')
+              .siblings().removeClass('selected');
 
-    template.addClass('selected')
-            .siblings().removeClass('selected');
+      template.addClass('selected')
+              .siblings().removeClass('selected');
+    }
 
-    //setNewWorksourceHeight();
+    setTemplatesHeight();
   }
 
-  //$('#newworksource .rightpanel h1').click(setNewWorksourceHeight);
+  function checkTemplateCreation(e) {
+    if (e.target.tagName.toLowerCase() !== 'button') return;
+
+    var button = $(e.target);
+    var worksource = button.parent().parent().parent().parent();
+    var templatename = worksource.attr('templatename');
+    if (templatename === undefined) return;
+
+    selectTemplate(null);
+    worksource.addClass('selected');
+    setTimeout(function() { selectItem(worksource.find('h1.selector')[0]); }, 0);
+  }
+  document.addEventListener('click', checkTemplateCreation, true);
 
   function checkNonEmptyInputs(e) {
     if (e.target.tagName.toLowerCase() !== 'input') return;
-    console.log(e.charCode);
 
     var input = $(e.target);
     if (e.charCode !== 0) {
@@ -123,16 +148,13 @@
   document.addEventListener('keyup', checkNonEmptyInputs, false);
 </script>
 
-<ul id="templatelist"
-     data-bind="template: {name : 'worksource', foreach : templates}">
-</ul>
-
 <ul id="worksourcelist"
      data-bind="template: {name : 'worksource', foreach : worksources}">
 
   <script type="text/html" id="worksource">
     <li class="worksource"
-        data-bind="attr : {templatename : living() ? '' : templatename}">
+        data-bind="attr : {templatename : template() ? templatename : ''},
+                   css : {template : template()}">
 
       <ul class="leftpanel"
           data-bind="template : {name : 'workunit', foreach : workunits}">
@@ -143,7 +165,6 @@
             data-bind="text : name"
             onclick="selectItem(this)">
         </h1>
-        <h2 data-bind="text : console.log($data.name)"></h2>
         <form class="overview"
               data-bind="template : {name : 'informationform-' + type, data : $data}">
         </form>

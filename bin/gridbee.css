@@ -254,6 +254,16 @@ body #state-describtion {
   box-sizing: border-box;
   padding: 0em 2em;
   margin: 1em 0em 2.5em;
+  -webkit-transition-property: margin-top;
+  -moz-transition-property: margin-top;
+  -ms-transition-property: margin-top;
+  -o-transition-property: margin-top;
+  transition-property: margin-top;
+  -webkit-transition-duration: 0.3s;
+  -moz-transition-duration: 0.3s;
+  -ms-transition-duration: 0.3s;
+  -o-transition-duration: 0.3s;
+  transition-duration: 0.3s;
 }
 .worksource .leftpanel, #newworksource .leftpanel {
   position: relative;
@@ -285,8 +295,8 @@ body #state-describtion {
   overflow: hidden;
   text-overflow: ellipsis;
 }
-.worksource .leftpanel,
-#newworksource .leftpanel,
+.worksource:not(.selected) .leftpanel,
+#newworksource:not(.selected) .leftpanel,
 .worksource .rightpanel,
 #newworksource .rightpanel {
   -webkit-transition-property: opacity;
@@ -299,6 +309,9 @@ body #state-describtion {
   -ms-transition-duration: 0.3s;
   -o-transition-duration: 0.3s;
   transition-duration: 0.3s;
+}
+.worksource.template, #newworksource.template {
+  display: none;
 }
 #newworksource {
   margin-top: 5em;
@@ -337,24 +350,21 @@ body #state-describtion {
 #newworksource.selected ~ #templatelist {
   display: block;
 }
-#newworksource.selected ~ #worksourcelist .leftpanel {
-  opacity: 0.05;
+#newworksource.selected ~ #worksourcelist > li:not(.template):not(.selected) .leftpanel {
+  opacity: 0;
 }
-#newworksource.selected ~ #worksourcelist .rightpanel {
+#newworksource.selected ~ #worksourcelist > li:not(.template):not(.selected) .rightpanel {
   opacity: 0.3;
 }
-#templatelist {
-  display: none;
-}
-#templatelist .worksource {
-  display: none;
-}
-#templatelist .worksource.selected {
+#newworksource.selected ~ #worksourcelist > li.template.selected {
   display: -webkit-box;
   display: -moz-box;
   display: -ms-box;
   display: -o-box;
   display: box;
+  position: absolute;
+  margin-top: 0;
+  top: 10.5em;
 }
 .workunit {
   display: -webkit-box;

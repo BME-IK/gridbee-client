@@ -76,7 +76,7 @@ class BoincTemplate extends BoincWorksource
 
     # WebRPC binding
     @projecturl.delayedSubscribe =>
-      @webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
+      @webrpc = new gridbee.worksource.boinc.webrpc.BoincWebRPC(@projecturl())
       @getSchedulerUrl()
       @getProjectname()
     @username.delayedSubscribe @getAuthkey
@@ -85,7 +85,7 @@ class BoincTemplate extends BoincWorksource
 
   # Create a workunit instance in the model
   create : =>
-    BoincWorkSource = web2grid.worksource.boinc.BoincWorkSource
+    BoincWorkSource = gridbee.worksource.boinc.BoincWorkSource
     modelWorksource = new BoincWorkSource(@scheduler(), @authkey())
     modelWorksource.projecturl = @projecturl()
     modelWorksource.projectname = @projectname()

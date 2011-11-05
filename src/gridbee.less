@@ -294,6 +294,9 @@ body {
   padding: 0em 2em;
   margin: 1em 0em 2.5em;
 
+  .transition-property(margin-top);
+  .transition-duration(0.3s);
+
   .leftpanel {
     position: relative;
     display: block;
@@ -328,14 +331,21 @@ body {
     }
   }
 
-  .leftpanel, .rightpanel {
+  &:not(.selected) .leftpanel, .rightpanel {
     .transition-property(opacity);
     .transition-duration(0.3s);
   }
+
+  &.template {
+    display: none;
+  }
+
 }
 
+@topspace : 5em;
+
 #newworksource {
-  margin-top: 5em;
+  margin-top: @topspace;
   height: 3em;
   overflow: visible;
   z-index: 2;
@@ -376,24 +386,21 @@ body {
 }
 
 #newworksource.selected ~ #worksourcelist {
-  .leftpanel {
-    opacity: 0.05;
+  &> li:not(.template):not(.selected) {
+    .leftpanel {
+      opacity: 0;
+    }
+    .rightpanel {
+      opacity: 0.3;
+    }
   }
-  .rightpanel {
-    opacity: 0.3;
-  }
-}
 
-#templatelist {
-  display: none;
-
-  .worksource {
-    display: none;
-  }
-  .worksource.selected {
+  &> li.template.selected {
     .display-box;
+    position: absolute;
+    margin-top: 0;
+    top: @topspace + 5.5em;
   }
-
 }
 
 .workunit {

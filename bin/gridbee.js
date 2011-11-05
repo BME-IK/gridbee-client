@@ -27,6 +27,7 @@
       this.worksource = ko.observable(void 0);
       this.name = ko.observable(null);
       this.workunits = ko.observableArray([]);
+      this.template = ko.observable(false);
     }
     return Worksource;
   })();
@@ -193,6 +194,7 @@
       this.isHidden = __bind(this.isHidden, this);
       var property, _i, _len, _ref, _ref2, _ref3;
       BoincTemplate.__super__.constructor.call(this);
+      this.template(true);
       this.formtitle = parameters.formtitle;
       this.description = parameters.description;
       this.templatename = parameters.templatename;
@@ -220,7 +222,7 @@
         return this.authkey.immediate('');
       }, this));
       this.projecturl.delayedSubscribe(__bind(function() {
-        this.webrpc = new web2grid.worksource.boinc.webrpc.BoincWebRPC(this.projecturl());
+        this.webrpc = new gridbee.worksource.boinc.webrpc.BoincWebRPC(this.projecturl());
         this.getSchedulerUrl();
         return this.getProjectname();
       }, this));
@@ -230,12 +232,13 @@
     }
     BoincTemplate.prototype.create = function() {
       var BoincWorkSource, modelWorksource;
-      BoincWorkSource = web2grid.worksource.boinc.BoincWorkSource;
+      BoincWorkSource = gridbee.worksource.boinc.BoincWorkSource;
       modelWorksource = new BoincWorkSource(this.scheduler(), this.authkey());
       modelWorksource.projecturl = this.projecturl();
       modelWorksource.projectname = this.projectname();
       modelWorksource.username = this.username();
-      return this.worksource(modelWorksource);
+      this.worksource(modelWorksource);
+      return this.template(false);
     };
     BoincTemplate.prototype.getSchedulerUrl = function() {
       if (this.projecturl().length === 0) {
@@ -364,7 +367,7 @@
     Gears.prototype.running = ko.observable(false);
     Gears.prototype.threads = ko.observable(2);
     Gears.prototype.worksources = ko.observableArray([]);
-    Gears.prototype.templates = ko.observableArray([]);
+    Gears.prototype.templates = [];
     Gears.prototype.client = void 0;
     Gears.prototype.watch_worksource = function(worksource, livingCallback, deadCallback) {
       var previousWorksource, watch;
@@ -372,7 +375,6 @@
       return watch = worksource.worksource.subscribe(__bind(function(newWorksource) {
         if ((previousWorksource === void 0) && (newWorksource !== void 0)) {
           this.client.addWorksource(newWorksource);
-          this.worksources.unshift(worksource);
           if (typeof livingCallback === "function") {
             livingCallback();
           }
@@ -392,25 +394,27 @@
       instantiateTemplate = __bind(function(template) {
         var templateInstance;
         templateInstance = new template.type(template.parameters);
-        this.templates.push(templateInstance);
+        this.worksources.unshift(templateInstance);
         return this.watch_worksource(templateInstance, __bind(function() {
-          this.templates.remove(templateInstance);
           return instantiateTemplate(template);
         }, this));
       }, this);
-      return templates.map(instantiateTemplate);
+      templates.map(instantiateTemplate);
+      return this.templates = templates.map(function(template) {
+        return template.parameters;
+      });
     };
     Gears.prototype.start = function() {
       var worksource, _i, _len, _ref;
       _ref = this.client.getWorksources();
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         worksource = _ref[_i];
-        if (worksource instanceof web2grid.worksource.boinc.BoincWorkSource) {
+        if (worksource instanceof gridbee.worksource.boinc.BoincWorkSource) {
           worksource = new BoincWorksource(worksource);
         } else {
           continue;
         }
-        this.worksources.unshift(worksource);
+        this.worksources.push(worksource);
         this.watch_worksource(worksource);
       }
       if (this.running()) {
@@ -438,7 +442,7 @@
     }
     return Gears;
   })();
-  client = new web2grid.core.control.Client("GridBee");
+  client = new gridbee.core.control.Client("GridBee");
   if (client.getWorksources().length === 0) {
     client.addBoincWorkSource("http://bvp6.hpc.iit.bme.hu/w2g_cgi/cgi", "2962b0b8970c4ca693d953da648724cd");
   }
