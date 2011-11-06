@@ -416,7 +416,7 @@ form .hidden {
   border-radius: 0.4em;
   transition: all 0.5s ease-in-out;
 }
-.workunit .meter .span {
+.workunit .meter span {
   position: relative;
   display: block;
   height: 100%;
