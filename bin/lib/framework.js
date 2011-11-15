@@ -3331,6 +3331,7 @@ gridbee.core.work.WorkSourcePool.prototype.removeWorkSource = function(ws) {
 	$s.push("gridbee.core.work.WorkSourcePool::removeWorkSource");
 	var $spos = $s.length;
 	this.worksources.remove(ws);
+	henkolib.log.Console.main.logInformation("Number of worksources reduced to " + this.worksources.length,null,null,{ fileName : "WorkSourcePool.hx", lineNumber : 43, className : "gridbee.core.work.WorkSourcePool", methodName : "removeWorkSource"});
 	$s.pop();
 }
 gridbee.core.work.WorkSourcePool.prototype.getWorkSources = function() {
@@ -3377,7 +3378,7 @@ gridbee.core.work.WorkSourcePool.prototype.stepToPrev = function() {
 	$s.push("gridbee.core.work.WorkSourcePool::stepToPrev");
 	var $spos = $s.length;
 	if(this.currentwsindex == 0) this.currentwsindex = this.worksources.length - 1;
-	this.currentwsindex = (this.currentwsindex - 1) % this.worksources.length;
+	else this.currentwsindex == this.currentwsindex - 1;
 	$s.pop();
 }
 gridbee.core.work.WorkSourcePool.prototype.operate = function() {
@@ -3391,12 +3392,11 @@ gridbee.core.work.WorkSourcePool.prototype.operate = function() {
 			ws.operate();
 		}
 	}
-	if(this.getNumActive() < this.targetactive) {
+	if(this.getNumActive() < this.targetactive && this.worksources.length > 0) {
 		this.stepToNext();
 		this.worksources[this.currentwsindex].startOne();
 	}
 	if(this.getNumActive() > this.targetactive) {
-		henkolib.log.Console.main.logInformation("terminate is needed",null,null,{ fileName : "WorkSourcePool.hx", lineNumber : 94, className : "gridbee.core.work.WorkSourcePool", methodName : "operate"});
 		this.worksources[this.currentwsindex].terminateOne();
 		this.stepToPrev();
 	}
