@@ -9,6 +9,9 @@ worksources = ['boinc']
 # CoffeeScript source files
 sourcefiles = []
 
+sourcefiles.push 'src/knockout.coffee'
+sourcefiles.push 'src/gui.coffee'
+
 wsdir = 'src/worksources/'
 sourcefiles.push wsdir + 'worksource.coffee'
 sourcefiles.push wsdir + 'workunit.coffee'
@@ -69,8 +72,8 @@ copy_images = () ->
   print 'Copying image files\n'
 
   copy = (ws) ->
-    (spawn 'mkdir', ['-p', "bin/img/${ws}"]).on 'exit', ->
-      spawn 'sh', ['-c', "cp src/worksources/#{ws}/*.png bin/img/#{ws}/"]
+    (spawn 'mkdir', ['-p', "bin/img/worksource-logos"]).on 'exit', ->
+      spawn 'sh', ['-c', "cp src/worksources/#{ws}/logo.png bin/img/worksource-logos/#{ws}.png"]
 
   for worksource in worksources
     copy worksource
