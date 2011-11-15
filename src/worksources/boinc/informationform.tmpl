@@ -2,7 +2,8 @@
   <label>Project url</label>
   <input data-bind="value : projecturl,
                     valueUpdate: 'keyup',
-                    css : {error : template() && isError('projecturl')},
+                    css : {success : template() && (projecturlStatus() === true),
+                           error : template() && (projecturlStatus() === false)},
                     enable : template()">
 </div>
 
@@ -10,22 +11,28 @@
   <label>Scheduler url</label>
   <input data-bind="value : scheduler,
                     valueUpdate: 'keyup',
-                    css : {error : template() && isError('scheduler')},
+                    css : {success : template() && (schedulerStatus() === true),
+                           error : template() && (schedulerStatus() === false)},
                     enable : template()">
 </div>
 
 <div data-bind="css : {hidden : template() && isHidden('username_password')}">
-  <label>Username</label>
-  <input data-bind="value : username,
+  <label>Username</label
+  ><input data-bind="value : username,
                     valueUpdate: 'keyup',
-                    css : {error : template() && isError('username')},
-                    enable : template() && scheduler().length != 0"/>
+                    css : {success : template() && (usernameStatus() === true),
+                           error : template() && (usernameStatus() === false)},
+                    style : {width : template() ? '45%' : undefined},
+                    enable : template() && scheduler().length != 0"
 
-  <label data-bind="css : {hidden : living()}">Password</label>
-  <input data-bind="value : password,
+  /><label data-bind="css : {hidden : !template()}">Password</label
+  ><input style="width: 45%;"
+          type="password"
+         data-bind="value : password,
                     valueUpdate: 'keyup',
-                    css : {error : template() && isError('password'),
-                           hidden : living()},
+                    css : {success : template() && (passwordStatus() === true),
+                           error : template() && (passwordStatus() === false),
+                           hidden : !template()},
                     enable : template() && scheduler().length != 0" />
 
   <!--<button>Register</button>-->
@@ -35,22 +42,17 @@
   <label>Authentication key</label>
   <input data-bind="value : authkey,
                     valueUpdate: 'keyup',
-                    css : {error : template() && isError('authkey')},
+                    css : {success : template() && (authkeyStatus() === true),
+                           error : template() && (authkeyStatus() === false)},
                     enable : template() &&
                              scheduler().length != 0 &&
                              username().length == 0 &&
                              password().length == 0" />
 </div>
 
-<div>
+<div data-bind="css : {hidden : !template()}">
   <button data-bind="enable : template() && ok(),
-                     css : {hidden : living()},
                      click : function() {if (!living()) create()}">
-    Add BOINC project
-  </button>
-  <button class="templatehidden"
-          data-bind="css : {hidden : template()},
-                     click : function() {worksource(undefined)}">
-    Remove worksource
+    Participate in this project
   </button>
 </div>

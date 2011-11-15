@@ -1,43 +1,5 @@
-observableClass = (ko.observable()).__proto__
-
-observableClass.delayedSubscribe = (callback) ->
-  observable = this;
-
-  timeout = undefined
-
-  observable.subscribe (newValue) ->
-    clearTimeout timeout if timeout?
-
-    if observable.nodelay is true
-      callback(newValue)
-    else
-      timeout = setTimeout (-> callback(newValue)), 1000
-
-observableClass.immediate = (newValue) ->
-  window.o = observable = this
-
-  observable.nodelay = true
-  returnValue = observable(newValue)
-  observable.nodelay = false
-
-  return returnValue
-
-temporarilyAdd = (observable, values, removeTriggerObservables) ->
-  for value in values
-    observable.push value
-
-  callback = ->
-    for w in watches
-      w.dispose()
-    for value in values
-      observable.remove value
-
-  watches = for o in towatch
-    o.subscribe callback
-
 class BoincTemplate extends BoincWorksource
   isHidden : (field) => (field in @hide)
-  isError : (field) => (field in @error)
 
   constructor : (parameters) ->
     # Parent constructor
@@ -55,6 +17,11 @@ class BoincTemplate extends BoincWorksource
     @hide = parameters.hide ? [];
 
     # List of fields containing wrong parameters
+    @projecturlStatus = ko.observable undefined
+    @schedulerStatus = ko.observable undefined
+    @usernameStatus = ko.observable undefined
+    @passwordStatus = ko.observable undefined
+    @authkeyStatus = ko.observable undefined
     @error = ko.observableArray []
 
     # Set the form fields to the given default values
@@ -66,13 +33,29 @@ class BoincTemplate extends BoincWorksource
     # Reset every field if the user changes the project url
     # Reset authkey if the user changes the password or the username
     @projecturl.subscribe =>
+      @projecturlStatus undefined
+      @schedulerStatus undefined
+      @usernameStatus undefined
+      @passwordStatus undefined
+      @authkeyStatus undefined
       @projectname.immediate ''
       @scheduler.immediate ''
       @username.immediate ''
       @password.immediate ''
       @authkey.immediate ''
-    @username.subscribe => @authkey.immediate ''
-    @password.subscribe => @authkey.immediate ''
+    @username.subscribe =>
+      @usernameStatus undefined
+      @passwordStatus undefined
+      @authkeyStatus undefined
+      @authkey.immediate ''
+    @password.subscribe =>
+      @usernameStatus undefined
+      @passwordStatus undefined
+      @authkeyStatus undefined
+      @authkey.immediate ''
+    @authkey.subscribe =>
+      @authkeyStatus undefined
+      @ok false
 
     # WebRPC binding
     @projecturl.delayedSubscribe =>
@@ -111,8 +94,11 @@ class BoincTemplate extends BoincWorksource
         # We will use the first scheduler
         @scheduler.immediate schedulers[0]
 
+        @projecturlStatus true
+        @schedulerStatus true
+
       error : =>
-        temporarilyAdd @error, ['projecturl'], [@projecturl]
+        @projecturlStatus.temporarily false, undefined, [@projecturl]
 
   # Get the authkey using WebRPC call 'lookup_account'
   # see http://boinc.berkeley.edu/trac/wiki/WebRpc#lookup_account
@@ -121,10 +107,19 @@ class BoincTemplate extends BoincWorksource
       return
 
     request = @webrpc.lookupAccount(@username(), @password())
+
     request.onComplete.subscribe (userInfo) =>
       @authkey.immediate userInfo.Auth
+
+      @usernameStatus true
+      @passwordStatus true
+
     request.onError.subscribe (error) =>
-      temporarilyAdd @error, ['username', 'password'], [@username, @password]
+      @authkey.immediate ''
+      @authkeyStatus undefined
+
+      @usernameStatus false
+      @passwordStatus false
 
   # Check if the authkey is OK using WebRPC call 'am_get_info'
   # see http://boinc.berkeley.edu/trac/wiki/WebRpc#am_get_info
@@ -136,9 +131,10 @@ class BoincTemplate extends BoincWorksource
     request = @webrpc.getAccountInfo(@authkey())
     request.onComplete.subscribe (accInfo) =>
       @ok true
+      @authkeyStatus true
     request.onError.subscribe (error) =>
       @ok false
-      temporarilyAdd @error, ['authkey'], [@authkey]
+      @authkeyStatus false
 
   # Get the name of the project
   getProjectname : =>
