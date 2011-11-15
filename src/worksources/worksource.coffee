@@ -16,6 +16,9 @@ class Worksource
   # The framework worksource object
   worksource : ko.observable undefined
 
+  # Identifier of the worksource
+  worksource_id : ko.observable undefined
+
   living : => @worksource()?
 
   constructor : () ->

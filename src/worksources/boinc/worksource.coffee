@@ -16,6 +16,8 @@ class BoincWorksource extends Worksource
     @password = ko.observable ''
     @authkey = ko.observable ''
 
+    @worksource_id = @scheduler
+
     @name = ko.dependentObservable =>
       if @projectname().length > 0
         @projectname()
@@ -33,7 +35,6 @@ class BoincWorksource extends Worksource
     @worksource worksource
 
   start : =>
-    console.log @worksource()
     # Load data fields from the passed worksource
     @projecturl @worksource().projecturl
     @projectname @worksource().projectname
