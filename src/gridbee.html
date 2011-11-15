@@ -17,195 +17,128 @@
 </head>
 <body>
 
-<div class="worksource" id="header">
-  <div class="leftpanel">
-  <div id="app-name"> GRIDBEE </div>
-  <div id="app-description"> the grid computing web app </div>
-
-  <div id="runcontrol" onselectstart="return false;"
-       data-bind="click : function() {running(!running());},
-                  css : {running : running(), stopped : !running()}">
-    <span class="stop">&#x25FC</span>
-    <span class="play">&#x25B6</span>
+<div id="header">
+  <div id="app-name">
+    <a href="http://webcomputing.iit.bme.hu/"> GRIDBEE </a>
+  </div>
+  <div id="app-description">
+    the grid computing web app
   </div>
 
-  <div id="threadnumber" onselectstart="return false;">
-    <span class="minus"
-          data-bind="click : function() {threads(Math.max(1,threads()-1))}">
-      -
-    </span>
-    <span class="number" data-bind="text : threads"></span>
-    <span class="plus"
-          data-bind="click : function() {threads(threads() + 1)}">
-      +
-    </span>
-  </div>
-  
-  <div id="state-describtion">
-    <span data-bind="css : {hidden : running()}, text : running() ? '' : 'Computation'"></span>
-    <b data-bind="text : running() ? 'Running' : 'stopped'"></b>
-    <span data-bind="css : {hidden : !running()}"> on <b data-bind="text: threads">3</b> threads </span>
-  </div>
+  <div id="runcontrol">
+    <div id="start-stop"
+         class="clickable"
+         data-bind="click : function() {running(!running());},
+                    css : {running : running(), stopped : !running()}">
+      <img src="img/icons/pause.svg" alt="Pause" class="stop">
+      <img src="img/icons/play.svg"  alt="Start" class="play">
+    </div>
 
-  </div>
-
-  <div class="rightpanel">
-    <h1 id="overview-button"
-        class="selectable selected"
-        onclick="selectItem(this)">
-      Overview
-    </h1>
-    <h1 id="newworksource-button"
-        class="selectable selector"
-        onclick="selectItem(this)">
-      Add new worksource
-    </h1>
-  </div>
-</div>
-
-<div id="template-selector">
-  <ul data-bind="template : {name : 'informationform', foreach : templates}">
-    <script type="text/html" id="informationform">
-    <li data-bind="attr : {templatename : templatename}"
-        onclick="selectTemplate(this.getAttribute('templatename'))">
-      <h2 class="selectable selector"
-          data-bind="text : formtitle">
-      </h2>
-      
-      <p data-bind="text : description">
-      </p>
-    </li>
-    </script>
-  </ul>
-</div>
-
-<script>
-  function selectItem(h1) {
-    // Do not allow selection of an item in the template list
-    if ($('#worksourcelist .template').find(h1).length > 0) return;
-
-    $('#worksourcelist .worksource:not(.template), #template-selector, #header h1, #header').removeClass('selected');
-
-    // If the selected item is not the newworksource, then unselect all templates
-    if ($(h1).attr('id') != 'newworksource-button') {
-      selectTemplate(null);
-    }
-
-    if ($('#header').find(h1).length === 0) {
-      $(h1).parent().parent().addClass('selected');
-    } else {
-      $(h1).addClass('selected');
-      if ($(h1).attr('id') == 'newworksource-button') {
-        $(h1).parent().parent().addClass('selected');
-        $('#template-selector').addClass('selected');
-      }
-    }
-  }
-  $(function(){
-    if(window.gears.worksources().length == window.gears.templates.length)
-      selectItem($('#newworksource-button'));
-   });
-
-  function setTemplatesHeight() {
-    var margintop;
-    var margin = $('#header').outerHeight() / 7.3 * 2.5;
-    if ($('#worksourcelist .template.selected').length === 0) {
-      margintop = margin;
-    } else {
-      var height = $('#worksourcelist .template.selected .rightpanel').outerHeight();
-      margintop = height + margin*2
-    }
-    $('#worksourcelist li:not(.template):first').css('margin-top', margintop);
-  }
-
-  function selectTemplate(templatename) {
-    if (templatename == null) {
-      $('#template-selector li').removeClass('selected');
-      $('#worksourcelist li.template').removeClass('selected');
-    } else {
-      selector = $('#template-selector li[templatename="' + templatename + '"]');
-      template = $('#worksourcelist li.template[templatename="' + templatename + '"]');
-
-      selector.addClass('selected')
-              .siblings().removeClass('selected');
-
-      template.addClass('selected')
-              .siblings().removeClass('selected');
-    }
-
-    setTemplatesHeight();
-  }
-
-  function checkTemplateCreation(e) {
-    if (e.target.tagName.toLowerCase() !== 'button') return;
-
-    var button = $(e.target);
-    var worksource = button.parent().parent().parent().parent();
-    var templatename = worksource.attr('templatename');
-    if (templatename === undefined) return;
-
-    selectTemplate(null);
-    worksource.addClass('selected');
-    setTimeout(function() { selectItem(worksource.find('h1.selector')[0]); }, 0);
-  }
-  document.addEventListener('click', checkTemplateCreation, true);
-
-  function checkNonEmptyInputs(e) {
-    if (e.target.tagName.toLowerCase() !== 'input') return;
-
-    var input = $(e.target);
-    if (e.charCode !== 0) {
-      input.addClass('nonempty');
-    } else {
-      if (input.val().length > 0) {
-        input.addClass('nonempty');
-      } else {
-        input.removeClass('nonempty');
-      }
-    }
-  }
-  document.addEventListener('keypress', checkNonEmptyInputs, false);
-  document.addEventListener('keyup', checkNonEmptyInputs, false);
-</script>
-
-<ul id="worksourcelist"
-     data-bind="template: {name : 'worksource', foreach : worksources}">
-
-  <script type="text/html" id="worksource">
-    <li class="worksource"
-        data-bind="attr : {templatename : template() ? templatename : ''},
-                   css : {template : template()}">
-
-      <ul class="leftpanel"
-          data-bind="template : {name : 'workunit', foreach : workunits}">
-      </ul>
-
-      <div class="rightpanel">
-        <h1 class="selectable selector"
-            data-bind="text : name"
-            onclick="selectItem(this)">
-        </h1>
-        <form class="overview"
-              data-bind="template : {name : 'informationform-' + type, data : $data}">
-        </form>
-      </div>
-
-    </li>
-  </script>
-
-  <script type="text/html" id="workunit">
-    <li class="workunit">
-      <span class="status"
-            data-bind="text : status">
+    <div id="threadnumber" onselectstart="return false;">
+      <span class="minus clickable"
+            data-bind="click : function() {threads(Math.max(1,threads()-1))}">
+        <img src="img/icons/minus.svg" alt="Minus">
       </span>
 
-      <div class="meter">
-        <span data-bind="style : {width : progress()*100 + '%'}">
-      </div>
-    </li>
-  </script>
+      <span class="number" data-bind="text : threads"></span>
+
+      <span class="plus clickable"
+            data-bind="click : function() {threads(threads() + 1)}">
+        <img src="img/icons/plus.svg" alt="Plus">
+      </span>
+    </div>
+
+    <div id="state-describtion">
+      <span data-bind="css : {hidden : running()}, text : running() ? '' : 'Computation'"></span>
+      <b data-bind="text : running() ? 'Running' : 'stopped'"></b>
+      <span data-bind="css : {hidden : !running()}"> on <b data-bind="text: threads">3</b> threads </span>
+    </div>
+  </div>
+
+  <div id="logbutton">
+    <div class="icon clickable">
+      <img src="img/icons/cog_alt.svg" alt="Show client log" title="Show client log">
+    </div>
+    <span> Log </span>
+  </div>
+
+</div>
+
+<ul id="worksourcelist">
+
+  <li>
+    <div id="templatelist">
+    <div class="notselected worksource clickable">
+      <h1>Click here to choose a new open computing project to participate in.</h1>
+    </div>
+
+    <div class="pager up clickable hide">
+      &uarr;
+    </div>
+
+    <ul>
+    </ul>
+
+    <div class="pager down clickable">
+      &darr;
+    </div>
+    </div>
+  </li>
 
 </ul>
+
+<script type="text/html" id="worksource">
+  <li class="worksource"
+      data-bind="attr : {type : type, worksource : worksource_id},
+                 css : {template : template}">
+    <h1 data-bind="text : name"> Pebble bifurcation </h1>
+    <div class="close clickable"
+         data-bind="click : function(){worksource(undefined);},
+                    visible : !template()">
+      <img src="img/icons/x.svg" alt="Close">
+    </div>
+
+    <ul class="workunitlist">
+        <!--data-bind="template : {name : 'workunit', foreach : workunits}">-->
+    </ul>
+    
+    <div class="information">
+      <div class="description"
+           data-bind="text : description">
+      </div>
+      <form class="informationform"
+            data-bind="template : {name : 'informationform-' + type, data : $data}">
+      </form>       
+    <div>
+  </li>
+</script>
+
+<script type="text/html" id="workunit">
+  <li class="workunit">
+    <span class="status"
+          data-bind="text : status">
+    </span>
+    
+    <div class="meter">
+      <span data-bind="style : {width : progress()*100 + '%'}">
+    </div>
+
+    <img src="img/icons/cog_alt.svg" alt="Show log" title="Show log"
+         class="show-log clickable">
+  </li>
+</script>
+
+<div id="logs">
+  <div id="log-main" class="log log-main hide">
+    <div class="close clickable"> <img src="img/icons/x.svg" alt="Close"> </div>
+  </div>
+
+  <script type="text/html" id="workunit-log">
+  <div data-bind="attr : {class : 'hide log log-workunit-' + id}">
+    <div class="close clickable"> <img src="img/icons/x.svg" alt="Close"> </div>
+  </div>
+  </script>
+</div>
 
 </body>
 </html>
