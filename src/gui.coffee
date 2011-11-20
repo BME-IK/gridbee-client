@@ -17,11 +17,18 @@ log = (logname) -> (entry) ->
   $('.log-' + logname).append line
 
 handleLogDiv = (logDiv, showButton, hideButton) ->
-  showButton.click ->
-    logDiv.addClass('active')
-          .siblings().removeClass('active')
-  hideButton.click ->
-    logDiv.removeClass('active')
+  active = false;
+
+  toggle = ->
+    active = not active
+    if active
+      logDiv.addClass('active')
+            .siblings().removeClass('active')
+    else
+      logDiv.removeClass('active')
+
+  showButton.click toggle
+  hideButton.click toggle
 
 watchWorkunitList = (workunitList, workunitListDom) ->
   workunitList.bindDom
@@ -184,7 +191,7 @@ worksourceSelect = ->
 $ ->
   ko.applyBindings window.gears, $('#header')[0]
 
-  handleLogDiv $('#log-main'), $('#logbutton .icon'), $('#log-main .close')
+  handleLogDiv $('#log-main'), $('#logbutton'), $('#log-main .close')
 
   watchWorksourceList(gears.worksources)
   watchTemplateList(gears.templates)
