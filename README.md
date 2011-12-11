@@ -1,7 +1,9 @@
 About
 =====
 
-This is a web based GUI for the GridBee Web Computing Framework. See http://webcomputing.iit.bme.hu/ for details.
+This is a web based GUI for the GridBee Web Computing Framework.
+
+The GridBee framework can be found at: https://github.com/BME-IK/gridbee-framework
 
 Building the CoffeeScript source code
 =====================================
