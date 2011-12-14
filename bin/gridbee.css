@@ -20,7 +20,10 @@
   -o-user-select: none;
   user-select: none;
 }
-.description, form, input {
+.description,
+form,
+input,
+.log * {
   -webkit-user-select: auto;
   -moz-user-select: auto;
   -o-user-select: auto;
@@ -477,11 +480,11 @@ form .hidden {
   margin: 0em 3em;
   z-index: 1;
   border-radius: 1.5em;
-  -webkit-box-shadow: 0px 0px 40px -6px black;
-  -moz-box-shadow: 0px 0px 40px -6px black;
-  -ms-box-shadow: 0px 0px 40px -6px black;
-  -o-box-shadow: 0px 0px 40px -6px black;
-  box-shadow: 0px 0px 40px -6px black;
+  -webkit-box-shadow: 0px 0px 40px -6px #000000;
+  -moz-box-shadow: 0px 0px 40px -6px #000000;
+  -ms-box-shadow: 0px 0px 40px -6px #000000;
+  -o-box-shadow: 0px 0px 40px -6px #000000;
+  box-shadow: 0px 0px 40px -6px #000000;
 }
 #worksourcelist .worksource.overlap {
   margin-right: -33em;
